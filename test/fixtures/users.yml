@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  username: MyString
+  email: MyString
+  password_digest: MyString
+  social_media_id: 1
+  profile_picture: MyString
+  social_media_provider: MyString
+  is_admin: false
+  is_moderator: false
+
+two:
+  username: MyString
+  email: MyString
+  password_digest: MyString
+  social_media_id: 1
+  profile_picture: MyString
+  social_media_provider: MyString
+  is_admin: false
+  is_moderator: false
