@@ -1,0 +1,2 @@
+module ReportedContentsHelper
+end
