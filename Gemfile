@@ -72,3 +72,4 @@ group :test do
 end
 
 gem 'sqlite3'
+gem 'omniauth-github'
