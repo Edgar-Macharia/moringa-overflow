@@ -7,7 +7,7 @@ const Layout = () => {
     <div>
         <Navbar/>
        
-       <div className='container mx-auto min-h-[85vh] bg-gray-100 p-5'>
+       <div className='container mx-auto min-h-[85vh] bg-gray-100'>
         <Outlet />
        </div>
          
