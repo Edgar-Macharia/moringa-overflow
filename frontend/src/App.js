@@ -11,6 +11,7 @@ import Questions from "./pages/Questions"
 import Tags from "./pages/Tags"
 import Notifications from "./pages/Notifications"
 import ReportedContent from "./pages/ReportedContent"
+import Reset from "./pages/Reset"
 
 
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/Notifications" element={<Notifications />} />
         <Route path="/ReportedContent" element={<ReportedContent />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/Reset" element={<Reset />} />
       </Route>
     </Routes>
     </BrowserRouter>
