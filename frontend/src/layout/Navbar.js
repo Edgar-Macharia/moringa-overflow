@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import logo from '../images/Logo.png'
 
 const Navbar = () => {
   return (
@@ -7,8 +8,8 @@ const Navbar = () => {
       <nav class="bg-white border-gray-200 dark:bg-gray-900">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link to='/' class="flex items-center">
-            <img src="" class="h-8 mr-3" alt="Flowbite Logo" />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Moringa <br />Overflow</span>
+            <img src={logo} class="h-20 w-20 rounded-full mr-3" alt="Moringa Overflow Logo" />
+            {/* <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Moringa <br />Overflow</span> */}
           </Link>
           <div class="flex items-center md:order-2">
             <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
