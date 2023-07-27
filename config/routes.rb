@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
+  resources :upvotes
+  resources :downvotes
   resources :notifications
   resources :reported_contents
   resources :comments
-  resources :votes
   resources :answers
   resources :tags
   resources :questions
