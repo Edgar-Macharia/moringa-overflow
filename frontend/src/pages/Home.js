@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className='homepage'>
       <div className='relative py-16 px-8 bg-brand dark:bg-inherit text-white dark:text-gray-200 min-h-[90vh] overflow-hidden'>
-        <h1 className='my-4 text-center text-2xl sm:text-4xl font-semibold'>Solve your all questions at one place</h1>
+        <h1 className='my-4 text-center text-2xl sm:text-4xl font-semibold'>Solve all your questions at one place</h1>
         <h3 className='text-center text-lg sm:text-2xl text-gray-50 dark:text-gray-300'>Get best answers to your questions here at Moringa Overflow</h3>
 
         <div className='mx-4 lg:mx-24 mt-16 md:mt-24 mb-4 flex flex-col md:flex-row gap-8 justify-between items-center'>
