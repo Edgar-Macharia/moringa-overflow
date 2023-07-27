@@ -7,8 +7,8 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.integer :social_media_id
       t.string :profile_picture
       t.string :social_media_provider
-      t.boolean :is_admin
-      t.boolean :is_moderator
+      t.boolean :is_admin, default: false
+      t.boolean :is_moderator, default: false
 
       t.timestamps
     end

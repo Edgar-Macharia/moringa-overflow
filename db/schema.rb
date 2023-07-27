@@ -103,8 +103,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_085124) do
     t.integer "social_media_id"
     t.string "profile_picture"
     t.string "social_media_provider"
-    t.boolean "is_admin"
-    t.boolean "is_moderator"
+    t.boolean "is_admin", default: false
+    t.boolean "is_moderator", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
