@@ -13,6 +13,7 @@ import Tags from "./pages/Tags"
 import Notifications from "./pages/Notifications"
 import ReportedContent from "./pages/ReportedContent"
 import Reset from "./pages/Reset"
+import AskQuestion from "./pages/AskQuestion"
 
 
 
@@ -74,6 +75,7 @@ function App() {
         <Route path="/ReportedContent" element={<ReportedContent />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/Reset" element={<Reset />} />
+        <Route path="/AskQuestion" element={<AskQuestion />} />
       </Route>
     </Routes>
     </BrowserRouter>

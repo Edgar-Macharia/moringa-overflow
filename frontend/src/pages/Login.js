@@ -1,54 +1,19 @@
 import React,{useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
-const Login = ({ handleLogin }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState([]);
+const Login = () => {
+  const {login} = useContext(AuthContext)
 
-  const navigate = useNavigate();
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    if (name === 'email') {
-      setEmail(value);
-    } else if (name === 'password') {
-      setPassword(value);
-    }
-  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const user = {
-      email: email,
-      password: password
-    };
-
-    fetch('http://127.0.0.1:3000/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user)
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } 
-      })
-      .then((data) => {
-        if (data) {
-          console.log(data)
-          handleLogin(data);
-          navigate('/bucketlist');
-        } else {
-          console.log(data)
-          setErrors(data);
-        }
-      })
-      .catch((error) => console.log('login errors:', error));
-  };
+  const  handleSubmit = (e) =>{
+      e.preventDefault()
+      console.log(username+ "  "+password)
+     
+      login(username, password)
+  }
 
 
   return (
@@ -122,3 +87,54 @@ const Login = ({ handleLogin }) => {
   );
 };
 export default Login
+
+
+
+// const Login = ({ handleLogin }) => {
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('');
+//   const [errors, setErrors] = useState([]);
+
+//   const navigate = useNavigate();
+
+//   const handleChange = (event) => {
+//     const { name, value } = event.target;
+//     if (name === 'email') {
+//       setEmail(value);
+//     } else if (name === 'password') {
+//       setPassword(value);
+//     }
+//   };
+
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+
+//     const user = {
+//       email: email,
+//       password: password
+//     };
+
+//     fetch('http://127.0.0.1:3000/login', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify(user)
+//     })
+//       .then((response) => {
+//         if (response.ok) {
+//           return response.json();
+//         } 
+//       })
+//       .then((data) => {
+//         if (data) {
+//           console.log(data)
+//           handleLogin(data);
+//           navigate('/bucketlist');
+//         } else {
+//           console.log(data)
+//           setErrors(data);
+//         }
+//       })
+//       .catch((error) => console.log('login errors:', error));
+//   };
