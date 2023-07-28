@@ -2,14 +2,18 @@ import React,{useState} from 'react'
 import {Link}  from "react-router-dom"
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {login} = useContext(AuthContext)
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Handle login logic here
-    console.log('Login credentials:', { email, password });
-  };
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+
+
+  const  handleSubmit = (e) =>{
+      e.preventDefault()
+      console.log(username+ "  "+password)
+     
+      login(username, password)
+  }
 
   return (
 
