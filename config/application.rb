@@ -16,9 +16,9 @@ module RubyRailsPostgres
         resource '*', headers: :any, methods: [:get, :post, :options]
       end
     end
-    config.middleware.use ActionDispatch::Cookies 
- config.middleware.use ActionDispatch::Session::CookieStore
- config.action_controller.allow_forgery_protection = false
+  config.middleware.use ActionDispatch::Cookies 
+  config.middleware.use ActionDispatch::Session::CookieStore
+  config.action_controller.allow_forgery_protection = false
 
 
 
