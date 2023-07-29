@@ -1,16 +1,16 @@
-import React,{useState} from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import React,{useState, useContext} from 'react'
+import { Link} from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+
 
 const Signup = () => {
   const [userData, setUserData] = useState({
     username: '',
     email: '',
     password: '',
-    password_confirmation: '',
-    errors: []
+    password_confirmation: ''
   });
-
-  const navigate = useNavigate();
+  const {handleSignup} = useContext(AuthContext)
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,42 +31,8 @@ const Signup = () => {
       password_confirmation
     };
 
-    fetch('http://127.0.0.1:3000/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user),
-    })
-      .then((response) => {
-        if (response.status === 201) {
-          return response.json();
-        } else {
-          throw new Error('Network response was not OK');
-        }
-      })
-      .then((data) => {
-        if (data.name) {
-          navigate('/login');
-        } else {
-          setUserData((prevUserData) => ({
-            ...prevUserData,
-            errors: data.errors
-          }));
-        }
-      })
-      .catch((error) => console.log('Signup errors:', error));
-  };
-
-  const renderErrors = () => {
-    return (
-      <div>
-        <ul>
-          {userData.errors}
-        </ul>
-      </div>
-    );
-  };
+    handleSignup(user)
+  }
 
   const { username, email, password, password_confirmation } = userData;
 
@@ -148,11 +114,12 @@ const Signup = () => {
               >
                 Sign up
               </button>
-             <div>
-             or <Link to="/login">Log In</Link>
-             </div>
+              <div className='my-5'>Already Registered? 
+                <Link className='ml-4' to="/login">
+                  login
+                </Link>
+              </div>
             </form>
-            {renderErrors()}
           </div>
         </div>
       </div>

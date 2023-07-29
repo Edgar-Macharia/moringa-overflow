@@ -6,7 +6,6 @@ const Layout = () => {
   return (
     <div>
         <Navbar/>
-       
        <div className='mx-auto min-h-[100vh] bg-gray-40'>
         <Outlet />
        </div>
