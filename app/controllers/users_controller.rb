@@ -1,14 +1,18 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize_request, only: [:create, :show]
+  skip_before_action :authorize_request, only: [:create]
 
   def create
-    if params[:password] == params[:password_confirmation]
-      user = User.create!(user_params.slice(:name, :email, :password))
-      render json: user, status: :created
-    else
-      render json: { errors: ["Password and password confirmation do not match"] }, status: :unprocessable_entity
+    begin
+      if params[:password] == params[:password_confirmation]
+        user = User.create!(user_params.slice(:username, :email, :password))
+        render json: { message: "Account created successfully" }, status: :created
+      else
+        render json: { errors: ["Password and password confirmation do not match"] }, status: :unprocessable_entity
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
     end
-  end
+  end  
 
   def show
     user = User.find(params[:id])

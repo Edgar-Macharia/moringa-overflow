@@ -1,15 +1,74 @@
 import React,{useState} from 'react'
-import {Link}  from "react-router-dom"
+import { Link, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userData, setUserData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+    errors: []
+  });
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Handle login logic here
-    console.log('Login credentials:', { email, password });
+  const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      [name]: value
+    }));
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const { username, email, password, password_confirmation } = userData;
+
+    const user = {
+      username,
+      email,
+      password,
+      password_confirmation
+    };
+
+    fetch('http://127.0.0.1:3000/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          return response.json();
+        } else {
+          throw new Error('Network response was not OK');
+        }
+      })
+      .then((data) => {
+        if (data.name) {
+          navigate('/login');
+        } else {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            errors: data.errors
+          }));
+        }
+      })
+      .catch((error) => console.log('Signup errors:', error));
+  };
+
+  const renderErrors = () => {
+    return (
+      <div>
+        <ul>
+          {userData.errors}
+        </ul>
+      </div>
+    );
+  };
+
+  const { username, email, password, password_confirmation } = userData;
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -19,27 +78,31 @@ const Signup = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign up
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form className="space-y-4 md:space-y-6" action="#"  onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
                 <input
-                  type="username"
+                  type="text"
                   name="username"
                   id="username"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="username"
                   required
+                  onChange={handleChange}
+                  value={username}
                 />
               </div>
               <div>
                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                 <input
-                  type="email"
+                  type="text"
                   name="email"
                   id="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
                   required
+                  onChange={handleChange}
+                  value={email}
                 />
               </div>
               <div>
@@ -51,30 +114,27 @@ const Signup = () => {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
+                  onChange={handleChange}
+                  value={password}
                 />
               </div>
 
               <div>
-                <label htmlFor="Confirmpassword" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
+                <label htmlFor="password_confirmation" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
                 <input
                   type="password"
-                  name="password"
-                  id="password"
+                  name="password_confirmation"
+                  id="password_confirmation"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
+                  onChange={handleChange}
+                  value={password_confirmation}
                 />
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      required
-                    />
                   </div>
                   <div className="ml-3 text-sm">
                     <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
@@ -88,8 +148,11 @@ const Signup = () => {
               >
                 Sign up
               </button>
-             
+             <div>
+             or <Link to="/login">Log In</Link>
+             </div>
             </form>
+            {renderErrors()}
           </div>
         </div>
       </div>
