@@ -1,0 +1,21 @@
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/date-3.3.3/ext/date
+/home/motari/.rbenv/versions/3.1.4/bin/ruby -I /home/motari/.rbenv/versions/3.1.4/lib/ruby/3.1.0 extconf.rb
+checking for rb_category_warn()... yes
+checking for timezone in time.h with  -Werror... yes
+checking for altzone in time.h with  -Werror... no
+creating Makefile
+
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/date-3.3.3/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20230726-32543-1s100k sitelibdir\=./.gem.20230726-32543-1s100k clean
+
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/date-3.3.3/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20230726-32543-1s100k sitelibdir\=./.gem.20230726-32543-1s100k
+compiling date_core.c
+compiling date_parse.c
+compiling date_strftime.c
+compiling date_strptime.c
+linking shared-object date_core.so
+
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/date-3.3.3/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20230726-32543-1s100k sitelibdir\=./.gem.20230726-32543-1s100k install
+/usr/bin/install -c -m 0755 date_core.so ./.gem.20230726-32543-1s100k
