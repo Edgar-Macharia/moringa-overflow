@@ -11,7 +11,7 @@ export default function AuthProvider({children})
     const [onChange, setonChange] = useState(true)
     // Login
     const login = (username, password) =>{
-        fetch("/api/login", {
+        fetch("/signup", {
             method: "POST",
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify({username, password})
@@ -50,7 +50,7 @@ export default function AuthProvider({children})
 
     // Logout
     const logout = () =>{
-       fetch("/api/logout", {
+       fetch("/signout", {
         method: "DELETE",
                })
        .then((res)=>res.json())
@@ -60,9 +60,9 @@ export default function AuthProvider({children})
         console.log(response)
        })
     }
-    // Register
-    const register = () =>{
-     return "Register function"
+    // Signup
+    const signup = () =>{
+     return "Signup function"
     }
 
     useEffect(()=>{
