@@ -1,18 +1,35 @@
-import React,{useState} from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import React,{useState, useContext} from 'react'
+import { Link} from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext'
 
 const Login = () => {
   const {login} = useContext(AuthContext)
 
-  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [rememberMe, setRememberMe] = useState(false)
 
 
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    if (type === 'checkbox') {
+      setRememberMe(checked);
+    } else if (name === 'email') {
+      setEmail(value);
+    } else if (name === 'password') {
+      setPassword(value);
+    }
+  };
+    
   const  handleSubmit = (e) =>{
-      e.preventDefault()
-      console.log(username+ "  "+password)
-     
-      login(username, password)
+    e.preventDefault()
+    const user = {
+      email: email,
+      password: password,
+      rememberMe: rememberMe
+    };
+      console.log(user);
+      login(user)
   }
 
 
@@ -60,7 +77,8 @@ const Login = () => {
                       aria-describedby="remember"
                       type="checkbox"
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      // required
+                      checked={rememberMe}
+                      onChange={handleChange} 
                     />
                   </div>
                   <div className="ml-3 text-sm">
@@ -87,54 +105,3 @@ const Login = () => {
   );
 };
 export default Login
-
-
-
-// const Login = ({ handleLogin }) => {
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [errors, setErrors] = useState([]);
-
-//   const navigate = useNavigate();
-
-//   const handleChange = (event) => {
-//     const { name, value } = event.target;
-//     if (name === 'email') {
-//       setEmail(value);
-//     } else if (name === 'password') {
-//       setPassword(value);
-//     }
-//   };
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-
-//     const user = {
-//       email: email,
-//       password: password
-//     };
-
-//     fetch('http://127.0.0.1:3000/login', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify(user)
-//     })
-//       .then((response) => {
-//         if (response.ok) {
-//           return response.json();
-//         } 
-//       })
-//       .then((data) => {
-//         if (data) {
-//           console.log(data)
-//           handleLogin(data);
-//           navigate('/bucketlist');
-//         } else {
-//           console.log(data)
-//           setErrors(data);
-//         }
-//       })
-//       .catch((error) => console.log('login errors:', error));
-//   };
