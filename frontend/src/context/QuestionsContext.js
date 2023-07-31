@@ -1,14 +1,14 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "./AuthContext"; // Assuming the file containing the AuthContext is named AuthContext.js
+// import { AuthContext } from "./AuthContext"; // Assuming the file containing the AuthContext is named AuthContext.js
 
 export const QuestionsContext = createContext();
 
 export default function QuestionsProvider({ children }) {
   const nav = useNavigate();
   const [questions, setQuestions] = useState([]);
-  const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
+  // const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
 
   // Fetch all questions
   const fetchQuestions = () => {
@@ -112,7 +112,10 @@ export default function QuestionsProvider({ children }) {
         Swal.fire("Error", "Failed to delete question", "error");
       });
   };
+useEffect(()=>{
+  fetchQuestions()
 
+}, [])
   // ... (other context methods you may have)
 
   const contextData = {
