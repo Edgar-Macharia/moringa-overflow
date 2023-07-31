@@ -121,6 +121,89 @@ useEffect(() => {
   }
 }, [isLoggedIn]);
 
+  // Edit user post
+  const editUserPost = (postId, newPostData) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+
+    fetch(`/users/posts/${postId}`, {
+      method: "PUT",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newPostData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // Assuming the response contains a success message
+        Swal.fire("Success", data.message, "success");
+        const userId = sessionStorage.getItem("userId");
+        fetchUserById(userId);
+        fetchQuestions();
+      })
+      .catch((error) => {
+        console.error("Error editing user post:", error);
+        Swal.fire("Error", "Failed to edit user post", "error");
+      });
+  };
+
+  const editUserProfile = (newProfileData) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+
+    fetch("/users/profile", {
+      method: "PUT",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newProfileData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        Swal.fire("Success", data.message, "success");
+        const userId = sessionStorage.getItem("userId");
+        fetchUserById(userId);
+      })
+      .catch((error) => {
+        console.error("Error editing user profile:", error);
+        Swal.fire("Error", "Failed to edit user profile", "error");
+      });
+  };
+
+
+  const resetPassword = (userId, formData) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      Swal.fire("Error", "Not authorized to reset password", "error");
+      return;
+    }
+
+    fetch(`/users/${userId}/reset_password`, {
+      method: "PUT",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+    .then((res) => res.json())
+    .then((response) => {
+      if (response.errors) {
+        Swal.fire("Error", response.errors, "error");
+      } else if (response.message) {
+        Swal.fire("Success", response.message, "success");
+      } else {
+        throw new Error("Network response was not OK");
+      }
+    })
+    .catch((error) => {
+      console.error("Error resetting password:", error);
+      Swal.fire("Error", "Something went wrong", "error");
+    });
+  };
+
 
   const contextData = {
     login,
@@ -130,6 +213,9 @@ useEffect(() => {
     username,
     isLoggedIn,
     questions,
+    editUserPost,
+    editUserProfile,
+    resetPassword,
   };
 
   return <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>;
