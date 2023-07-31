@@ -10,7 +10,7 @@ const Signup = () => {
     password: '',
     password_confirmation: ''
   });
-  const {handleSignup} = useContext(AuthContext)
+  const {registerUser} = useContext(AuthContext)
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,7 +31,7 @@ const Signup = () => {
       password_confirmation
     };
     console.log(user);
-    handleSignup(user)
+    registerUser(user)
   }
 
   const { username, email, password, password_confirmation } = userData;

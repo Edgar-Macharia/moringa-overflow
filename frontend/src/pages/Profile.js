@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const Profile = () => {
+  const {currentUserData} = useContext(AuthContext)
+  console.log(currentUserData)
   const [isEditMode, setIsEditMode] = useState(false);
   const [username, setUsername] = useState("Your Username"); // Replace with the user's actual username
   const [email, setEmail] = useState("your.email@example.com"); // Replace with the user's actual email
