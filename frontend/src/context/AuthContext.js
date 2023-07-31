@@ -10,7 +10,7 @@ export default function AuthProvider({ children }) {
   const [username, setUsername] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Register
+  // Sign up
   const handleSignup = (user) => {
     fetch("/users", {
       method: "POST",
@@ -32,7 +32,7 @@ export default function AuthProvider({ children }) {
       }
     })
   };
-
+//Login
   const login = (user) => {
     fetch("/login", {
       method: "POST",
@@ -68,6 +68,9 @@ export default function AuthProvider({ children }) {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userId");
   };
+
+  //Current user
+  
 
   const contextData = {
     login,
