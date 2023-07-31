@@ -13,8 +13,9 @@ export default function AuthProvider({children})
 
     // Register
     const handleSignup = (user) => {
+      console.log("user", user);
     
-      fetch('http://127.0.0.1:3000/users', {
+      fetch('/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -22,11 +23,12 @@ export default function AuthProvider({children})
         body: JSON.stringify(user),
       })
         .then((response) => {
-          if (response.status === 201) {
-              console.log(response)
+          console.log(response)
+          if (response.message) {
+              
             return response.json();
           } else {
-              console.log(response)
+              
             throw new Error('Network response was not OK');
           }
         })
@@ -40,7 +42,7 @@ export default function AuthProvider({children})
 
  
     const login = (user) =>{
-        fetch("http://127.0.0.1:3000/login", {
+        fetch("/login", {
             method: "POST",
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify(user)
