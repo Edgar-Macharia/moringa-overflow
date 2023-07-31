@@ -30,7 +30,7 @@ const Signup = () => {
       password,
       password_confirmation
     };
-
+    console.log(user);
     handleSignup(user)
   }
 

@@ -33,6 +33,5 @@ Gemfile.lock
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-/Gemfile
-/Gemfile.lock
-/.ruby-version
+Gemfile.lock
+.ruby-version
