@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   # GET /questions or /questions.json
   def index
     @questions = Question.all
-    render json: @questions
+    render json: @questions, each_serializer: QuestionSerializer, include: 'answers'
   end
 
   # GET /questions/1 or /questions/1.json
