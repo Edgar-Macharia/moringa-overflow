@@ -2,18 +2,14 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
-import { AuthContext } from '../context/AuthContext'
+import { QuestionsContext } from '../context/QuestionsContext'
 
 const Questions = () => {
 
-  const {questions} = useContext(AuthContext)
- console.log(questions)
-  const [question, setQuestion] = useState({
-    title: 'Sample Question Title',
-    details: 'Sample question details go here...',
-    upvotes: 10,
-    downvotes: 3,
-  });
+  const {questions} = useContext(QuestionsContext)
+  
+
+//  console.log(questions)
 
   const [answers, setAnswers] = useState([
     {
@@ -37,25 +33,25 @@ const Questions = () => {
     answers: {},
   });
 
-  const handleQuestionUpvote = () => {
-    if (!userVote.question) {
-      setQuestion((prevQuestion) => ({
-        ...prevQuestion,
-        upvotes: prevQuestion.upvotes + 1,
-      }));
-      setUserVote((prevUserVote) => ({ ...prevUserVote, question: true }));
-    }
-  };
+  // const handleQuestionUpvote = () => {
+  //   if (!userVote.question) {
+  //     setQuestion((prevQuestion) => ({
+  //       ...prevQuestion,
+  //       upvotes: prevQuestion.upvotes + 1,
+  //     }));
+  //     setUserVote((prevUserVote) => ({ ...prevUserVote, question: true }));
+  //   }
+  // };
 
-  const handleQuestionDownvote = () => {
-    if (!userVote.question) {
-      setQuestion((prevQuestion) => ({
-        ...prevQuestion,
-        downvotes: prevQuestion.downvotes + 1,
-      }));
-      setUserVote((prevUserVote) => ({ ...prevUserVote, question: true }));
-    }
-  };
+  // const handleQuestionDownvote = () => {
+  //   if (!userVote.question) {
+  //     setQuestion((prevQuestion) => ({
+  //       ...prevQuestion,
+  //       downvotes: prevQuestion.downvotes + 1,
+  //     }));
+  //     setUserVote((prevUserVote) => ({ ...prevUserVote, question: true }));
+  //   }
+  // };
 
   const handleAnswerUpvote = (answerId) => {
     if (!userVote.answers[answerId]) {
@@ -98,8 +94,21 @@ const Questions = () => {
           </div>
         </div>
   {questions && questions.map((question) => (
+    <>
+
+          
     <div key={question.id} className="questions-page  flex justify-center items-center bg-gray-100 sm:p-6">
+      
     <div className="w-70p sm:w-full bg-white shadow-xl rounded-lg p-3">
+    <div className="flex justify-end mx-11">
+            <div className="questions-btn">
+              <Link to="/Answers">
+                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                  Answer  Question
+                </button>
+              </Link>
+            </div>
+          </div>
         {/* Increase the card size by adding 'w-128' and other styles */}
 
         <div className="question-details p-4 bg-white rounded-lg shadow-md">
@@ -111,8 +120,8 @@ const Questions = () => {
               className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${
                 userVote.question ? 'pointer-events-none opacity-50' : ''
               }`}
-              onClick={handleQuestionUpvote}
-              disabled={userVote.question}
+              // onClick={handleQuestionUpvote}
+              // disabled={userVote.question}
             >
               <FontAwesomeIcon icon={faThumbsUp} className={`w-5 h-5 ${userVote.question ? 'text-blue-600' : ''}`} />
               <span className="ml-2"> (Upvotes)</span>
@@ -121,8 +130,8 @@ const Questions = () => {
               className={`text-gray-600 hover:text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${
                 userVote.question ? 'pointer-events-none opacity-50' : ''
               }`}
-              onClick={handleQuestionDownvote}
-              disabled={userVote.question}
+              // onClick={handleQuestionDownvote}
+              // disabled={userVote.question}
             >
               <FontAwesomeIcon icon={faThumbsDown} className={`w-5 h-5 ${userVote.question ? 'text-red-600' : ''}`} />
               <span className="ml-2"> (Downvotes)</span>
@@ -132,9 +141,9 @@ const Questions = () => {
 
         <div className="answers mt-4">
           <h4 className="text-lg font-bold">Answers:</h4>
-          {answers.map((answer) => (
+          {question.answers && question.answers.map((answer) => (
             <div key={answer.id} className="answer p-4 bg-white rounded-lg shadow-md mt-4">
-              <p>{answer.content}</p>
+              <p>{answer.body}</p>
               <div className="answer-meta mt-2">
                 <span>By {answer.author}</span>
                 <div className="vote-buttons mt-2">
@@ -166,6 +175,7 @@ const Questions = () => {
         </div>
       </div>
     </div>
+    </>
   ))}
 </>
 

@@ -15,6 +15,9 @@ import ReportedContent from "./pages/ReportedContent"
 import Reset from "./pages/Reset"
 import AskQuestion from "./pages/AskQuestion"
 import AuthProvider from "./context/AuthContext"
+import QuestionsProvider from "./context/QuestionsContext";
+import Answers from "./pages/Answers";
+
 
 function App() {
   useEffect(() => {
@@ -24,6 +27,7 @@ function App() {
     
     <BrowserRouter>
       <AuthProvider>
+        <QuestionsProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
@@ -38,8 +42,10 @@ function App() {
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Reset" element={<Reset />} />
             <Route path="/AskQuestion" element={<AskQuestion />} />
+            <Route path="/Answers" element={<Answers />} />
           </Route>
         </Routes>
+        </QuestionsProvider>
       </AuthProvider>
     </BrowserRouter>
   )
