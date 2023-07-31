@@ -1,4 +1,4 @@
-import React from 'react'
+import {Link} from 'react-router-dom'
 // import logo from './logo.jpeg'
 import '../../src/App.css'
 
@@ -22,10 +22,12 @@ const Home = () => {
 
             <>
               <div className='mb-4'>Join now to get answers right at your desk</div>
+              <Link to="/Signup">
               <button className='space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]'>
                 <span className='transition-[margin]'>Get started</span>
                 <span className='relative ml-4 text-base transition-[margin]'><i className="fa-solid fa-arrow-right"></i></span>
               </button>
+              </Link>
 
               <span className='ml-2'>or Search questions</span>
             </>
