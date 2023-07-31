@@ -1,0 +1,16 @@
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/debug-1.8.0/ext/debug
+/home/motari/.rbenv/versions/3.1.4/bin/ruby -I /home/motari/.rbenv/versions/3.1.4/lib/ruby/3.1.0 extconf.rb
+creating Makefile
+
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/debug-1.8.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20230731-29592-4duynr sitelibdir\=./.gem.20230731-29592-4duynr clean
+
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/debug-1.8.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20230731-29592-4duynr sitelibdir\=./.gem.20230731-29592-4duynr
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.so
+
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/debug-1.8.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20230731-29592-4duynr sitelibdir\=./.gem.20230731-29592-4duynr install
+/usr/bin/install -c -m 0755 debug.so ./.gem.20230731-29592-4duynr/debug
