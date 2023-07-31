@@ -1,0 +1,19 @@
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/io-console-0.6.0/ext/io/console
+/home/motari/.rbenv/versions/3.1.4/bin/ruby -I /home/motari/.rbenv/versions/3.1.4/lib/ruby/3.1.0 extconf.rb
+checking for termios.h... yes
+checking for cfmakeraw() in termios.h... yes
+checking for sys/ioctl.h... yes
+checking for HAVE_RUBY_FIBER_SCHEDULER_H... yes
+creating Makefile
+
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20230731-11363-otvkvq sitelibdir\=./.gem.20230731-11363-otvkvq clean
+
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20230731-11363-otvkvq sitelibdir\=./.gem.20230731-11363-otvkvq
+compiling console.c
+linking shared-object io/console.so
+
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20230731-11363-otvkvq sitelibdir\=./.gem.20230731-11363-otvkvq install
+/usr/bin/install -c -m 0755 console.so ./.gem.20230731-11363-otvkvq/io
