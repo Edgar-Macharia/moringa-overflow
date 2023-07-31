@@ -1,10 +1,11 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: %i[show edit update destroy]
+  skip_before_action :authorize_request, only: [:index, :show]
 
   # GET /questions or /questions.json
   def index
     @questions = Question.all
-    render json: @questions
+    render json: @questions, each_serializer: QuestionSerializer, include: 'answers'
   end
 
   # GET /questions/1 or /questions/1.json
