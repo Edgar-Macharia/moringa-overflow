@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const Questions = () => {
+
+  const {questions} = useContext(AuthContext);
+  console.log(questions);
+
   const [question, setQuestion] = useState({
     title: 'Sample Question Title',
     details: 'Sample question details go here...',
