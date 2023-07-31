@@ -17,7 +17,10 @@ const Navbar = () => {
           <div class="flex items-center md:order-2">
             {isLoggedIn ? (
               <>
-                {/* ... existing code for user icon and dropdown */}
+                 <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                  <span class="sr-only">Open user menu</span>
+                  <img class="w-14 h-14 rounded-full" src={userIcon} alt="user photo" />
+                </button>
                 <Link
                   to="/profile"
                   class="px-4 py-3"
