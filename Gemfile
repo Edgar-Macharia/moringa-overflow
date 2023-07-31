@@ -82,3 +82,5 @@ end
 gem 'bcrypt'
 gem 'rack-cors'
 gem 'byebug' 
+gem 'faker'
+gem 'active_model_serializers'

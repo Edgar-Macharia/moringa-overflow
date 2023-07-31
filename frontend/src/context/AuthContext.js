@@ -6,9 +6,10 @@ export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
   const nav = useNavigate();
-  const [current_user, setCurrentUser] = useState([]);
+  const [currentUserData, setCurrentUserData] = useState([]);
   const [username, setUsername] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [questions, setQuestions] = useState([]);
 
   // Sign up
   const handleSignup = (user) => {
@@ -72,13 +73,66 @@ export default function AuthProvider({ children }) {
   //Current user
   
 
+  // Fetch questions
+
+const fetchQuestions = () => {
+  const token = sessionStorage.getItem("token");
+  if (!token) return;
+  fetch("/questions", {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      setQuestions(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching questions:", error);
+    });
+};
+
+// Fetch user by ID
+
+const fetchUserById = (userId) => {
+  const token = sessionStorage.getItem("token");
+  if (!token) return;
+  fetch(`/users/${userId}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      setCurrentUserData(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching user by ID:", error);
+    });
+};
+
+
+useEffect(() => {
+  if (isLoggedIn) {
+    const userId = sessionStorage.getItem("userId");
+    fetchUserById(userId);
+    fetchQuestions();
+  }
+}, [isLoggedIn]);
+
+
   const contextData = {
     login,
-    handleSignup,
+    registerUser,
     logout,
-    current_user,
+    currentUserData,
     username,
     isLoggedIn,
+    questions,
   };
 
   return <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>;
