@@ -1,5 +1,4 @@
 import {Link} from 'react-router-dom'
-// import logo from './logo.jpeg'
 import '../../src/App.css'
 
 const Home = () => {
