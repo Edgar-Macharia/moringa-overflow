@@ -41,7 +41,9 @@ export default function QuestionsProvider({ children }) {
       .then((res) => res.json())
       .then((data) => {
         if (data.errors) {
-          Swal.fire("Error", data.errors, "error");
+          console.log(data.errors)
+
+          Swal.fire("Error", data.errors[0], "error");
         } else {
           Swal.fire("Success", "Question created successfully", "success");
           nav(`/questions/${data.id}`);
@@ -50,6 +52,39 @@ export default function QuestionsProvider({ children }) {
       .catch((error) => {
         console.error("Error creating question:", error);
         Swal.fire("Error", "Failed to create question", "error");
+      });
+  };
+
+   // Create a new question
+   const createAnswer = (newAnswerData) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      Swal.fire("Error", "Not authorized to create question", "error");
+      return;
+    }
+
+    fetch("/answers", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify({ answer: newAnswerData }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.errors) {
+          console.log(data.errors)
+
+          Swal.fire("Error", data.errors[0], "error");
+        } else {
+          Swal.fire("Success", "Answer created successfully", "success");
+          nav(`/answers/${data.id}`);
+        }
+      })
+      .catch((error) => {
+        console.error("Error creating answer:", error);
+        Swal.fire("Error", "Failed to create answer", "error");
       });
   };
 
@@ -120,6 +155,7 @@ useEffect(()=>{
 
   const contextData = {
     questions,
+    createAnswer,
     fetchQuestions,
     createQuestion,
     updateQuestion,
