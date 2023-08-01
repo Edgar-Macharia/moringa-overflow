@@ -50,6 +50,26 @@ class QuestionsController < ApplicationController
     render json: { message: "Question was successfully destroyed." }
   end
 
+  def search
+    query = params[:q]
+  
+    # Check if the search query is empty
+    if query.blank?
+      render json: { error: "Search query cannot be empty." }, status: :unprocessable_entity
+      return
+    end
+  
+    @questions = Question.where("title LIKE :query OR body LIKE :query", query: "%#{query}%")
+  
+    # Check if no matching questions were found
+    if @questions.empty?
+      render json: { error: "No matching questions found." }, status: :not_found
+      return
+    end
+  
+    render json: { questions: @questions, success: "Successful search." }, each_serializer: QuestionSerializer, include: 'answers'
+  end
+  
   private
 
   # Use callbacks to share common setup or constraints between actions.

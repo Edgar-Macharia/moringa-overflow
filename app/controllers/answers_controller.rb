@@ -22,13 +22,14 @@ class AnswersController < ApplicationController
   # POST /answers or /answers.json
   def create
     @answer = Answer.new(answer_params)
-
+  
     if @answer.save
-      render json: @answer, status: :created, location: @answer
+      render json: { message: 'Answer created successfully', answer: @answer }, status: :created
     else
-      render json: @answer.errors, status: :unprocessable_entity
+      render json: { errors: @answer.errors.full_messages }, status: :unprocessable_entity
     end
   end
+  
 
   # PATCH/PUT /answers/1 or /answers/1.json
   def update

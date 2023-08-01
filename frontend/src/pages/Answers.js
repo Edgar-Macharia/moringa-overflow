@@ -1,16 +1,24 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext} from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { QuestionsContext } from '../context/QuestionsContext';
+import {useParams } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 
-const AskQuestion = () => {
+const AnswerQuestion = () => {
   const { createAnswer } = useContext(QuestionsContext);
   const [body, setBody] = useState('');
-  const [question_id, setQuestionId] = useState('');
+  const { question_id } = useParams();
 
   const handleBodyChange = (value) => {
-    setBody(value);
+    const sanitizedValue = DOMPurify.sanitize(value);
+    
+    const doc = new DOMParser().parseFromString(sanitizedValue, 'text/html');
+    const plainText = doc.body.textContent || '';
+    
+    setBody(plainText);
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -73,4 +81,4 @@ const AskQuestion = () => {
   );
 };
 
-export default AskQuestion;
+export default AnswerQuestion;
