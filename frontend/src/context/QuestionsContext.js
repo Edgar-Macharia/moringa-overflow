@@ -70,7 +70,7 @@ export default function QuestionsProvider({ children }) {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
       },
-      body: JSON.stringify({ answer: newAnswerData }),
+      body: JSON.stringify(newAnswerData),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -79,8 +79,8 @@ export default function QuestionsProvider({ children }) {
 
           Swal.fire("Error", data.errors[0], "error");
         } else {
-          Swal.fire("Success", "Answer created successfully", "success");
-          nav(`/answers/${data.id}`);
+          Swal.fire("Success", data.message, "success");
+          nav(`/questions`);
         }
       })
       .catch((error) => {
@@ -148,11 +148,39 @@ export default function QuestionsProvider({ children }) {
         Swal.fire("Error", "Failed to delete question", "error");
       });
   };
+
+
   useEffect(()=>{
     fetchQuestions()
 
   }, [])
-  // ... (other context methods you may have)
+
+  // Search questions
+  const searchQuestions = (searchTerm) => {
+    console.log(searchTerm)
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+
+    fetch(`/questions/search?q=${encodeURIComponent(searchTerm)}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data) 
+      if(data.success){    
+        setQuestions(data.questions);
+      }
+
+    })
+    .catch((error) => {
+      console.error("Error searching questions:", error);
+      Swal.fire("Error", "Failed to search questions", "error");
+    });
+  };
 
   const contextData = {
     questions,
@@ -161,6 +189,7 @@ export default function QuestionsProvider({ children }) {
     createQuestion,
     updateQuestion,
     deleteQuestion,
+    searchQuestions,
   };
 
   return (

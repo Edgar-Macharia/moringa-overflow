@@ -207,7 +207,6 @@ const fetchUserById = (userId) => {
     });
   };
 
-
   const contextData = {
     login,
     registerUser,

@@ -88,8 +88,10 @@ const Questions = () => {
           </Link>
         </div>
       </div>
-
-      {questions &&
+      {questions && questions.length === 0 ? (
+        <p>No questions found.</p>
+      ) : (
+      questions &&
         questions.map((question, index) => (
           <div
             key={question.id || index}
@@ -98,7 +100,7 @@ const Questions = () => {
             <div className="w-70p sm:w-full bg-white shadow-xl rounded-lg p-3">
               <div className="flex justify-end mx-11">
                 <div className="questions-btn">
-                  <Link to="/Answers">
+                  <Link to={`/Answers/${question.id}`}>
                     <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                       Answer Question
                     </button>
@@ -179,10 +181,10 @@ const Questions = () => {
                   ))}
               </div>
             </div>
-          </div>
-        ))}
+            </div>
+        ))
+      )}
     </>
   );
 };
-
 export default Questions;

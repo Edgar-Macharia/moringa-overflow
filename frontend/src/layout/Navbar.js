@@ -1,16 +1,17 @@
 import { Link } from "react-router-dom";
 import logo from "../images/Logo.png";
 import userIcon from "../images/user.png";
-import { AuthContext } from "../context/AuthContext";
 import React, { useContext,useState } from "react";
 import Search from "../pages/Search";
+import { QuestionsContext } from "../context/QuestionsContext";
 
 const Navbar = () => {
-  const { isLoggedIn, logout, username } = useContext(AuthContext);
+  const { isLoggedIn, logout, username, searchQuestions } = useContext(QuestionsContext);
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
+    searchQuestions(searchQuery);
   };
 
   return (
@@ -102,7 +103,7 @@ const Navbar = () => {
 
         </div>
       </nav>
-      <Search searchQuery={searchQuery} />
+      {/* <Search searchQuery={searchQuery} /> */}
     </div>
   );
 };

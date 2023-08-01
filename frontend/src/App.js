@@ -16,7 +16,7 @@ import Reset from "./pages/Reset"
 import AskQuestion from "./pages/AskQuestion"
 import AuthProvider from "./context/AuthContext"
 import QuestionsProvider from "./context/QuestionsContext";
-import Answers from "./pages/Answers";
+import AnswerQuestion from "./pages/Answers";
 
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Reset" element={<Reset />} />
             <Route path="/AskQuestion" element={<AskQuestion />} />
-            <Route path="/Answers" element={<Answers />} />
+            <Route path="/Answers/:question_id" element={<AnswerQuestion />} />
           </Route>
         </Routes>
         </QuestionsProvider>
