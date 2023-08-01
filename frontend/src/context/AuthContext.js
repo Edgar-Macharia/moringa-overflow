@@ -20,18 +20,18 @@ export default function AuthProvider({ children }) {
       },
       body: JSON.stringify(user),
     })
-    .then((res) => res.json())
-    .then((response) => {
-      console.log(response);
-      if (response.errors) {
-        Swal.fire("Error", response.errors, "error");
-      } else if (response.message) {
-        Swal.fire("Success", response.message, "success");
-        nav("/login");
-      } else {
-        throw new Error("Network response was not OK");
-      }
-    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+        if (response.errors) {
+          Swal.fire("Error", response.errors, "error");
+        } else if (response.message) {
+          Swal.fire("Success", response.message, "success");
+          nav("/login");
+        } else {
+          throw new Error("Network response was not OK");
+        }
+      })
   };
 
   const login = (user) => {
@@ -72,54 +72,54 @@ export default function AuthProvider({ children }) {
 
   // Fetch questions
 
-const fetchQuestions = () => {
-  const token = sessionStorage.getItem("token");
-  if (!token) return;
-  fetch("/questions", {
-    method: "GET",
-    headers: {
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      setQuestions(data);
+  const fetchQuestions = () => {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+    fetch("/questions", {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     })
-    .catch((error) => {
-      console.error("Error fetching questions:", error);
-    });
-};
+      .then((res) => res.json())
+      .then((data) => {
+        setQuestions(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching questions:", error);
+      });
+  };
 
-// Fetch user by ID
+  // Fetch user by ID
 
-const fetchUserById = (userId) => {
-  const token = sessionStorage.getItem("token");
-  if (!token) return;
-  fetch(`/users/${userId}`, {
-    method: "GET",
-    headers: {
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      setCurrentUserData(data);
+  const fetchUserById = (userId) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+    fetch(`/users/${userId}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     })
-    .catch((error) => {
-      console.error("Error fetching user by ID:", error);
-    });
-};
+      .then((res) => res.json())
+      .then((data) => {
+        setCurrentUserData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user by ID:", error);
+      });
+  };
 
 
-useEffect(() => {
-  if (isLoggedIn) {
-    const userId = sessionStorage.getItem("userId");
-    fetchUserById(userId);
-    fetchQuestions();
-  }
-}, [isLoggedIn]);
+  useEffect(() => {
+    if (isLoggedIn) {
+      const userId = sessionStorage.getItem("userId");
+      fetchUserById(userId);
+      fetchQuestions();
+    }
+  }, [isLoggedIn]);
 
   // Edit user post
   const editUserPost = (postId, newPostData) => {
@@ -188,20 +188,20 @@ useEffect(() => {
       },
       body: JSON.stringify(formData),
     })
-    .then((res) => res.json())
-    .then((response) => {
-      if (response.errors) {
-        Swal.fire("Error", response.errors, "error");
-      } else if (response.message) {
-        Swal.fire("Success", response.message, "success");
-      } else {
-        throw new Error("Network response was not OK");
-      }
-    })
-    .catch((error) => {
-      console.error("Error resetting password:", error);
-      Swal.fire("Error", "Something went wrong", "error");
-    });
+      .then((res) => res.json())
+      .then((response) => {
+        if (response.errors) {
+          Swal.fire("Error", response.errors, "error");
+        } else if (response.message) {
+          Swal.fire("Success", response.message, "success");
+        } else {
+          throw new Error("Network response was not OK");
+        }
+      })
+      .catch((error) => {
+        console.error("Error resetting password:", error);
+        Swal.fire("Error", "Something went wrong", "error");
+      });
   };
 
 
