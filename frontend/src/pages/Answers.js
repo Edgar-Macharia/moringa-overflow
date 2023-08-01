@@ -4,8 +4,9 @@ import 'react-quill/dist/quill.snow.css';
 import { QuestionsContext } from '../context/QuestionsContext';
 
 const AskQuestion = () => {
-  const { createQuestion } = useContext(QuestionsContext);
+  const { createAnswer } = useContext(QuestionsContext);
   const [body, setBody] = useState('');
+  const [question_id, setQuestionId] = useState('');
 
   const handleBodyChange = (value) => {
     setBody(value);
@@ -13,11 +14,14 @@ const AskQuestion = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const question = {
-      body: body,
+    const user_id= sessionStorage.getItem("userId");
+    const answer = {
+       body,
+       user_id,
+       question_id
     };
-    console.log(question);
-    createQuestion(question); // Assuming "createQuestion" handles the question creation logic
+    console.log(answer);
+    createAnswer(answer); // Assuming "createQuestion" handles the question creation logic
   };
 
   return (

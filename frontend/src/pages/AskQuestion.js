@@ -1,55 +1,46 @@
-
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { QuestionsContext } from '../context/QuestionsContext';
 
 const AskQuestion = () => {
+  const { createQuestion } = useContext(QuestionsContext);
   const [body, setBody] = useState('');
-import React, { useState,useContext } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import { QuestionsContext } from '../context/QuestionsContext'
+  const [title, setTitle] = useState("");
+  const [tag_id, setTagId] = useState("");
 
-
-const AskQuestion = () => {
-  const { createQuestion } = useContext(QuestionsContext)
-  const [body, setBody] = useState('');
-  const [title, setTitle] = useState("")
-  const [tag_id, setTagId] = useState("")
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
 
-  // Update 'tags' state when the input field changes
   const handleTagsChange = (e) => {
-    setTagId(e.target.value)
+    setTagId(e.target.value);
+  };
 
   const handleBodyChange = (value) => {
     setBody(value);
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    const user_id= sessionStorage.getItem("userId");
     const question = {
-      Title: title,
-      body: body,
-      tag_id: tag_id
+       title,
+       body,
+       tag_id,
+      user_id
     };
-    console.log(question);
-    createQuestion(question)
-  }
+    console.log("Question Data:", question);
+    createQuestion(question);
+  };
+
 
 
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center">
       <div className="container mx-auto py-8 max-w-screen-lg flex flex-col h-full">
         <h1 className="text-3xl font-bold mb-4">Ask a Question</h1>
-
-
-        <form className="flex-grow max-w-sm mx-auto">
-
         <form className="flex-grow max-w-sm mx-auto" onSubmit={handleSubmit}>
-
           <div className="mb-4">
             <label htmlFor="title" className="block text-lg font-semibold mb-2">Title</label>
             Be specific and imagine you’re asking a question to another person.
@@ -59,11 +50,10 @@ const AskQuestion = () => {
               name="title"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               placeholder="Enter your question title"
-              value={title} // Add the value prop to the input field
-          onChange={handleTitleChange} 
+              value={title}
+              onChange={handleTitleChange}
             />
           </div>
-
           <div className="mb-4 flex-grow">
             <label htmlFor="body" className="block text-lg font-semibold mb-2">Body</label>
             <ReactQuill
@@ -92,7 +82,6 @@ const AskQuestion = () => {
               placeholder="Enter the details of your question"
             />
           </div>
-
           <div className="mb-4">
             <label htmlFor="tags" className="block text-lg font-semibold mb-2">Tags</label>
             <input
@@ -101,12 +90,11 @@ const AskQuestion = () => {
               name="tags"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               placeholder="Enter tags (e.g., javascript, react)"
-              value={tag_id} // Add the value prop to the input field
-          onChange={handleTagsChange} 
+              value={tag_id}
+              onChange={handleTagsChange}
             />
             <p className="text-sm text-gray-500 mt-1">Add up to 5 tags to describe what your question is about. Separate tags with commas (e.g., javascript, react).</p>
           </div>
-
           <div className="flex justify-center">
             <button
               type="submit"
