@@ -15,7 +15,8 @@ export default function QuestionsProvider({ children }) {
     fetch("/questions")
       .then((res) => res.json())
       .then((data) => {
-        setQuestions(data);
+        const sortedQuestions = data.sort((a, b) => b.id - a.id);
+        setQuestions(sortedQuestions);
       })
       .catch((error) => {
         console.error("Error fetching questions:", error);
@@ -147,10 +148,10 @@ export default function QuestionsProvider({ children }) {
         Swal.fire("Error", "Failed to delete question", "error");
       });
   };
-useEffect(()=>{
-  fetchQuestions()
+  useEffect(()=>{
+    fetchQuestions()
 
-}, [])
+  }, [])
   // ... (other context methods you may have)
 
   const contextData = {
