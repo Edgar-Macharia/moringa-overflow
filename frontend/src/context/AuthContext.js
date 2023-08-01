@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -20,18 +20,18 @@ export default function AuthProvider({ children }) {
       },
       body: JSON.stringify(user),
     })
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response);
-        if (response.errors) {
-          Swal.fire("Error", response.errors, "error");
-        } else if (response.message) {
-          Swal.fire("Success", response.message, "success");
-          nav("/login");
-        } else {
-          throw new Error("Network response was not OK");
-        }
-      })
+    .then((res) => res.json())
+    .then((response) => {
+      console.log(response);
+      if (response.errors) {
+        Swal.fire("Error", response.errors, "error");
+      } else if (response.message) {
+        Swal.fire("Success", response.message, "success");
+        nav("/login");
+      } else {
+        throw new Error("Network response was not OK");
+      }
+    })
   };
 
   const login = (user) => {
@@ -72,54 +72,57 @@ export default function AuthProvider({ children }) {
 
   // Fetch questions
 
-  const fetchQuestions = () => {
-    const token = sessionStorage.getItem("token");
-    if (!token) return;
-    fetch("/questions", {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+const fetchQuestions = () => {
+  const token = sessionStorage.getItem("token");
+  if (!token) return;
+  fetch("/questions", {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      setQuestions(data);
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setQuestions(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching questions:", error);
-      });
-  };
+    .catch((error) => {
+      console.error("Error fetching questions:", error);
+    });
+};
 
-  // Fetch user by ID
+// Fetch user by ID
 
-  const fetchUserById = (userId) => {
-    const token = sessionStorage.getItem("token");
-    if (!token) return;
-    fetch(`/users/${userId}`, {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+const fetchUserById = (userId) => {
+  const token = sessionStorage.getItem("token");
+  if (!token) return;
+  fetch(`/users/${userId}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      setCurrentUserData(data);
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setCurrentUserData(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching user by ID:", error);
-      });
-  };
+    .catch((error) => {
+      console.error("Error fetching user by ID:", error);
+    });
+};
 
 
   useEffect(() => {
-    if (isLoggedIn) {
-      const userId = sessionStorage.getItem("userId");
+    // When the component mounts, check if there's a token in sessionStorage
+    const token = sessionStorage.getItem("token");
+    const userId = sessionStorage.getItem("userId");
+    if (token && userId) {
+      setIsLoggedIn(true);
       fetchUserById(userId);
       fetchQuestions();
     }
-  }, [isLoggedIn]);
+  }, []); 
 
   // Edit user post
   const editUserPost = (postId, newPostData) => {
@@ -188,20 +191,20 @@ export default function AuthProvider({ children }) {
       },
       body: JSON.stringify(formData),
     })
-      .then((res) => res.json())
-      .then((response) => {
-        if (response.errors) {
-          Swal.fire("Error", response.errors, "error");
-        } else if (response.message) {
-          Swal.fire("Success", response.message, "success");
-        } else {
-          throw new Error("Network response was not OK");
-        }
-      })
-      .catch((error) => {
-        console.error("Error resetting password:", error);
-        Swal.fire("Error", "Something went wrong", "error");
-      });
+    .then((res) => res.json())
+    .then((response) => {
+      if (response.errors) {
+        Swal.fire("Error", response.errors, "error");
+      } else if (response.message) {
+        Swal.fire("Success", response.message, "success");
+      } else {
+        throw new Error("Network response was not OK");
+      }
+    })
+    .catch((error) => {
+      console.error("Error resetting password:", error);
+      Swal.fire("Error", "Something went wrong", "error");
+    });
   };
 
 
