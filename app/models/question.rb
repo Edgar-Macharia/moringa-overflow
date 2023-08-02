@@ -5,7 +5,8 @@ class Question < ApplicationRecord
     has_many :answers
     has_many :comments
     after_save :update_tag_frequency
-
+    validates :title, presence: true, uniqueness: true
+    validates :body, presence: true
     private
 
     def update_tag_frequency

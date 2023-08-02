@@ -10,7 +10,7 @@ export default function AuthProvider({ children }) {
   const [username, setUsername] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [questions, setQuestions] = useState([]);
-  const [onChange, setonChange] = useState(true)
+  const [onChange, setonChange] = useState(true);
 
 
   useEffect(() => {

@@ -1,20 +1,28 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { QuestionsContext } from '../context/QuestionsContext';
 
 const AskQuestion = () => {
+  const {tags,fetchTags} = useContext(QuestionsContext);
   const { createQuestion } = useContext(QuestionsContext);
   const [body, setBody] = useState('');
   const [title, setTitle] = useState("");
   const [tag_id, setTagId] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
+
+    
+  useEffect(()=>{
+    fetchTags()
+  }, [])
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
 
   const handleTagsChange = (e) => {
-    setTagId(e.target.value);
+    const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
+    setSelectedTags(selectedValues);
   };
 
   const handleBodyChange = (value) => {
@@ -27,7 +35,7 @@ const AskQuestion = () => {
     const question = {
        title,
        body,
-       tag_id,
+       tag_ids: selectedTags,
       user_id
     };
     console.log("Question Data:", question);
@@ -84,16 +92,26 @@ const AskQuestion = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="tags" className="block text-lg font-semibold mb-2">Tags</label>
-            <input
-              type="text"
-              id="tags"
-              name="tags"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              placeholder="Enter tags (e.g., javascript, react)"
-              value={tag_id}
-              onChange={handleTagsChange}
-            />
-            <p className="text-sm text-gray-500 mt-1">Add up to 5 tags to describe what your question is about. Separate tags with commas (e.g., javascript, react).</p>
+            {tags && tags.length > 0 ? (
+              <select
+                multiple
+                id="tags"
+                name="tags"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                value={selectedTags}
+                onChange={handleTagsChange}
+              >
+                {tags.map((tag) => (
+                  <option key={tag.id} value={tag.id}>
+                    {tag.name}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <p className="text-sm text-gray-500 mt-1">
+                No tags available.
+              </p>
+            )}
           </div>
           <div className="flex justify-center">
             <button
