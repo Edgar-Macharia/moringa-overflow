@@ -43,7 +43,9 @@
 .get-started{
   background-color: #CEE6F3;
 }
-
+.logo{
+  float: right;
+}
 /* .logo {
 
   border-radius: 50%;
