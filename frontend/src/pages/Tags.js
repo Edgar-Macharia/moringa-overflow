@@ -3,8 +3,10 @@ import { QuestionsContext } from '../context/QuestionsContext'
 
 
 const Tags = ({ tag, onClick }) => {
-
-  const { questions } = useContext(QuestionsContext)
+const {fetchTags, tags} = useContext(QuestionsContext);
+  useEffect(() => {
+    fetchTags();
+  }, []);
   // State to store the fetched cards data
   const [cards, setCards] = useState([]);
 

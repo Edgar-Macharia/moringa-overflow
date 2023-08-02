@@ -1,5 +1,6 @@
 class TagsController < ApplicationController
   before_action :set_tag, only: %i[show edit update destroy]
+  skip_before_action :authorize_request, only: [:index, :show]
 
   def index
     @tags = Tag.includes(:questions)
