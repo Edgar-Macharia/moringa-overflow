@@ -11,6 +11,12 @@ export default function QuestionsProvider({ children }) {
   const [tags, setTags] = useState([]);
   // const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
 
+  
+  useEffect(()=>{
+    fetchQuestions()
+    fetchTags()
+  }, [])
+
   // Fetch all questions
   const fetchQuestions = () => {
     fetch("/questions")
@@ -151,12 +157,6 @@ export default function QuestionsProvider({ children }) {
       });
   };
 
-
-  useEffect(()=>{
-    fetchQuestions()
-
-  }, [])
-
   // Search questions
   const searchQuestions = (searchTerm) => {
     console.log(searchTerm)
@@ -206,6 +206,7 @@ export default function QuestionsProvider({ children }) {
     deleteQuestion,
     searchQuestions,
     fetchTags,
+    tags,
   };
 
   return (
