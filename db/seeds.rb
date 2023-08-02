@@ -1,13 +1,4 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
 User.destroy_all
-Question.destroy_all
-Tag.destroy_all
 Answer.destroy_all
 Comment.destroy_all
 
@@ -47,47 +38,202 @@ both_roles_user = User.create!(
 
 puts "Seed data for users created successfully!"
 
-# Seed data for tags
-tags = ["ruby", "rails", "javascript", "react", "python", "java", "sql", "html", "css"]
-tags.each do |tag_name|
-  Tag.create!(
-    name: tag_name,
-    vote_type: [true, false].sample,
-    frequency: rand(10..100)
-  )
-end
+Question.destroy_all
 
 # Seed data for questions
 users = User.all
-tags = Tag.all
 
-30.times do
-  question = Question.create!(
-    title: Faker::Lorem.sentence(word_count: 6),
-    body: Faker::Lorem.paragraph(sentence_count: 3),
-    user: users.sample,
-    tag: tags.sample
+questions_data = [
+  {
+    title: "How to set up a Ruby on Rails project?",
+    body: "I'm new to Ruby on Rails and I want to know the steps to set up a new project. Can someone guide me?",
+    user: users.sample
+  },
+  {
+    title: "Best practices for React component architecture?",
+    body: "I'm building a complex React application and I want to follow best practices for organizing my components. Any tips?",
+    user: users.sample
+  },
+  {
+    title: "How to handle database migrations in Django?",
+    body: "I'm working on a Django project and I'm not sure how to handle database migrations. What's the recommended approach?",
+    user: users.sample
+  },
+  {
+    title: "Troubleshooting SQL query performance",
+    body: "I have a slow-performing SQL query and I'm not sure how to optimize it. Are there any tools or techniques I can use to troubleshoot?",
+    user: users.sample
+  },
+  {
+    title: "Getting started with Python for data analysis",
+    body: "I'm interested in using Python for data analysis tasks. What are the essential libraries and resources I should start with?",
+    user: users.sample
+  },
+  {
+    title: "How to deploy a Ruby on Rails app to Heroku?",
+    body: "I've developed a Ruby on Rails application and I want to deploy it to Heroku. Can someone walk me through the process?",
+    user: users.sample
+  },
+  {
+    title: "Is it possible to use async/await with JavaScript's Fetch API?",
+    body: "I've been using JavaScript's Fetch API for making API requests, but I'm wondering if it's possible to use async/await with it. Any examples?",
+    user: users.sample
+  },
+  {
+    title: "Optimizing Java application performance",
+    body: "I have a Java application that's running slowly. What are some strategies I can use to optimize its performance?",
+    user: users.sample
+  },
+  {
+    title: "Creating responsive web designs with CSS Grid",
+    body: "I want to create a responsive web design using CSS Grid. Are there any tutorials or resources that can help me get started?",
+    user: users.sample
+  },
+  {
+    title: "How to handle user authentication in Flask?",
+    body: "I'm building a web application with Flask and I need to implement user authentication. What's the recommended approach?",
+    user: users.sample
+  },
+  {
+    title: "Tips for writing clean and maintainable code in C#",
+    body: "I'm working on a C# project and I want to ensure that my code is clean and maintainable. Any best practices or tips?",
+    user: users.sample
+  },
+  {
+    title: "Getting started with version control using Git",
+    body: "I'm new to version control and Git. Can someone provide a beginner-friendly guide on how to get started?",
+    user: users.sample
+  },
+  {
+    title: "Debugging techniques in Python",
+    body: "I'm encountering bugs in my Python code and I'm not sure how to debug them. What are some effective debugging techniques?",
+    user: users.sample
+  }
+]
+
+questions_data.each do |question_data|
+  Question.create!(question_data)
+end
+
+puts "Seed data for questions created successfully!"
+
+
+
+Tag.destroy_all
+QuestionTag.destroy_all
+
+# Seed data for tags
+tags = ["ruby", "rails", "javascript", "react", "python", "java", "sql", "html", "css"]
+tags.each do |tag_name|
+  tag = Tag.create!(
+    name: tag_name,
+    frequency: rand(10..100)
   )
-
-  # Seed data for answers
-  rand(0..5).times do
-    Answer.create!(
-      body: Faker::Lorem.paragraph(sentence_count: 2),
-      user: users.sample,
-      question: question,
-      upvotes: rand(0..10),
-      downvotes: rand(0..10)
-    )
-  end
-
-  # Seed data for comments
-  rand(0..3).times do
-    Comment.create!(
-      body: Faker::Lorem.sentence(word_count: 10),
-      user: users.sample,
-      question: question
-    )
+  
+  # Create some random question tags for each tag
+  rand(5..15).times do
+    question = Question.all.sample
+    QuestionTag.create!(question: question, tag: tag)
   end
 end
 
-puts "Seed data for questions, tags, answers, and comments created successfully!"
+puts "Seed data for tags and question_tags created successfully!"
+
+# Seed data for question_tags (join table)
+questions = Question.all
+tags = Tag.all
+
+questions.each do |question|
+  rand(1..3).times do
+    question.tags << tags.sample
+  end
+end
+
+puts "Seed data for question_tags (join table) created successfully!"
+
+Answer.destroy_all
+
+# Seed data for answers
+users = User.all
+questions = Question.all
+
+answers_data = [
+  {
+    body: "To set up a new Ruby on Rails project, you can use the `rails new` command. Make sure you have Ruby and Rails installed, then run:",
+    user: users.sample,
+    question: questions.sample,
+    upvotes: rand(0..10),
+    downvotes: rand(0..5)
+  },
+  {
+    body: "For React component architecture, it's recommended to follow a modular structure using components. Consider using a container/presentational pattern and separating concerns.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes: rand(0..10),
+    downvotes: rand(0..5)
+  },
+  {
+    body: "In Django, you can manage database migrations using the `makemigrations` and `migrate` commands. They allow you to define and apply changes to your database schema.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes: rand(0..10),
+    downvotes: rand(0..5)
+  },
+  {
+    body: "To troubleshoot SQL query performance, you can use tools like EXPLAIN and ANALYZE to analyze query plans. Additionally, consider indexing and optimizing your queries.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes: rand(0..10),
+    downvotes: rand(0..5)
+  },
+  {
+    body: "For Python data analysis, start with libraries like Pandas, NumPy, and Matplotlib. You can use Jupyter notebooks for interactive analysis and visualization.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes: rand(0..10),
+    downvotes: rand(0..5)
+  },
+  {
+    body: "To deploy a Ruby on Rails app to Heroku, you can follow these steps:\n1. Install the Heroku CLI.\n2. Create a Heroku app using `heroku create`.\n3. Push your code to Heroku's remote repository.\n4. Run migrations on the Heroku database using `heroku run rake db:migrate`.\n5. Open your app in the browser using `heroku open`.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes: rand(0..10),
+    downvotes: rand(0..5)
+  },
+  {
+    body: "Yes, you can use async/await with JavaScript's Fetch API. Here's an example:\n\n```javascript\nasync function fetchData() {\n  try {\n    const response = await fetch('https://api.example.com/data');\n    const data = await response.json();\n    console.log(data);\n  } catch (error) {\n    console.error('Error fetching data:', error);\n  }\n}\n```",
+    user: users.sample,
+    question: questions.sample,
+    upvotes: rand(0..10),
+    downvotes: rand(0..5)
+  },
+  {
+    body: "When optimizing Java application performance, consider:\n1. Profiling your code to identify bottlenecks.\n2. Using efficient data structures and algorithms.\n3. Minimizing object creation and garbage collection.\n4. Utilizing multithreading and concurrency.\n5. Caching frequently used data.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes: rand(0..10),
+    downvotes: rand(0..5)
+  },
+  {
+    body: "To create a responsive web design using CSS Grid, you can:\n1. Define a grid container using `display: grid`.\n2. Place grid items using `grid-template-rows` and `grid-template-columns`.\n3. Use media queries to adjust the grid layout based on screen size.\n4. Utilize the `grid-gap` property for spacing.\n5. Experiment with `grid-template-areas` for complex layouts.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes: rand(0..10),
+    downvotes: rand(0..5)
+  },
+  {
+    body: "For user authentication in Flask, you can use libraries like Flask-Login or Flask-Security. Here's an example using Flask-Login:\n\n```python\nfrom flask import Flask, request\nfrom flask_login import LoginManager, UserMixin, login_user\n\napp = Flask(__name__)\nlogin_manager = LoginManager(app)\n\nclass User(UserMixin):\n    def __init__(self, user_id):\n        self.id = user_id\n\n@login_manager.user_loader\ndef load_user(user_id):\n    return User(user_id)\n\n@app.route('/login', methods=['POST'])\ndef login():\n    user_id = request.form.get('user_id')\n    user = User(user_id)\n    login_user(user)\n    return 'Logged in'\n\nif __name__ == '__main__':\n    app.run()\n```",
+    user: users.sample,
+    question: questions.sample,
+    upvotes: rand(0..10),
+    downvotes: rand(0..5)
+  }
+  
+]
+
+answers_data.each do |answer_data|
+  Answer.create!(answer_data)
+end
+
+puts "Seed data for answers created successfully!"
+
