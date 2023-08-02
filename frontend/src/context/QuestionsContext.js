@@ -1,14 +1,13 @@
-import { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-// import { AuthContext } from "./AuthContext"; // Assuming the file containing the AuthContext is named AuthContext.js
 
 export const QuestionsContext = createContext();
 
 export default function QuestionsProvider({ children }) {
   const nav = useNavigate();
   const [questions, setQuestions] = useState([]);
-  // const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
+  const [question, setQuestion] = useState(null);
 
   // Fetch all questions
   const fetchQuestions = () => {
@@ -20,6 +19,7 @@ export default function QuestionsProvider({ children }) {
       })
       .catch((error) => {
         console.error("Error fetching questions:", error);
+        Swal.fire("Error", "Failed to fetch questions", "error");
       });
   };
 
@@ -35,15 +35,13 @@ export default function QuestionsProvider({ children }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ question: newQuestionData }),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.errors) {
-          console.log(data.errors)
-
           Swal.fire("Error", data.errors[0], "error");
         } else {
           Swal.fire("Success", "Question created successfully", "success");
@@ -56,36 +54,33 @@ export default function QuestionsProvider({ children }) {
       });
   };
 
-   // Create a new question
-   const createAnswer = (newAnswerData) => {
+  ///Single Question
+  const fetchSingleQuestion = (id) => {
     const token = sessionStorage.getItem("token");
     if (!token) {
-      Swal.fire("Error", "Not authorized to create question", "error");
+      Swal.fire("Error", "Not authorized to view the question", "error");
       return;
     }
 
-    fetch("/answers", {
-      method: "POST",
+    fetch(`/questions/${id}`, {
+      method: "GET",
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(newAnswerData),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.errors) {
-          console.log(data.errors)
-
-          Swal.fire("Error", data.errors[0], "error");
-        } else {
-          Swal.fire("Success", data.message, "success");
-          nav(`/questions`);
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch question");
         }
+        return res.json();
+      })
+      .then((data) => {
+        setQuestion(question);
+        console.log(data)
       })
       .catch((error) => {
-        console.error("Error creating answer:", error);
-        Swal.fire("Error", "Failed to create answer", "error");
+        console.error("Error fetching question:", error);
+        Swal.fire("Error", "Failed to fetch question", "error");
       });
   };
 
@@ -101,7 +96,7 @@ export default function QuestionsProvider({ children }) {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ question: updatedQuestionData }),
     })
@@ -131,7 +126,7 @@ export default function QuestionsProvider({ children }) {
     fetch(`/questions/${questionId}`, {
       method: "DELETE",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => res.json())
@@ -149,43 +144,38 @@ export default function QuestionsProvider({ children }) {
       });
   };
 
-
-  useEffect(()=>{
-    fetchQuestions()
-
-  }, [])
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
 
   // Search questions
   const searchQuestions = (searchTerm) => {
-    console.log(searchTerm)
     const token = sessionStorage.getItem("token");
     if (!token) return;
 
     fetch(`/questions/search?q=${encodeURIComponent(searchTerm)}`, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data) 
-      if(data.success){    
-        setQuestions(data.questions);
-      }
-
-    })
-    .catch((error) => {
-      console.error("Error searching questions:", error);
-      Swal.fire("Error", "Failed to search questions", "error");
-    });
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setQuestions(data.questions);
+        }
+      })
+      .catch((error) => {
+        console.error("Error searching questions:", error);
+        Swal.fire("Error", "Failed to search questions", "error");
+      });
   };
 
   const contextData = {
     questions,
-    createAnswer,
     fetchQuestions,
+    fetchSingleQuestion,
     createQuestion,
     updateQuestion,
     deleteQuestion,

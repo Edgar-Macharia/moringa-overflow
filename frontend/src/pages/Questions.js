@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { QuestionsContext } from '../context/QuestionsContext';
 
 const Questions = () => {
   const { questions } = useContext(QuestionsContext);
-  const { id } = useParams();
+  // const { id } = useParams();
 
   const [answers, setAnswers] = useState([
     {
@@ -78,10 +78,10 @@ const Questions = () => {
             key={question.id || index}
             className="questions-page flex justify-center items-center bg-gray-100 sm:p-6"
           >
-            <Link to={`/ViewQuestion/${id}`} className="w-70p sm:w-full bg-white shadow-xl rounded-lg p-3">
-              <div className="question-details p-4 bg-white rounded-lg shadow-md">
+            <Link to={`/ViewQuestion/${question.id}`} className="w-70p sm:w-full bg-white shadow-xl rounded-lg p-3">
+              <div className="question-details p-4 bg-white rounded-lg shadow-md whitespace-normal">
                 <h3 className="question-title text-xl font-bold mb-2">{question.title}</h3>
-                <p className="question-details mb-4">{question.body}</p>
+                <p className="question-details mb-4 ">{question.body}</p>
                 <div className="vote-buttons">
                   <button
                     className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${userVote.question ? 'pointer-events-none opacity-50' : ''

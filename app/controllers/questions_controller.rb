@@ -10,7 +10,8 @@ class QuestionsController < ApplicationController
 
   # GET /questions/1 or /questions/1.json
   def show
-    render json: @question
+    question = Question.find(params[:id])
+    render json: @question, include: 'answers'
   end
 
   # GET /questions/new
