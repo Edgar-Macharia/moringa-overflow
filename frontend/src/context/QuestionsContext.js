@@ -7,13 +7,16 @@ export const QuestionsContext = createContext();
 export default function QuestionsProvider({ children }) {
   const nav = useNavigate();
   const [questions, setQuestions] = useState([]);
-  const [question, setQuestion] = useState(null);
+
+  const [tags, setTags] = useState([]);
+  // const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
 
   // Fetch all questions
   const fetchQuestions = () => {
     fetch("/questions")
       .then((res) => res.json())
       .then((data) => {
+        console.log(data)
         const sortedQuestions = data.sort((a, b) => b.id - a.id);
         setQuestions(sortedQuestions);
       })
@@ -172,6 +175,19 @@ export default function QuestionsProvider({ children }) {
       });
   };
 
+  const fetchTags = () => {
+    fetch('/tags') 
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setTags(data); // Assuming the response is an array of tag objects
+      })
+      .catch((error) => {
+        console.error('Error fetching tags:', error);
+        Swal.fire('Error', 'Failed to fetch tags', 'error');
+      });
+  };
+
   const contextData = {
     questions,
     fetchQuestions,
@@ -180,6 +196,7 @@ export default function QuestionsProvider({ children }) {
     updateQuestion,
     deleteQuestion,
     searchQuestions,
+    fetchTags,
   };
 
   return (

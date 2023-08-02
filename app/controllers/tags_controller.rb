@@ -1,71 +1,54 @@
 class TagsController < ApplicationController
-  before_action :set_tag, only: %i[ show edit update destroy ]
+  before_action :set_tag, only: %i[show edit update destroy]
+  skip_before_action :authorize_request, only: [:index, :show]
 
-  # GET /tags or /tags.json
   def index
-    @tags = Tag.all
+    @tags = Tag.includes(:questions)
+    render json: @tags
   end
 
   # GET /tags/1 or /tags/1.json
   def show
-  end
-
-  # GET /tags/new
-  def new
-    @tag = Tag.new
-  end
-
-  # GET /tags/1/edit
-  def edit
+    render json: @tag
   end
 
   # POST /tags or /tags.json
   def create
     @tag = Tag.new(tag_params)
 
-    respond_to do |format|
-      if @tag.save
-        format.html { redirect_to tag_url(@tag), notice: "Tag was successfully created." }
-        format.json { render :show, status: :created, location: @tag }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @tag.errors, status: :unprocessable_entity }
-      end
+    if @tag.save
+      render json: @tag, status: :created, location: @tag
+    else
+      render json: { errors: @tag.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /tags/1 or /tags/1.json
   def update
-    respond_to do |format|
-      if @tag.update(tag_params)
-        format.html { redirect_to tag_url(@tag), notice: "Tag was successfully updated." }
-        format.json { render :show, status: :ok, location: @tag }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @tag.errors, status: :unprocessable_entity }
-      end
+    if @tag.update(tag_params)
+      render json: @tag
+    else
+      render json: { errors: @tag.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   # DELETE /tags/1 or /tags/1.json
   def destroy
     @tag.destroy
-
-    respond_to do |format|
-      format.html { redirect_to tags_url, notice: "Tag was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    render json: { message: "Tag was successfully destroyed." }
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_tag
-      @tag = Tag.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def tag_params
-      params.require(:tag).permit(:name)
-      # , :vote_type, :frequency
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_tag
+    @tag = Tag.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { errors: "Tag not found." }, status: :not_found
+  end
+
+  # Only allow a list of trusted parameters through.
+  def tag_params
+    params.require(:tag).permit(:name)
+  end
 end
