@@ -46,12 +46,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_085124) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.string "notification_type"
-    t.boolean "is_read"
+    t.string "message"
+    t.integer "user_id"
+    t.boolean "read_status", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -116,7 +115,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_085124) do
   add_foreign_key "downvotes", "answers"
   add_foreign_key "downvotes", "questions"
   add_foreign_key "downvotes", "users", column: "users_id"
-  add_foreign_key "notifications", "users"
   add_foreign_key "questions", "tags"
   add_foreign_key "questions", "users"
   add_foreign_key "reported_contents", "users"

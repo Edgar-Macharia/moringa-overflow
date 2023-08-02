@@ -18,6 +18,7 @@ import AuthProvider from "./context/AuthContext"
 import QuestionsProvider from "./context/QuestionsContext";
 import AnswerQuestion from "./pages/Answers";
 import ViewQuestion from "./pages/ViewQuestion";
+import axios from 'axios';
 
 
 function App() {

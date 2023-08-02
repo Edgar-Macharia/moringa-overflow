@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 // import { AuthContext } from "./AuthContext"; // Assuming the file containing the AuthContext is named AuthContext.js
@@ -8,8 +9,23 @@ export const QuestionsContext = createContext();
 export default function QuestionsProvider({ children }) {
   const nav = useNavigate();
   const [questions, setQuestions] = useState([]);
+  const [notifications, setNotifications] = useState([]); 
   // const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
+  // Fetch notifications
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.get("/api/notifications");
+      setNotifications(response.data);
+      console.log(setNotifications);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  };
 
+  useEffect(() => {
+    fetchQuestions();
+    fetchNotifications(); // Fetch notifications when the component mounts
+  }, []);
   // Fetch all questions
   const fetchQuestions = () => {
     fetch("/questions")
@@ -81,6 +97,7 @@ export default function QuestionsProvider({ children }) {
         } else {
           Swal.fire("Success", data.message, "success");
           nav(`/questions`);
+          axios.post('/notifications', { message: `Your question has been answered.`, user_id: newAnswerData.user_id });
         }
       })
       .catch((error) => {
@@ -190,6 +207,7 @@ export default function QuestionsProvider({ children }) {
     updateQuestion,
     deleteQuestion,
     searchQuestions,
+    notifications,
   };
 
   return (
