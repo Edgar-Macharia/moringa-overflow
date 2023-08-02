@@ -12,6 +12,17 @@ export default function AuthProvider({ children }) {
   const [questions, setQuestions] = useState([]);
   const [onChange, setonChange] = useState(true)
 
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const userId = sessionStorage.getItem("userId");
+    if (token && userId) {
+      setIsLoggedIn(true);
+      fetchUserById(userId);
+      fetchQuestions();
+    }
+  }, []); 
+
   // Register
   const registerUser = (user) => {
     fetch("/users", {
@@ -88,8 +99,10 @@ export default function AuthProvider({ children }) {
     })
     .then((res) => res.json())
     .then((data) => {
-      setCurrentUserData(data);
-      console.log(currentUserData)
+      if(data.email){
+        setCurrentUserData(data);
+        console.log(currentUserData)
+      }
     })
     .catch((error) => {
       console.error("Error fetching current user:", error);
@@ -137,18 +150,6 @@ const fetchUserById = (userId) => {
       console.error("Error fetching user by ID:", error);
     });
 };
-
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    const userId = sessionStorage.getItem("userId");
-    if (token && userId) {
-      setIsLoggedIn(true);
-      fetchUserById(userId);
-      fetchQuestions();
-      // fetchCurrentUser();
-    }
-  }, []); 
 
   // Edit user post
   const editUserPost = (postId, newPostData) => {
