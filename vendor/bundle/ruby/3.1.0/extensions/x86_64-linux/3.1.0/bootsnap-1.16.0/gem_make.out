@@ -1,0 +1,15 @@
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/bootsnap-1.16.0/ext/bootsnap
+/home/motari/.rbenv/versions/3.1.4/bin/ruby -I /home/motari/.rbenv/versions/3.1.4/lib/ruby/3.1.0 extconf.rb
+creating Makefile
+
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/bootsnap-1.16.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20230731-29592-io5qlh sitelibdir\=./.gem.20230731-29592-io5qlh clean
+
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/bootsnap-1.16.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20230731-29592-io5qlh sitelibdir\=./.gem.20230731-29592-io5qlh
+compiling bootsnap.c
+linking shared-object bootsnap/bootsnap.so
+
+current directory: /home/motari/phase-5/moringa-overflow/vendor/bundle/ruby/3.1.0/gems/bootsnap-1.16.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20230731-29592-io5qlh sitelibdir\=./.gem.20230731-29592-io5qlh install
+/usr/bin/install -c -m 0755 bootsnap.so ./.gem.20230731-29592-io5qlh/bootsnap

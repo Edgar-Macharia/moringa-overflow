@@ -6,12 +6,21 @@ Rails.application.routes.draw do
   resources :comments
   resources :answers
   resources :tags
-  resources :questions
-  resources :users, only: [:create, :show, :update]
+  resources :questions do
+    collection do
+      get 'search', to: 'questions#search'
+    end
+  end
+  resources :users, only: [:create, :show, :update] do
+    member do
+      put :reset_password
+    end
+  end
 
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   post '/login', to: 'sessions#create'
   post '/logout', to: 'sessions#create'
+  get "/questions/search", to: "questions#search"
+
   # Defines the root path route ("/")
   # root "articles#index"
 end

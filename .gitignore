@@ -6,11 +6,6 @@
 
 # Ignore bundler config.
 /.bundle
-
-.ruby-version
-Gemfile
-Gemfile.lock
-
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
@@ -34,4 +29,5 @@ Gemfile.lock
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 Gemfile.lock
+Gemfile
 .ruby-version

@@ -1,5 +1,5 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import 'flowbite'
 import Layout from "./layout/Layout"
 import Home from "./pages/Home"
@@ -15,6 +15,10 @@ import ReportedContent from "./pages/ReportedContent"
 import Reset from "./pages/Reset"
 import AskQuestion from "./pages/AskQuestion"
 import AuthProvider from "./context/AuthContext"
+import QuestionsProvider from "./context/QuestionsContext";
+import AnswerQuestion from "./pages/Answers";
+import ViewQuestion from "./pages/ViewQuestion";
+
 
 function App() {
   useEffect(() => {
@@ -24,6 +28,7 @@ function App() {
     
     <BrowserRouter>
       <AuthProvider>
+        <QuestionsProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
@@ -38,8 +43,11 @@ function App() {
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Reset" element={<Reset />} />
             <Route path="/AskQuestion" element={<AskQuestion />} />
+            <Route path="/Answers/:question_id" element={<AnswerQuestion />} />
+            <Route path="/ViewQuestion/:id" element={<ViewQuestion />} />
           </Route>
         </Routes>
+        </QuestionsProvider>
       </AuthProvider>
     </BrowserRouter>
   )

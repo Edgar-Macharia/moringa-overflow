@@ -2,15 +2,19 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:3000",
+  "proxy": "http://127.0.0.1:4000",
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "dompurify": "^3.0.5",
     "flowbite": "^1.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.14.2",
     "react-scripts": "5.0.1",
     "sweetalert2": "^11.7.20",
@@ -41,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^8.2.0",
     "tailwindcss": "^3.3.3"
   }
 }
