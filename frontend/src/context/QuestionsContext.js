@@ -8,6 +8,7 @@ export const QuestionsContext = createContext();
 export default function QuestionsProvider({ children }) {
   const nav = useNavigate();
   const [questions, setQuestions] = useState([]);
+  const [tags, setTags] = useState([]);
   // const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
 
   // Fetch all questions
@@ -183,6 +184,19 @@ export default function QuestionsProvider({ children }) {
     });
   };
 
+  const fetchTags = () => {
+    fetch('/tags') 
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setTags(data); // Assuming the response is an array of tag objects
+      })
+      .catch((error) => {
+        console.error('Error fetching tags:', error);
+        Swal.fire('Error', 'Failed to fetch tags', 'error');
+      });
+  };
+
   const contextData = {
     questions,
     createAnswer,
@@ -191,6 +205,7 @@ export default function QuestionsProvider({ children }) {
     updateQuestion,
     deleteQuestion,
     searchQuestions,
+    fetchTags,
   };
 
   return (
