@@ -79,7 +79,7 @@ end
 # app/controllers/users_controller.rb
 
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:create]
+  before_action :authorize_request, except: [:create]
 
   def show
     render json: current_user, status: :ok
