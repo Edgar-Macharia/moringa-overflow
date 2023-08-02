@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { QuestionsContext } from '../context/QuestionsContext'
 
 
-const Tags = () => {
+const Tags = ({ tag, onClick }) => {
 
+  const { questions } = useContext(QuestionsContext)
   // State to store the fetched cards data
   const [cards, setCards] = useState([]);
+
+  const [selectedTag, setSelectedTag] = useState(null);
 
   // useEffect hook runs when the component mounts
   useEffect(() => {
@@ -14,6 +18,10 @@ const Tags = () => {
       .then(data => setCards(data)) // Update the 'cards' state with the fetched data
       .catch(error => console.error('Error fetching cards:', error)); // Handle fetch errors
   }, []); // Empty dependency array to ensure the effect runs only once on mount
+
+  const handleTagClick = (tag) => {
+    setSelectedTag(tag);
+  };
 
 
 
@@ -32,23 +40,35 @@ const Tags = () => {
       </div>
 
 
-      {/* Cards section to be fetched from backend */}
+      {/* Cards section to be fetched from the backend */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mx-20 py-10">
+        {/* Conditional rendering based on the state of 'cards' */}
+        {cards.length > 0 ? (
+          // Render cards when 'cards' state is populated
+          cards
+            .filter((card) => !selectedTag || card.tags.includes(selectedTag.name))
+            .map((card, index) => (
+              <div className="mb-10" key={index}>
+                {/* Each card is represented by an anchor element */}
+                <a
+                  href="#"
+                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700"
+                >
+                  {card.title} {/* Display the card's title */}
+                </a>
+                {/* Display the card's description */}
+                <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
+                  {card.description}
+                </p>
+              </div>
+            ))
+        ) : (
+          // Render a loading state or placeholder when 'cards' state is empty
+          <p>Loading...</p>
+        )}
+      </div>
 
-      {/* <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mx-20 py-10"> */}
 
-      {/* Map over the 'cards' array and render each card */}
-      {cards.map((card, index) => (
-        <div className='mb-10' key={index}>
-          {/* Each card is represented by an anchor element */}
-          <a href="#" className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
-            {card.title} {/* Display the card's title */}
-          </a>
-          {/* Display the card's description */}
-          <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">{card.description}</p>
-        </div>
-      ))}
-
-      {/* </div> */}
 
       <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mx-20 py-10">
 

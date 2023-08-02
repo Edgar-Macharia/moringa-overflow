@@ -3,10 +3,12 @@ import logo from "../images/Logo.png";
 import userIcon from "../images/user.png";
 import React, { useContext,useState } from "react";
 import Search from "../pages/Search";
+import { AuthContext } from "../context/AuthContext";
 import { QuestionsContext } from "../context/QuestionsContext";
 
 const Navbar = () => {
-  const { isLoggedIn, logout, username, searchQuestions } = useContext(QuestionsContext);
+  const { isLoggedIn, logout, username } = useContext(AuthContext);
+  const { searchQuestions } = useContext(QuestionsContext);
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (event) => {
