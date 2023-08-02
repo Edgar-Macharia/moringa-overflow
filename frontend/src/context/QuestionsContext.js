@@ -89,8 +89,8 @@ export default function QuestionsProvider({ children }) {
       });
   };
 
-  // Update a question
-  const updateQuestion = (questionId, updatedQuestionData) => {
+   // Update a question
+   const updateQuestion = (questionId, updatedQuestionData) => {
     const token = sessionStorage.getItem("token");
     if (!token) {
       Swal.fire("Error", "Not authorized to update question", "error");
@@ -119,6 +119,7 @@ export default function QuestionsProvider({ children }) {
         Swal.fire("Error", "Failed to update question", "error");
       });
   };
+
 
   // Delete a question
   const deleteQuestion = (questionId) => {
@@ -182,11 +183,76 @@ export default function QuestionsProvider({ children }) {
     });
   };
 
+//   // Edit a question
+// const editQuestion = (questionId, updatedQuestionData) => {
+//   const token = sessionStorage.getItem("token");
+//   if (!token) {
+//     Swal.fire("Error", "Not authorized to edit question", "error");
+//     return;
+//   }
+
+//   fetch(`/questions/${questionId}`, {
+//     method: "PUT",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "Authorization": `Bearer ${token}`,
+//     },
+//     body: JSON.stringify({ question: updatedQuestionData }),
+//   })
+//     .then((res) => res.json())
+//     .then((data) => {
+//       if (data.errors) {
+//         Swal.fire("Error", data.errors, "error");
+//       } else {
+//         Swal.fire("Success", "Question updated successfully", "success");
+//         fetchQuestions(); // Refresh the questions list after editing
+//         nav(`/questions/${questionId}`);
+//       }
+//     })
+//     .catch((error) => {
+//       console.error("Error editing question:", error);
+//       Swal.fire("Error", "Failed to edit question", "error");
+//     });
+// };
+
+// // Delete a question
+// const deleteQuestion = (questionId) => {
+//   const token = sessionStorage.getItem("token");
+//   if (!token) {
+//     Swal.fire("Error", "Not authorized to delete question", "error");
+//     return;
+//   }
+
+//   fetch(`/questions/${questionId}`, {
+//     method: "DELETE",
+//     headers: {
+//       "Authorization": `Bearer ${token}`,
+//     },
+//   })
+//     .then((res) => res.json())
+//     .then((data) => {
+//       if (data.message) {
+//         Swal.fire("Success", data.message, "success");
+//         fetchQuestions(); // Refresh the questions list after deletion
+//         nav("/questions");
+//       } else {
+//         Swal.fire("Error", "Failed to delete question", "error");
+//       }
+//     })
+//     .catch((error) => {
+//       console.error("Error deleting question:", error);
+//       Swal.fire("Error", "Failed to delete question", "error");
+//     });
+// };
+
+
   const contextData = {
     questions,
     createAnswer,
     fetchQuestions,
     createQuestion,
+    updateQuestion,
+    deleteQuestion,
     updateQuestion,
     deleteQuestion,
     searchQuestions,

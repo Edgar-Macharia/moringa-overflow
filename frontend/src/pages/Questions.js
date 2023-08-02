@@ -1,11 +1,24 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faThumbsDown, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { QuestionsContext } from '../context/QuestionsContext';
 
 const Questions = () => {
-  const { questions } = useContext(QuestionsContext);
+  const { questions, deleteQuestion, updateQuestion  } = useContext(QuestionsContext);
+
+
+  // Function to handle question deletion
+  const handleDeleteQuestion = (questionId) => {
+    // Implement your deleteQuestion function here or call it from your context.
+    deleteQuestion(questionId);
+  };
+
+  // Function to handle question update
+  const handleUpdateQuestion = (questionId, updatedQuestionData) => {
+    // Implement your updateQuestion function here or call it from your context.
+    updateQuestion(questionId, updatedQuestionData);
+  }
 
   const [answers, setAnswers] = useState([
     {
@@ -105,8 +118,33 @@ const Questions = () => {
                       Answer Question
                     </button>
                   </Link>
+
+
+
+                  <div className="flex justify-end mt-4">
+                <button
+                  className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                  onClick={() => handleDeleteQuestion(question.id)}
+                >
+                  <FontAwesomeIcon icon={faTrash} className="w-5 h-5 mr-2" />
+                  Delete
+                </button>
+                <button
+                  className="text-white bg-yellow-700 hover:bg-yellow-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                  onClick={() => {
+                    // Add code to prompt for question update and call handleUpdateQuestion
+                  }}
+                >
+                  <FontAwesomeIcon icon={faEdit} className="w-5 h-5 mr-2" />
+                  Update
+                </button>
+              </div>
+                  
                 </div>
               </div>
+
+              
+              
               {/* Increase the card size by adding 'w-128' and other styles */}
 
               <div className="question-details p-4 bg-white rounded-lg shadow-md">
@@ -178,10 +216,12 @@ const Questions = () => {
                         </div>
                       </div>
                     </div>
+                    
                   ))}
               </div>
             </div>
             </div>
+            
         ))
       )}
     </>
