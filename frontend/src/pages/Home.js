@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
 import '../../src/App.css'
 import homepageImage from "../images/homepage.png";
-import logo from '../images/Logo.png';
+// import logo from '../images/Logo.png';
 
 const Home = () => {
   return (
     <div className='homepage'>
       <div className='relative py-16 px-8 bg-brand dark:bg-inherit text-white dark:text-gray-200 min-h-[90vh] overflow-hidden'>
-        <img class="h-20 w-20 rounded-full mr-3 transition-all duration-300 rounded-lg blur-sm hover:blur-none" src={logo} alt="image description" />
-        <img className="h-20 w-20 rounded-full mr-3 transition-all duration-300 rounded-lg blur-sm hover:blur-none logo" src={logo} alt="image description" />
+        {/* <img class="h-20 w-20 rounded-full mr-3 transition-all duration-300 rounded-lg blur-sm hover:blur-none" src={logo} alt="image description" /> */}
+        {/* <img className="h-20 w-20 rounded-full mr-3 transition-all duration-300 rounded-lg blur-sm hover:blur-none logo" src={logo} alt="image description" /> */}
 
         <h1 className='my-4 text-center text-2xl sm:text-4xl font-semibold'>Solve all your questions at one place</h1>
 
@@ -22,7 +22,7 @@ const Home = () => {
             <li>Upvote for favourite questions and answers</li>
             <li>Downvote for unfavourable questions and answers</li>
           </ul>
-          <img class="h-auto max-w-lg transition-all duration-300 rounded-lg blur-sm hover:blur-none" src={homepageImage} alt="image description" />
+          <img class="h-auto max-w-lg transition-all " src={homepageImage} alt="image description" />
 
           <div className='text-lg sm:text-xl'>
 
