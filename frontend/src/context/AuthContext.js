@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +10,7 @@ export default function AuthProvider({ children }) {
   const [username, setUsername] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const [onChange, setonChange] = useState(true)
 
   // Register
   const registerUser = (user) => {
@@ -28,12 +29,14 @@ export default function AuthProvider({ children }) {
       } else if (response.message) {
         Swal.fire("Success", response.message, "success");
         nav("/login");
+        setonChange(!onChange);
       } else {
         throw new Error("Network response was not OK");
       }
     })
   };
 
+  // Login
   const login = (user) => {
     fetch("/login", {
       method: "POST",
@@ -49,6 +52,7 @@ export default function AuthProvider({ children }) {
           handleLogin(response);
           Swal.fire("Success", response.success, "success");
           nav("/");
+          setonChange(!onChange);
         } else {
           Swal.fire("Error", "Something went wrong", "error");
         }
@@ -68,6 +72,28 @@ export default function AuthProvider({ children }) {
     setUsername("");
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userId");
+  };
+
+  // Fetch current user
+  const fetchCurrentUser = () => {
+    const token = sessionStorage.getItem("token");
+    const userId = sessionStorage.getItem("userId");
+    if (!token || !userId) return;
+    fetch(`/users/${userId}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      setCurrentUserData(data);
+      console.log(currentUserData)
+    })
+    .catch((error) => {
+      console.error("Error fetching current user:", error);
+    });
   };
 
   // Fetch questions
@@ -114,13 +140,13 @@ const fetchUserById = (userId) => {
 
 
   useEffect(() => {
-    // When the component mounts, check if there's a token in sessionStorage
     const token = sessionStorage.getItem("token");
     const userId = sessionStorage.getItem("userId");
     if (token && userId) {
       setIsLoggedIn(true);
       fetchUserById(userId);
       fetchQuestions();
+      // fetchCurrentUser();
     }
   }, []); 
 
@@ -218,6 +244,7 @@ const fetchUserById = (userId) => {
     editUserPost,
     editUserProfile,
     resetPassword,
+    fetchCurrentUser,
   };
 
   return <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>;

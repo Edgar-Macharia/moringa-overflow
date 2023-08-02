@@ -1,10 +1,8 @@
-import React, { useState, useContext } from 'react';
-// import React, { useState,useContext } from 'react';
-// import { Link } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 const Profile = () => {
-  const { currentUserData, editUserProfile, resetPassword } = useContext(AuthContext);
+  const { currentUserData,  fetchCurrentUser, editUserProfile, resetPassword } = useContext(AuthContext);
   const [isEditMode, setIsEditMode] = useState(false);
   const [username, setUsername] = useState(currentUserData.username || "Your Username");
   const [email, setEmail] = useState(currentUserData.email || "your.email@example.com");
@@ -12,6 +10,10 @@ const Profile = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [resetMode, setResetMode] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
+
+  useEffect(() => {
+    fetchCurrentUser();
+  }, [fetchCurrentUser]);
 
   const handleEditClick = () => {
     setIsEditMode(true);
@@ -50,7 +52,7 @@ const Profile = () => {
               className="block w-full px-4 py-2 text-xl font-semibold text-center mt-4 border border-gray-300 rounded focus:outline-none focus:ring-primary-600 focus:border-primary-600"
             />
           ) : (
-            <h1 className="text-3xl font-semibold text-center mt-4">{username}</h1>
+            <h1 className="text-3xl font-semibold text-center mt-4">{currentUserData.username}</h1>
           )}
           {/* Email */}
           {isEditMode ? (
@@ -61,7 +63,7 @@ const Profile = () => {
               className="block w-full px-4 py-2 text-gray-600 text-center mt-2 border border-gray-300 rounded focus:outline-none focus:ring-primary-600 focus:border-primary-600"
             />
           ) : (
-            <p className="text-gray-600 text-center mt-2">{email}</p>
+            <p className="text-gray-600 text-center mt-2">{currentUserData.email}</p>
           )}
           {/* Update Profile Button */}
           {isEditMode ? (
@@ -75,7 +77,7 @@ const Profile = () => {
           )}
           {/* Joined At */}
           <div className="flex justify-center mt-4">
-            <p className="text-gray-500">Joined at: {currentUserData.joined_at || "01 January 2022"}</p>
+            <p className="text-gray-500">Joined at: {currentUserData.created_at}</p>
           </div>
           {/* Change Password */}
           {resetMode ? (
@@ -126,11 +128,11 @@ const Profile = () => {
             <h2 className="text-xl font-semibold">Questions Asked by You</h2>
             <ul className="mt-4 space-y-2">
               <li>
-                <a href="#" className="text-blue-500 hover:underline">Question Title 1</a>
+                <a href="#" className="text-blue-500 hover:underline">{fetchCurrentUser.questions}</a>
                 <p className="text-gray-500">Posted on: 01 January 2023</p>
               </li>
               <li>
-                <a href="#" className="text-blue-500 hover:underline">Question Title 2</a>
+                <a href="#" className="text-blue-500 hover:underline">{fetchCurrentUser.questions}</a>
                 <p className="text-gray-500">Posted on: 15 February 2023</p>
               </li>
               {/* Add more questions here */}
