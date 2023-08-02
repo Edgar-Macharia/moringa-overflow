@@ -13,7 +13,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchCurrentUser();
-  }, [fetchCurrentUser]);
+  }, []); 
 
   const handleEditClick = () => {
     setIsEditMode(true);
@@ -42,7 +42,7 @@ const Profile = () => {
       <div className="container mx-auto p-6 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="">
           {/* Profile Picture */}
-          <img className="w-32 h-32 mx-auto mt-6 rounded-full" src={"https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png"} alt="Profile Picture" />
+          <img className="w-32 h-32 mx-auto mt-6 rounded-full" src={"https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png"} alt="Avatar" />
           {/* Username */}
           {isEditMode ? (
             <input
@@ -123,21 +123,23 @@ const Profile = () => {
               <button onClick={handleResetPasswordClick} className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">Change Password</button>
             </div>
           )}
-          {/* Questions Asked */}
-          <div className="mt-6">
-            <h2 className="text-xl font-semibold">Questions Asked by You</h2>
-            <ul className="mt-4 space-y-2">
-              <li>
-                <a href="#" className="text-blue-500 hover:underline">{fetchCurrentUser.questions}</a>
-                <p className="text-gray-500">Posted on: 01 January 2023</p>
-              </li>
-              <li>
-                <a href="#" className="text-blue-500 hover:underline">{fetchCurrentUser.questions}</a>
-                <p className="text-gray-500">Posted on: 15 February 2023</p>
-              </li>
-              {/* Add more questions here */}
-            </ul>
-          </div>
+            {currentUserData.questions.length > 0 ? (
+            <div className="mt-6">
+              <h2 className="text-xl font-semibold">Questions Asked by You</h2>
+              <ul className="mt-4 space-y-2">
+                {currentUserData.questions.map((question, index) => (
+                  <li key={index}>
+                    <a href="#" className="text-blue-500 hover:underline">
+                      {question.title} {/* Assuming title is the property for the question */}
+                    </a>
+                    <p className="text-gray-500">Posted on: {question.postedDate}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <p>No questions asked yet.</p>
+          )}
         </div>
       </div>
     </div>
