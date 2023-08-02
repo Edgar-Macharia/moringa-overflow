@@ -23,8 +23,8 @@ export default function AuthProvider({ children }) {
     }
   }, []); 
 
-  // Register
-  const registerUser = (user) => {
+  // Sign up
+  const handleSignup = (user) => {
     fetch("/users", {
       method: "POST",
       headers: {
