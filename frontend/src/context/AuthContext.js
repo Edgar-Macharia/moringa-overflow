@@ -236,7 +236,7 @@ export default function AuthProvider({ children }) {
 
   const contextData = {
     login,
-    // registerUser,
+    registerUser,
     logout,
     currentUserData,
     username,
