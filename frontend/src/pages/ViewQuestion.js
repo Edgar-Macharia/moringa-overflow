@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
-// import { QuestionsContext } from '../context/QuestionsContext';
+import { faThumbsUp, faThumbsDown, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { QuestionsContext } from '../context/QuestionsContext';
 
 const ViewQuestion = () => {
-  // const { fetchSingleQuestion } = useContext(QuestionsContext)
+  const { fetchSingleQuestion, deleteQuestion } = useContext(QuestionsContext)
   const { id } = useParams();
 
   const [question, setQuestion] = useState();
@@ -86,6 +86,12 @@ const ViewQuestion = () => {
     }
   };
 
+  const handleDeleteQuestion = (questionId) => {
+    // Implement your deleteQuestion function here or call it from your context.
+    deleteQuestion(questionId);
+  };
+
+
   return (
     <>
       <div className="flex justify-end mx-11">
@@ -112,8 +118,33 @@ const ViewQuestion = () => {
                     Answer Question
                   </button>
                 </Link>
+
+                
+             
+              {/* Buttons for Delete and Update */}
+              <div className="flex justify-end mt-4">
+                <button
+                  className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                  onClick={() => handleDeleteQuestion(question.id)}
+                >
+                  <FontAwesomeIcon icon={faTrash} className="w-5 h-5 mr-2" />
+                  Delete
+                </button>
+                <button
+                  className="text-white bg-yellow-700 hover:bg-yellow-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                  onClick={() => {
+                    // Add code to prompt for question update and call handleUpdateQuestion
+                  }}
+                >
+                  <FontAwesomeIcon icon={faEdit} className="w-5 h-5 mr-2" />
+                  Update
+                </button>
               </div>
             </div>
+          </div>
+
+
+          
 
             <div className="question-details p-4 bg-white rounded-lg shadow-md">
               <h3 className="question-title text-xl font-bold mb-2">{question.title}</h3>

@@ -22,19 +22,19 @@ export default function QuestionsProvider({ children }) {
       console.error("Error fetching notifications:", error);
     }
   };
-  
-  useEffect(()=>{
-    fetchQuestions()
-    fetchTags()
+
+  useEffect(() => {
+    fetchQuestions();
+    fetchTags();
     fetchNotifications();
-  }, [])
+  }, []);
 
   // Fetch all questions
   const fetchQuestions = () => {
     fetch("/questions")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         const sortedQuestions = data.sort((a, b) => b.id - a.id);
         setQuestions(sortedQuestions);
       })
@@ -97,7 +97,7 @@ export default function QuestionsProvider({ children }) {
       })
       .then((data) => {
         setQuestion(data);
-        console.log(data)
+        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching question:", error);
@@ -128,15 +128,13 @@ export default function QuestionsProvider({ children }) {
       })
       .then((data) => {
         setQuestion(data);
-        console.log(data)
+        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching answers:", error);
         Swal.fire("Error", "Failed to fetch answers", "error");
       });
   };
-
-
 
   // Update a question
   const updateQuestion = (questionId, updatedQuestionData) => {
@@ -198,11 +196,9 @@ export default function QuestionsProvider({ children }) {
       });
   };
 
-
   useEffect(() => {
     fetchQuestions();
   }, []);
-
 
   // Search questions
   const searchQuestions = (searchTerm) => {
@@ -227,17 +223,17 @@ export default function QuestionsProvider({ children }) {
         Swal.fire("Error", "Failed to search questions", "error");
       });
   };
-///fetch tags
+  ///fetch tags
   const fetchTags = () => {
-    fetch('/tags') 
+    fetch("/tags")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         setTags(data); // Assuming the response is an array of tag objects
       })
       .catch((error) => {
-        console.error('Error fetching tags:', error);
-        Swal.fire('Error', 'Failed to fetch tags', 'error');
+        console.error("Error fetching tags:", error);
+        Swal.fire("Error", "Failed to fetch tags", "error");
       });
   };
 
