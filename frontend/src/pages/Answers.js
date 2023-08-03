@@ -11,12 +11,7 @@ const AnswerQuestion = () => {
   const { question_id } = useParams();
 
   const handleBodyChange = (value) => {
-    const sanitizedValue = DOMPurify.sanitize(value);
-
-    const doc = new DOMParser().parseFromString(sanitizedValue, 'text/html');
-    const plainText = doc.body.textContent || '';
-
-    setBody(plainText);
+    setBody(value);
   };
 
 
@@ -25,7 +20,7 @@ const AnswerQuestion = () => {
     const user_id = sessionStorage.getItem('userId');
     const sanitizedValue = DOMPurify.sanitize(body, { ALLOWED_TAGS: [] }); // Remove all tags
     const answer = {
-       body,
+       body:sanitizedValue,
        user_id,
        question_id
     };
