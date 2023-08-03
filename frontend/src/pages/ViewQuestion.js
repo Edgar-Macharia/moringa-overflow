@@ -5,7 +5,7 @@ import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { QuestionsContext } from '../context/QuestionsContext';
 
 const ViewQuestion = () => {
-  const {fetchSingleQuestion} = useContext(QuestionsContext)
+  const { fetchSingleQuestion } = useContext(QuestionsContext)
   const { id } = useParams();
 
   const [question, setQuestion] = useState();
@@ -14,24 +14,17 @@ const ViewQuestion = () => {
     answers: {},
   });
 
-  // useEffect(() => {
-  //   fetch(`/questions/${id}`)
-  //     .then((res) => res.json())
-  //     .then((response) => {
-  //       setQuestion(response);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching question:', error);
-  //     });
-  // }, [id]);
-
-useEffect(() => {
-  fetchSingleQuestion(id)
-  setQuestion(question);
-}, [id, fetchSingleQuestion]);
-
-
-  // fetchSingleQuestion(id);
+  useEffect(() => {
+    fetch(`/questions/${id}`)
+      .then((res) => res.json())
+      .then((response) => {
+        setQuestion(response);
+        console.log(response)
+      })
+      .catch((error) => {
+        console.error('Error fetching question:', error);
+      });
+  }, [id]);
 
   const handleQuestionUpvote = () => {
     if (!userVote.question) {
@@ -108,9 +101,8 @@ useEffect(() => {
               <p className="question-details mb-4">{question.body}</p>
               <div className="vote-buttons">
                 <button
-                  className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${
-                    userVote.question ? 'pointer-events-none opacity-50' : ''
-                  }`}
+                  className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${userVote.question ? 'pointer-events-none opacity-50' : ''
+                    }`}
                   onClick={handleQuestionUpvote}
                   disabled={userVote.question}
                 >
@@ -121,9 +113,8 @@ useEffect(() => {
                   <span className="ml-2"> ({question.upvotes})</span>
                 </button>
                 <button
-                  className={`text-gray-600 hover:text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${
-                    userVote.question ? 'pointer-events-none opacity-50' : ''
-                  }`}
+                  className={`text-gray-600 hover:text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${userVote.question ? 'pointer-events-none opacity-50' : ''
+                    }`}
                   onClick={handleQuestionDownvote}
                   disabled={userVote.question}
                 >
@@ -141,14 +132,13 @@ useEffect(() => {
               {question.answers &&
                 question.answers.map((answer) => (
                   <div key={answer.id} className="answer p-4 bg-white rounded-lg shadow-md mt-4">
-                    <p>{question.answers}</p>
+                    <p>{answer.body}</p> {/* Use answer.body to render the answer body */}
                     <div className="answer-meta mt-2">
                       <span>By {answer.author}</span>
                       <div className="vote-buttons mt-2">
                         <button
-                          className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${
-                            userVote.answers[answer.id] ? 'pointer-events-none opacity-50' : ''
-                          }`}
+                          className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${userVote.answers[answer.id] ? 'pointer-events-none opacity-50' : ''
+                            }`}
                           onClick={() => handleAnswerUpvote(answer.id)}
                           disabled={userVote.answers[answer.id]}
                         >
@@ -156,12 +146,11 @@ useEffect(() => {
                             icon={faThumbsUp}
                             className={`w-5 h-5 ${userVote.answers[answer.id] ? 'text-blue-600' : ''}`}
                           />
-                          <span className="ml-2"> ({answer.upvotes})</span>
+                          <span className="ml-2"> ({answer.upvotes})</span> {/* Use answer.upvotes */}
                         </button>
                         <button
-                          className={`text-gray-600 hover:text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${
-                            userVote.answers[answer.id] ? 'pointer-events-none opacity-50' : ''
-                          }`}
+                          className={`text-gray-600 hover:text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${userVote.answers[answer.id] ? 'pointer-events-none opacity-50' : ''
+                            }`}
                           onClick={() => handleAnswerDownvote(answer.id)}
                           disabled={userVote.answers[answer.id]}
                         >
@@ -169,7 +158,7 @@ useEffect(() => {
                             icon={faThumbsDown}
                             className={`w-5 h-5 ${userVote.answers[answer.id] ? 'text-red-600' : ''}`}
                           />
-                          <span className="ml-2"> ({answer.downvotes})</span>
+                          <span className="ml-2"> ({answer.downvotes})</span> {/* Use answer.downvotes */}
                         </button>
                       </div>
                     </div>
