@@ -56,6 +56,19 @@ class QuestionsController < ApplicationController
     render json: { message: "Question was successfully destroyed." }
   end
 
+    # Archive question
+  def archive
+    question = Question.find_by(id: params[:id])
+
+    if question
+      question.update(archived: true) # Set the 'archived' attribute to true
+      render json: { success: "Question archived successfully!" }, status: :ok
+    else
+      render json: { error: "Question not found" }, status: :not_found
+    end
+  end
+
+
   def search
     query = params[:q]
   

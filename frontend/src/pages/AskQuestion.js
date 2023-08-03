@@ -10,7 +10,17 @@ const AskQuestion = () => {
   const [title, setTitle] = useState("");
   const [tag_id, setTagId] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
-
+  const removePTags = (html) => {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    const paragraphs = div.getElementsByTagName('p');
+    for (let i = paragraphs.length - 1; i >= 0; i--) {
+      const paragraph = paragraphs[i];
+      paragraph.parentNode.insertBefore(paragraph.firstChild, paragraph);
+      paragraph.parentNode.removeChild(paragraph);
+    }
+    return div.innerHTML;
+  };
     
   useEffect(()=>{
     fetchTags()
@@ -28,15 +38,16 @@ const AskQuestion = () => {
   const handleBodyChange = (value) => {
     setBody(value);
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user_id= sessionStorage.getItem("userId");
+    const user_id = sessionStorage.getItem("userId");
     const question = {
-       title,
-       body,
-       tag_ids: selectedTags,
-      user_id
+      title,
+      body: removePTags(body), // Remove <p> tags before submitting
+      tag_ids: selectedTags,
+      user_id,
     };
     console.log("Question Data:", question);
     createQuestion(question);
@@ -65,29 +76,31 @@ const AskQuestion = () => {
           <div className="mb-4 flex-grow">
             <label htmlFor="body" className="block text-lg font-semibold mb-2">Body</label>
             <ReactQuill
-              value={body}
-              onChange={handleBodyChange}
-              modules={{
-                toolbar: [
-                  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                  ['bold', 'italic', 'underline', 'strike'],
-                  [{ list: 'ordered' }, { list: 'bullet' }],
-                  ['link', 'image'],
-                  ['clean'],
-                ],
-              }}
-              formats={[
-                'header',
-                'bold',
-                'italic',
-                'underline',
-                'strike',
-                'list',
-                'bullet',
-                'link',
-                'image',
-              ]}
+      value={body}
+      onChange={handleBodyChange}
+      modules={{
+        toolbar: [
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['link', 'image'],
+          ['clean'],
+        ],
+       
+      }}
+      formats={[
+        'header',
+        'bold',
+        'italic',
+        'underline',
+        'strike',
+        'list',
+        'bullet',
+        'link',
+        'image',
+      ]}
               placeholder="Enter the details of your question"
+              bounds={['self', 'br']}
             />
           </div>
           <div className="mb-4">
