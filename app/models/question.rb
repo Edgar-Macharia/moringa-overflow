@@ -2,7 +2,7 @@ class Question < ApplicationRecord
     belongs_to :user
     has_many :question_tags, class_name: 'QuestionTag', dependent: :destroy
     has_many :tags, through: :question_tags
-    has_many :answers
+    has_many :answers, dependent: :destroy
     has_many :comments
     after_save :update_tag_frequency
     validates :title, presence: true, uniqueness: true
