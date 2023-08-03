@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
+  namespace :api do
+    resources :notifications, only: [:index]
+    patch 'notifications/mark_as_read/:id', to: 'notifications#mark_as_read', as: :mark_notification_as_read
+  end
   resources :upvotes
   resources :downvotes
-  resources :notifications
+  resources :notifications, only: [:index]
   resources :reported_contents
   resources :comments
   resources :answers
@@ -10,7 +14,11 @@ Rails.application.routes.draw do
     collection do
       get 'search', to: 'questions#search'
     end
+    member do
+      get 'answers', to: 'questions#answers'
+    end
   end
+  
   resources :users, only: [:create, :show, :update] do
     member do
       put :reset_password
@@ -24,8 +32,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  namespace :api do
-    resources :notifications, only: [:index]
-    patch 'notifications/mark_as_read/:id', to: 'notifications#mark_as_read', as: :mark_notification_as_read
-  end
+  # namespace :api do
+  #   resources :notifications, only: [:index]
+  #   patch 'notifications/mark_as_read/:id', to: 'notifications#mark_as_read', as: :mark_notification_as_read
+  # end
 end

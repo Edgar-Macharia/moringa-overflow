@@ -4,24 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { QuestionsContext } from '../context/QuestionsContext';
 
-const Questions = () => {
-
-  const { questions, fetchQuestionAnswers } = useContext(QuestionsContext);
+const SavedQuestions = () => {
+    const { questions, fetchQuestionAnswers } = useContext(QuestionsContext);
   const { id } = useParams();
 
   const [answers, setAnswers] = useState([]);
-
-  // useEffect(() => {
-  //   fetch(`/questions/${id}/answers`)
-  //     .then((res) => res.json())
-  //     .then((response) => {
-  //       setAnswers(response);
-  //       console.log(response)
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching answers:', error);
-  //     });
-  // }, [id]);
 
   const [userVote, setUserVote] = useState({
     question: false,
@@ -55,10 +42,9 @@ const Questions = () => {
       }));
     }
   };
-
   return (
     <div>
-      <div className="flex justify-end mx-11">
+        <div className="flex justify-end mx-11">
         <Link to='/SavedQuestions' className='mr-5'>
           <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 10">
             <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 1h10M6 5h10M6 9h10M1.49 1h.01m-.01 4h.01m-.01 4h.01" />
@@ -78,6 +64,8 @@ const Questions = () => {
       ) : (
         questions &&
         questions.map((question, index) => {
+          // Filter the answers based on the question_id
+          const filteredAnswers = answers.filter((answer) => answer.question_id === question.id);
 
           return (
             <div
@@ -109,7 +97,7 @@ const Questions = () => {
                     </button>
                   </div>
                   <div className='flex items-center justify-between'>
-                    <p className="text-sm text-gray-500 mb-2">Answers: {question && question.answers && question.answers.length}</p>
+                    <p className="text-sm text-gray-500 mb-2">Answers: {filteredAnswers.length}</p>
                     <p className='text-sm text-gray-500 mb-2'>By:{question.user_id}</p>
                   </div>
                 </div>
@@ -119,7 +107,7 @@ const Questions = () => {
         })
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Questions;
+export default SavedQuestions

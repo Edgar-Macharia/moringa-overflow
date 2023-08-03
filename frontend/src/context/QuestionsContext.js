@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
+// import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -7,14 +8,25 @@ export const QuestionsContext = createContext();
 export default function QuestionsProvider({ children }) {
   const nav = useNavigate();
   const [questions, setQuestions] = useState([]);
+  const [question, setQuestion] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
   const [tags, setTags] = useState([]);
   // const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
-
+  const fetchNotifications = async () => {
+    try {
+      // const response = await axios.get("/api/notifications");
+      // setNotifications(response.data);
+      console.log(setNotifications);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  };
 
   useEffect(() => {
     fetchQuestions()
     fetchTags()
+    fetchNotifications();
   }, [])
 
   // Fetch all questions
@@ -54,7 +66,7 @@ export default function QuestionsProvider({ children }) {
           Swal.fire("Error", data.errors[0], "error");
         } else {
           Swal.fire("Success", "Question created successfully", "success");
-          nav(`/questions/${data.id}`);
+          nav(`/questions`);
         }
       })
       .catch((error) => {
@@ -84,7 +96,7 @@ export default function QuestionsProvider({ children }) {
         return res.json();
       })
       .then((data) => {
-        setQuestions(questions);
+        setQuestion(data);
         console.log(data)
       })
       .catch((error) => {
@@ -92,6 +104,39 @@ export default function QuestionsProvider({ children }) {
         Swal.fire("Error", "Failed to fetch question", "error");
       });
   };
+
+  //answers for single question
+
+  const fetchQuestionAnswers = (id) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      Swal.fire("Error", "Not authorized to view the question", "error");
+      return;
+    }
+
+    fetch(`/questions/${id}/answers`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch answers");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setQuestion(data);
+        console.log(data)
+      })
+      .catch((error) => {
+        console.error("Error fetching answers:", error);
+        Swal.fire("Error", "Failed to fetch answers", "error");
+      });
+  };
+
+
 
   // Update a question
   const updateQuestion = (questionId, updatedQuestionData) => {
@@ -182,7 +227,7 @@ export default function QuestionsProvider({ children }) {
         Swal.fire("Error", "Failed to search questions", "error");
       });
   };
-
+  ///fetch tags
   const fetchTags = () => {
     fetch('/tags')
       .then((res) => res.json())
@@ -200,12 +245,14 @@ export default function QuestionsProvider({ children }) {
     questions,
     fetchQuestions,
     fetchSingleQuestion,
+    fetchQuestionAnswers,
     createQuestion,
     updateQuestion,
     deleteQuestion,
     searchQuestions,
     fetchTags,
     tags,
+    notifications,
   };
 
   return (

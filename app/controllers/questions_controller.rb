@@ -56,6 +56,19 @@ class QuestionsController < ApplicationController
     render json: { message: "Question was successfully destroyed." }
   end
 
+    # Archive question
+  def archive
+    question = Question.find_by(id: params[:id])
+
+    if question
+      question.update(archived: true) # Set the 'archived' attribute to true
+      render json: { success: "Question archived successfully!" }, status: :ok
+    else
+      render json: { error: "Question not found" }, status: :not_found
+    end
+  end
+
+
   def search
     query = params[:q]
   
@@ -75,6 +88,13 @@ class QuestionsController < ApplicationController
   
     render json: { questions: @questions, success: "Successful search." }, each_serializer: QuestionSerializer, include: 'answers'
   end
+
+  def answers
+    question = Question.find(params[:id])
+    answers = question.answers
+
+    render json: answers
+  end
   
   private
 
@@ -87,6 +107,6 @@ class QuestionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def question_params
-    params.require(:question).permit(:title, :body, :user_id, tag_ids: [])
+    params.require(:question).permit(:title, :body, :user_id, :tag_ids)
   end  
 end
