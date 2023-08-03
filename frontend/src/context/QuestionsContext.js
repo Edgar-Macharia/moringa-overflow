@@ -11,8 +11,8 @@ export default function QuestionsProvider({ children }) {
   const [tags, setTags] = useState([]);
   // const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
 
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     fetchQuestions()
     fetchTags()
   }, [])
@@ -84,7 +84,7 @@ export default function QuestionsProvider({ children }) {
         return res.json();
       })
       .then((data) => {
-        setQuestion(question);
+        setQuestions(questions);
         console.log(data)
       })
       .catch((error) => {
@@ -184,7 +184,7 @@ export default function QuestionsProvider({ children }) {
   };
 
   const fetchTags = () => {
-    fetch('/tags') 
+    fetch('/tags')
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
