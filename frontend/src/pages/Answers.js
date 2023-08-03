@@ -3,7 +3,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { QuestionsContext } from '../context/QuestionsContext';
 import { useParams } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
 const AnswerQuestion = () => {
