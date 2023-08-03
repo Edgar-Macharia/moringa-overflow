@@ -57,7 +57,7 @@ const AskQuestion = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center homepage">
-      <div className="container mx-auto py-8 max-w-screen-lg flex flex-col h-full">
+      <div className="container flex justify-center items-center bg-gray-100 sm:p-6 mx-auto py-8 max-w-screen-lg flex flex-col h-full">
         <h1 className="text-3xl font-bold mb-4">Ask a Question</h1>
         <form className="flex-grow max-w-sm mx-auto" onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -129,7 +129,7 @@ const AskQuestion = () => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
+              className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]"
             >
               Ask Question
             </button>
