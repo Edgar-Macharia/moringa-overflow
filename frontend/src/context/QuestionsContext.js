@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -15,8 +15,8 @@ export default function QuestionsProvider({ children }) {
   // const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get("/api/notifications");
-      setNotifications(response.data);
+      // const response = await axios.get("/api/notifications");
+      // setNotifications(response.data);
       console.log(setNotifications);
     } catch (error) {
       console.error("Error fetching notifications:", error);
@@ -104,6 +104,39 @@ export default function QuestionsProvider({ children }) {
         Swal.fire("Error", "Failed to fetch question", "error");
       });
   };
+
+  //answers for single question
+
+  const fetchQuestionAnswers = (id) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      Swal.fire("Error", "Not authorized to view the question", "error");
+      return;
+    }
+
+    fetch(`/questions/${id}/answers`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch answers");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setQuestion(data);
+        console.log(data)
+      })
+      .catch((error) => {
+        console.error("Error fetching answers:", error);
+        Swal.fire("Error", "Failed to fetch answers", "error");
+      });
+  };
+
+
 
   // Update a question
   const updateQuestion = (questionId, updatedQuestionData) => {
@@ -212,6 +245,7 @@ export default function QuestionsProvider({ children }) {
     questions,
     fetchQuestions,
     fetchSingleQuestion,
+    fetchQuestionAnswers,
     createQuestion,
     updateQuestion,
     deleteQuestion,

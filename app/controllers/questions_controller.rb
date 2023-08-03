@@ -75,6 +75,13 @@ class QuestionsController < ApplicationController
   
     render json: { questions: @questions, success: "Successful search." }, each_serializer: QuestionSerializer, include: 'answers'
   end
+
+  def answers
+    question = Question.find(params[:id])
+    answers = question.answers
+
+    render json: answers
+  end
   
   private
 
