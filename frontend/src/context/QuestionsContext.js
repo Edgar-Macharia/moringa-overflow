@@ -7,6 +7,7 @@ export const QuestionsContext = createContext();
 export default function QuestionsProvider({ children }) {
   const nav = useNavigate();
   const [questions, setQuestions] = useState([]);
+  const [question, setQuestion] = useState([]);
 
   const [tags, setTags] = useState([]);
   // const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
@@ -84,7 +85,7 @@ export default function QuestionsProvider({ children }) {
         return res.json();
       })
       .then((data) => {
-        setQuestion(question);
+        setQuestion(data);
         console.log(data)
       })
       .catch((error) => {
@@ -182,7 +183,7 @@ export default function QuestionsProvider({ children }) {
         Swal.fire("Error", "Failed to search questions", "error");
       });
   };
-
+///fetch tags
   const fetchTags = () => {
     fetch('/tags') 
       .then((res) => res.json())
