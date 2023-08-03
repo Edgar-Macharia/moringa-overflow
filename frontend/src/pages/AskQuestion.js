@@ -36,18 +36,18 @@ const AskQuestion = () => {
   };
 
   const handleBodyChange = (value) => {
-    const cleanedValue = removePTags(value);
-    setBody(cleanedValue);
+    setBody(value);
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user_id= sessionStorage.getItem("userId");
+    const user_id = sessionStorage.getItem("userId");
     const question = {
-       title,
-       body,
-       tag_ids: selectedTags,
-      user_id
+      title,
+      body: removePTags(body), // Remove <p> tags before submitting
+      tag_ids: selectedTags,
+      user_id,
     };
     console.log("Question Data:", question);
     createQuestion(question);
