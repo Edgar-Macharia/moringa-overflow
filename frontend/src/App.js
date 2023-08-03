@@ -18,6 +18,7 @@ import AuthProvider from "./context/AuthContext"
 import QuestionsProvider from "./context/QuestionsContext";
 import AnswerQuestion from "./pages/Answers";
 import ViewQuestion from "./pages/ViewQuestion";
+import ViewTag from "./pages/ViewTag";
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
             <Route path="/AskQuestion" element={<AskQuestion />} />
             <Route path="/Answers/:question_id" element={<AnswerQuestion />} />
             <Route path="/ViewQuestion/:id" element={<ViewQuestion />} />
+            <Route path="/ViewTag/:id" element={<ViewTag />} />
           </Route>
         </Routes>
         </QuestionsProvider>
