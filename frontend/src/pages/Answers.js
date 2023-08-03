@@ -1,8 +1,8 @@
-import React, { useState, useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { QuestionsContext } from '../context/QuestionsContext';
-import {useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
 const AnswerQuestion = () => {
@@ -12,29 +12,29 @@ const AnswerQuestion = () => {
 
   const handleBodyChange = (value) => {
     const sanitizedValue = DOMPurify.sanitize(value);
-    
+
     const doc = new DOMParser().parseFromString(sanitizedValue, 'text/html');
     const plainText = doc.body.textContent || '';
-    
+
     setBody(plainText);
   };
-  
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user_id= sessionStorage.getItem("userId");
+    const user_id = sessionStorage.getItem("userId");
     const answer = {
-       body,
-       user_id,
-       question_id
+      body,
+      user_id,
+      question_id
     };
     console.log(answer);
     createAnswer(answer); // Assuming "createQuestion" handles the question creation logic
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-      <div className="container mx-auto py-8 max-w-screen-lg flex flex-col h-full">
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center homepage">
+      <div className="container bg-white rounded-all mx-auto py-8 max-w-screen-lg flex flex-col h-full">
         <h1 className="text-3xl font-bold mb-4">Answer</h1>
         <form className="flex-grow max-w-sm mx-auto" onSubmit={handleSubmit}>
           <div className="mb-4 flex-grow">
@@ -70,7 +70,7 @@ const AnswerQuestion = () => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
+              className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]"
             >
               Submit
             </button>
