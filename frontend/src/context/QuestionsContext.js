@@ -55,7 +55,7 @@ export default function QuestionsProvider({ children }) {
           Swal.fire("Error", data.errors[0], "error");
         } else {
           Swal.fire("Success", "Question created successfully", "success");
-          nav(`/questions/${data.id}`);
+          nav(`/questions`);
         }
       })
       .catch((error) => {
