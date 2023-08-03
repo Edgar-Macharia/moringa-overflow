@@ -135,7 +135,38 @@ export default function QuestionsProvider({ children }) {
         Swal.fire("Error", "Failed to fetch answers", "error");
       });
   };
+// Create a new question
+const createAnswer = (newAnswerData) => {
+  const token = sessionStorage.getItem("token");
+  if (!token) {
+    Swal.fire("Error", "Not authorized to create question", "error");
+    return;
+  }
 
+  fetch("/answers", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify(newAnswerData),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.errors) {
+        console.log(data.errors)
+
+        Swal.fire("Error", data.errors[0], "error");
+      } else {
+        Swal.fire("Success", data.message, "success");
+        nav(`/questions`);
+      }
+    })
+    .catch((error) => {
+      console.error("Error creating answer:", error);
+      Swal.fire("Error", "Failed to create answer", "error");
+    });
+};
   // Update a question
   const updateQuestion = (questionId, updatedQuestionData) => {
     const token = sessionStorage.getItem("token");
@@ -239,6 +270,7 @@ export default function QuestionsProvider({ children }) {
 
   const contextData = {
     questions,
+    createAnswer,
     fetchQuestions,
     fetchSingleQuestion,
     fetchQuestionAnswers,
