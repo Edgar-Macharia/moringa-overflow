@@ -94,12 +94,12 @@ const ViewQuestion = () => {
 
   return (
     <>
-      <div className="flex justify-end mx-11">
+      <div className="flex justify-end mx-11 homepage">
       </div>
       {question ? (
 
-        <div className="questions-page flex justify-center items-center bg-gray-100 sm:p-6" key={question.id}>
-          <div className="w-70p sm:w-full bg-white shadow-xl rounded-lg p-3">
+        <div className="questions-page flex justify-center items-center bg-gray-100 sm:p-6 homepage" key={question.id}>
+          <div className="w-70p sm:w-full bg-white shadow-xl rounded-lg p-3 homepage">
             <div className="flex items-center justify-between mb-2">
               <div>
                 <button
@@ -119,32 +119,32 @@ const ViewQuestion = () => {
                   </button>
                 </Link>
 
-                
-             
-              {/* Buttons for Delete and Update */}
-              <div className="flex justify-end mt-4">
-                <button
-                  className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
-                  onClick={() => handleDeleteQuestion(question.id)}
-                >
-                  <FontAwesomeIcon icon={faTrash} className="w-5 h-5 mr-2" />
-                  Delete
-                </button>
-                <button
-                  className="text-white bg-yellow-700 hover:bg-yellow-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
-                  onClick={() => {
-                    // Add code to prompt for question update and call handleUpdateQuestion
-                  }}
-                >
-                  <FontAwesomeIcon icon={faEdit} className="w-5 h-5 mr-2" />
-                  Update
-                </button>
+
+
+                {/* Buttons for Delete and Update */}
+                <div className="flex justify-end mt-4">
+                  <button
+                    className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                    onClick={() => handleDeleteQuestion(question.id)}
+                  >
+                    <FontAwesomeIcon icon={faTrash} className="w-5 h-5 mr-2" />
+                    Delete
+                  </button>
+                  <button
+                    className="text-white bg-yellow-700 hover:bg-yellow-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                    onClick={() => {
+                      // Add code to prompt for question update and call handleUpdateQuestion
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faEdit} className="w-5 h-5 mr-2" />
+                    Update
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
 
-          
+
 
             <div className="question-details p-4 bg-white rounded-lg shadow-md">
               <h3 className="question-title text-xl font-bold mb-2">{question.title}</h3>

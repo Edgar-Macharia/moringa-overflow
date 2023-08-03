@@ -5,7 +5,7 @@ import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { QuestionsContext } from '../context/QuestionsContext';
 
 const SavedQuestions = () => {
-    const { questions, fetchQuestionAnswers } = useContext(QuestionsContext);
+  const { questions, fetchQuestionAnswers } = useContext(QuestionsContext);
   const { id } = useParams();
 
   const [answers, setAnswers] = useState([]);
@@ -44,14 +44,14 @@ const SavedQuestions = () => {
   };
   return (
     <div>
-        <div className="flex justify-end mx-11">
+      <div className="flex justify-end mx-11 homepage">
         <Link to='/SavedQuestions' className='mr-5'>
           <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 10">
             <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 1h10M6 5h10M6 9h10M1.49 1h.01m-.01 4h.01m-.01 4h.01" />
           </svg>
         </Link>
 
-        <div className="questions-btn">
+        <div className="questions-btn homepage">
           <Link to="/AskQuestion">
             <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
               Ask A Question
@@ -70,7 +70,7 @@ const SavedQuestions = () => {
           return (
             <div
               key={question.id || index}
-              className="questions-page flex justify-center items-center bg-gray-100 sm:p-6"
+              className="questions-page flex justify-center items-center bg-gray-100 sm:p-6 homepage"
             >
               <Link to={`/ViewQuestion/${question.id}`} className="w-70p sm:w-full bg-white shadow-xl rounded-lg p-3">
                 <div className="question-details p-4 bg-white rounded-lg shadow-md whitespace-normal">
