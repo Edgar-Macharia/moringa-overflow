@@ -75,36 +75,6 @@ export default function QuestionsProvider({ children }) {
       });
   };
 
-  ///Single Question
-  const fetchSingleQuestion = (id) => {
-    const token = sessionStorage.getItem("token");
-    if (!token) {
-      Swal.fire("Error", "Not authorized to view the question", "error");
-      return;
-    }
-
-    fetch(`/questions/${id}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch question");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setQuestion(data);
-        console.log(data)
-      })
-      .catch((error) => {
-        console.error("Error fetching question:", error);
-        Swal.fire("Error", "Failed to fetch question", "error");
-      });
-  };
-
   // Update a question
   const updateQuestion = (questionId, updatedQuestionData) => {
     const token = sessionStorage.getItem("token");
@@ -194,13 +164,16 @@ export default function QuestionsProvider({ children }) {
         Swal.fire("Error", "Failed to search questions", "error");
       });
   };
-///fetch tags
+
   const fetchTags = () => {
-    fetch('/tags') 
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setTags(data); // Assuming the response is an array of tag objects
+    axios
+      .get('/tags', {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        },
+      })
+      .then((response) => {
+        setTags(response.data); // Assuming the response is an array of tag objects
       })
       .catch((error) => {
         console.error('Error fetching tags:', error);
@@ -208,10 +181,30 @@ export default function QuestionsProvider({ children }) {
       });
   };
 
+
+  const createTag = async (tagName) => {
+    try {
+      const response = await axios.post('/tags', { name: tagName }, { // Adjust the API endpoint as needed
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('Error creating tag:', error);
+      return null;
+    }
+  };
+
+  const addTag = (tag) => {
+    setTags((prevTags) => [...prevTags, tag]);
+  };
+
   const contextData = {
     questions,
     fetchQuestions,
-    fetchSingleQuestion,
     createQuestion,
     updateQuestion,
     deleteQuestion,
@@ -219,6 +212,8 @@ export default function QuestionsProvider({ children }) {
     fetchTags,
     tags,
     notifications,
+    createTag,
+    addTag,
   };
 
   return (

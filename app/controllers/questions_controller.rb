@@ -29,17 +29,24 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params)
   
-    if @question.save
-      # Handle tags association
-      tag_ids = params[:question][:tag_ids]
-      @question.tags << Tag.find(tag_ids) if tag_ids.present?
+    tag_ids = params[:question][:tag_ids]
+    tag_names = params[:question][:tag_names]
   
+    if tag_ids.present?
+      @question.tags << Tag.find(tag_ids)
+    elsif tag_names.present?
+      tag_names.each do |tag_name|
+        tag = Tag.find_or_create_by(name: tag_name)
+        @question.tags << tag
+      end
+    end
+  
+    if @question.save
       render json: @question, status: :created, location: @question
     else
       render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
     end
-  end
-  
+  end 
 
   # PATCH/PUT /questions/1 or /questions/1.json
   def update
@@ -87,6 +94,6 @@ class QuestionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def question_params
-    params.require(:question).permit(:title, :body, :user_id, :tag_ids)
+    params.require(:question).permit(:title, :body, :user_id, tag_ids: [], tag_names: [])
   end  
 end

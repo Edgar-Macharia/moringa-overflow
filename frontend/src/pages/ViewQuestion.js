@@ -1,11 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
-import { QuestionsContext } from '../context/QuestionsContext';
 
 const ViewQuestion = () => {
-  const { fetchSingleQuestion } = useContext(QuestionsContext)
   const { id } = useParams();
 
   const [question, setQuestion] = useState();
