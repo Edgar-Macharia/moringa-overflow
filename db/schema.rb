@@ -48,7 +48,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_02_204531) do
   create_table "notifications", force: :cascade do |t|
     t.string "message"
     t.integer "user_id"
-    t.boolean "is_read", default: false
+    t.boolean "read_status", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -63,6 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_02_204531) do
   create_table "questions", force: :cascade do |t|
     t.string "title"
     t.text "body"
+    t.boolean "archive", default: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

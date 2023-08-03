@@ -19,6 +19,7 @@ import QuestionsProvider from "./context/QuestionsContext";
 import AnswerQuestion from "./pages/Answers";
 import ViewQuestion from "./pages/ViewQuestion";
 import ViewTag from "./pages/ViewTag";
+import SavedQuestions from "./pages/SavedQuestions";
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
             <Route path="/Answers/:question_id" element={<AnswerQuestion />} />
             <Route path="/ViewQuestion/:id" element={<ViewQuestion />} />
             <Route path="/ViewTag/:id" element={<ViewTag />} />
+            <Route path="/SavedQuestions" element={<SavedQuestions />} />
           </Route>
         </Routes>
         </QuestionsProvider>
