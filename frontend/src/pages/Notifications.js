@@ -12,18 +12,32 @@ const Notifications = () => {
  }, []);
 
 
- const fetchNotifications = async () => {
-   try {
-     //const response = await axios.get('/api/notifications');
-     const response = await axios.get('/api/notifications');
+//  const fetchNotifications = async () => {
+//    try {
+//      //const response = await axios.get('/api/notifications');
+//      const response = await axios.get('/notifications');
 
-     setNotifications(response.data);
-   } catch (error) {
-     console.error('Error fetching notifications:', error);
-   }
- };
-
-
+//      setNotifications(response.data);
+//    } catch (error) {
+//      console.error('Error fetching notifications:', error);
+//    }
+//  };
+const fetchNotifications = async () => {
+  try {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+    const response = await axios.get('/notifications', {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+console.log(response.data);
+    setNotifications(response.data);
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+  }
+}
  const markNotificationAsRead = async (id) => {
    try {
      await axios.patch(`/notifications/mark_as_read/${id}`);

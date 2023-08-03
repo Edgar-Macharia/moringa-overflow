@@ -3,6 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { QuestionsContext } from '../context/QuestionsContext';
 import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
 const AnswerQuestion = () => {
@@ -22,14 +23,15 @@ const AnswerQuestion = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user_id = sessionStorage.getItem("userId");
+    const user_id = sessionStorage.getItem('userId');
+    const sanitizedValue = DOMPurify.sanitize(body, { ALLOWED_TAGS: [] }); // Remove all tags
     const answer = {
-      body,
-      user_id,
-      question_id
+       body,
+       user_id,
+       question_id
     };
     console.log(answer);
-    createAnswer(answer); // Assuming "createQuestion" handles the question creation logic
+    createAnswer(answer);
   };
 
   return (
@@ -65,6 +67,7 @@ const AnswerQuestion = () => {
                 'image',
               ]}
               placeholder="Enter the details of your question"
+              bounds={['self', 'br']}
             />
           </div>
           <div className="flex justify-center">
