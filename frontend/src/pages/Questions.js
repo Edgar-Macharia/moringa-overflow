@@ -82,7 +82,7 @@ const Questions = () => {
           return (
             <div
               key={question.id || index}
-              className="questions-page flex justify-center items-center bg-gray-100 sm:p-6"
+              className="questions-page flex justify-center items-center bg-gray-100 sm:p-6 homepage"
             >
               <Link to={`/ViewQuestion/${question.id}`} className="w-70p sm:w-full bg-white shadow-xl rounded-lg p-3">
                 <div className="question-details p-4 bg-white rounded-lg shadow-md whitespace-normal">

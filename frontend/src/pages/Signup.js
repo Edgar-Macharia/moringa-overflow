@@ -1,5 +1,5 @@
-import React,{useState, useContext} from 'react'
-import { Link} from 'react-router-dom';
+import React, { useState, useContext } from 'react'
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 
@@ -10,7 +10,7 @@ const Signup = () => {
     password: '',
     password_confirmation: ''
   });
-  const {registerUser} = useContext(AuthContext)
+  const { registerUser } = useContext(AuthContext)
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -37,15 +37,15 @@ const Signup = () => {
   const { username, email, password, password_confirmation } = userData;
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <section className="bg-gray-50 dark:bg-gray-900 homepage">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign up
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#"  onSubmit={handleSubmit}>
-            <div>
+            <form className="space-y-4 md:space-y-6" action="#" onSubmit={handleSubmit}>
+              <div>
                 <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
                 <input
                   type="text"
@@ -106,8 +106,8 @@ const Signup = () => {
                 Sign up
               </button>
               <div className='text-sm font-light text-gray-500 dark:text-gray-400'>Already Registered?  <Link className='font-medium text-primary-600 hover:underline dark:text-primary-500' to="/login">
-                  login
-                </Link>
+                login
+              </Link>
               </div>
             </form>
           </div>
