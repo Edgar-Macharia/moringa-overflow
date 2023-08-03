@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
+import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -8,14 +9,24 @@ export default function QuestionsProvider({ children }) {
   const nav = useNavigate();
   const [questions, setQuestions] = useState([]);
   const [question, setQuestion] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
   const [tags, setTags] = useState([]);
   // const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
-
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.get("/api/notifications");
+      setNotifications(response.data);
+      console.log(setNotifications);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  };
   
   useEffect(()=>{
     fetchQuestions()
     fetchTags()
+    fetchNotifications();
   }, [])
 
   // Fetch all questions
@@ -207,6 +218,7 @@ export default function QuestionsProvider({ children }) {
     searchQuestions,
     fetchTags,
     tags,
+    notifications,
   };
 
   return (
