@@ -4,7 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 import { QuestionsContext } from '../context/QuestionsContext';
 
 const AskQuestion = () => {
-  const {tags,fetchTags} = useContext(QuestionsContext);
+  const { tags, fetchTags } = useContext(QuestionsContext);
   const { createQuestion } = useContext(QuestionsContext);
   const [body, setBody] = useState('');
   const [title, setTitle] = useState("");
@@ -21,8 +21,8 @@ const AskQuestion = () => {
     }
     return div.innerHTML;
   };
-    
-  useEffect(()=>{
+
+  useEffect(() => {
     fetchTags()
   }, [])
 
@@ -38,7 +38,7 @@ const AskQuestion = () => {
   const handleBodyChange = (value) => {
     setBody(value);
   };
-  
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +56,7 @@ const AskQuestion = () => {
 
 
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center homepage">
       <div className="container mx-auto py-8 max-w-screen-lg flex flex-col h-full">
         <h1 className="text-3xl font-bold mb-4">Ask a Question</h1>
         <form className="flex-grow max-w-sm mx-auto" onSubmit={handleSubmit}>
@@ -76,29 +76,29 @@ const AskQuestion = () => {
           <div className="mb-4 flex-grow">
             <label htmlFor="body" className="block text-lg font-semibold mb-2">Body</label>
             <ReactQuill
-      value={body}
-      onChange={handleBodyChange}
-      modules={{
-        toolbar: [
-          [{ header: [1, 2, 3, 4, 5, 6, false] }],
-          ['bold', 'italic', 'underline', 'strike'],
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          ['link', 'image'],
-          ['clean'],
-        ],
-       
-      }}
-      formats={[
-        'header',
-        'bold',
-        'italic',
-        'underline',
-        'strike',
-        'list',
-        'bullet',
-        'link',
-        'image',
-      ]}
+              value={body}
+              onChange={handleBodyChange}
+              modules={{
+                toolbar: [
+                  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                  ['bold', 'italic', 'underline', 'strike'],
+                  [{ list: 'ordered' }, { list: 'bullet' }],
+                  ['link', 'image'],
+                  ['clean'],
+                ],
+
+              }}
+              formats={[
+                'header',
+                'bold',
+                'italic',
+                'underline',
+                'strike',
+                'list',
+                'bullet',
+                'link',
+                'image',
+              ]}
               placeholder="Enter the details of your question"
               bounds={['self', 'br']}
             />
