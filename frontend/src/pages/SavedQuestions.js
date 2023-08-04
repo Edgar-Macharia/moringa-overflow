@@ -10,6 +10,22 @@ const SavedQuestions = () => {
   return (
     <div>
         <p className='ml-5 text-lg'>Saved Questions</p>
+      <div className="flex justify-end mx-11 homepage">
+        <Link to='/SavedQuestions' className='mr-5'>
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 1h10M6 5h10M6 9h10M1.49 1h.01m-.01 4h.01m-.01 4h.01" />
+          </svg>
+        </Link>
+
+        <div className="questions-btn homepage">
+          <Link to="/AskQuestion">
+            <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+              Ask A Question
+            </button>
+          </Link>
+        </div>
+      </div>
+    
       {questions && questions.length === 0 ? (
         <p>No saved questions found.</p>
       ) : (
@@ -38,13 +54,7 @@ const SavedQuestions = () => {
                 </div>
                 <div className='flex items-center justify-between'>
                   <p className="text-sm text-gray-500 mb-2">By: {question.user_id}</p>
-                </div>
-              </div>
-            </Link>
-          </div>
-        ))
-      )}
-    </div>
+
   )
 }
 

@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   # GET /questions or /questions.json
   def index
     @questions = Question.includes(:tags, :answers)
-    render json: @questions, each_serializer: QuestionSerializer, include: ['answers', 'tags']
+    render json: @questions, each_serializer: QuestionSerializer, include: ['answers', 'tags', 'author_username']
   end  
 
   # GET /questions/1 or /questions/1.json
@@ -29,11 +29,18 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params)
   
-    if @question.save
-      # Handle tags association
-      tag_ids = params[:question][:tag_ids]
-      @question.tags << Tag.find(tag_ids) if tag_ids.present?
+    tag_names = params[:question][:tag_names]
   
+    if tag_names.present?
+      # Iterate over the tag names and create tags for them.
+      # Then, add the tags to the question.
+      tag_names.each do |tag_name|
+        tag = Tag.find_or_create_by(name: tag_name)
+        @question.tags << tag
+      end
+    end
+  
+    if @question.save
       render json: @question, status: :created, location: @question
     else
       render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
@@ -107,6 +114,6 @@ class QuestionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def question_params
-    params.require(:question).permit(:title, :body, :user_id, :tag_ids)
+    params.require(:question).permit(:title, :body, :user_id, tag_ids: [], tag_names: [])
   end  
 end
