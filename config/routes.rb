@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   post '/logout', to: 'sessions#create'
   get "/questions/search", to: "questions#search"
   delete '/questions', to: 'questions#destroy'
+  patch '/questions/:id/archive', to: 'questions#archive'
   
   # Defines the root path route ("/")
   # root "articles#index"
