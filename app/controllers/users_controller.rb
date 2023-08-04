@@ -14,22 +14,30 @@ class UsersController < ApplicationController
     end
   end
 
-  def update
-    user = User.find(params[:id])
+def update
+  user = User.find(params[:id])
 
-    # Check if the current user is the same as the one being updated
-    if user.id != current_user.id
-      render json: { errors: ["Unauthorized to perform this action"] }, status: :unauthorized
-      return
-    end
-
-    # Update the user's profile attributes except for the password
-    if user.update(user_params.except(:password, :password_confirmation))
-      render json: { message: "Profile updated successfully" }, status: :ok
-    else
-      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
-    end
+  # Check if the username already exists
+  if User.exists?(username: params[:username]) && user.username != params[:username]
+    render json: { errors: ["Username already exists"] }, status: :unprocessable_entity
+    return
   end
+
+  # Check if the email already exists
+  if User.exists?(email: params[:email]) && user.email != params[:email]
+    render json: { errors: ["Email already exists"] }, status: :unprocessable_entity
+    return
+  end
+
+  # Update the user's profile attributes
+  if user.update(params.require(:user).permit(:username, :email, :password))
+    render json: { message: "Profile updated successfully" }, status: :ok
+  else
+    render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+  end
+end
+
+  
 
   def reset_password
     user = User.find(params[:id])
@@ -71,7 +79,10 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:username, :email, :password, :password_confirmation)
+    params.permit(:username, :email, :password, :password_confirmation, :current_password)
   end
   
+  def update_params
+    params.require(:user).permit(:username, :email)
+  end
 end
