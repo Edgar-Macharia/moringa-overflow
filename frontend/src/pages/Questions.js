@@ -109,8 +109,11 @@ const Questions = () => {
                     </button>
                   </div>
                   <div className='flex items-center justify-between'>
-                    <p className="text-sm text-gray-500 mb-2">Answers: {question && question.answers && question.answers.length}</p>
-                    <p className='text-sm text-gray-500 mb-2'>By:{question.user_id}</p>
+                    <p className="text-sm text-brown-500 font-medium mb-2">Answers: {question && question.answers && question.answers.length}</p>
+                    <p className="text-sm text-blue-500 font-medium mb-2">
+                      {question && question.tag_names && JSON.parse(question.tag_names).join(', ')}
+                      </p>
+                    <p className='text-sm text-brown-500 font-medium mb-2'>{question.author_username}</p>
                   </div>
                 </div>
               </Link>

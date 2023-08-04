@@ -15,4 +15,8 @@ class Question < ApplicationRecord
         tag.increment!(:frequency)
       end
     end
+
+    def author_username
+      user.username
+    end
 end
