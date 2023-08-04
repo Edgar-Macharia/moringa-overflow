@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -272,8 +272,6 @@ const createAnswer = (newAnswerData) => {
     questions,
     createAnswer,
     fetchQuestions,
-    fetchSingleQuestion,
-    fetchQuestionAnswers,
     createQuestion,
     updateQuestion,
     deleteQuestion,

@@ -2,13 +2,14 @@ import React, { useState, useContext, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { QuestionsContext } from '../context/QuestionsContext';
+import DOMPurify from 'dompurify';
 
 const AskQuestion = () => {
   const { tags, fetchTags } = useContext(QuestionsContext);
   const { createQuestion } = useContext(QuestionsContext);
   const [body, setBody] = useState('');
   const [title, setTitle] = useState("");
-  const [tag_id, setTagId] = useState("");
+  const [tagInput, setTagInput] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const removePTags = (html) => {
     const div = document.createElement('div');
@@ -25,9 +26,10 @@ const AskQuestion = () => {
   useEffect(() => {
     fetchTags()
   }, [])
-
+  
   const handleTitleChange = (e) => {
-    setTitle(e.target.value);
+    const sanitizedTitle = DOMPurify.sanitize(e.target.value);
+    setTitle(sanitizedTitle);
   };
 
   const handleTagsChange = (e) => {
@@ -35,25 +37,30 @@ const AskQuestion = () => {
     setSelectedTags(selectedValues);
   };
 
-  const handleBodyChange = (value) => {
-    setBody(value);
+  const handleTagInputKeyPress = (e) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      const tagInputValue = tagInput.trim();
+      if (tagInputValue && !selectedTags.includes(tagInputValue)) {
+        setSelectedTags([...selectedTags, tagInputValue]);
+        setTagInput('');
+      }
+    }
   };
-
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user_id = sessionStorage.getItem("userId");
+    const user_id = sessionStorage.getItem('userId');
     const question = {
       title,
-      body: removePTags(body), // Remove <p> tags before submitting
-      tag_ids: selectedTags,
+      body: removePTags(body), 
+      tag_names: selectedTags,
       user_id,
+      
     };
-    console.log("Question Data:", question);
+    console.log('Question Data:', question);
     createQuestion(question);
   };
-
-
 
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center homepage">
@@ -62,7 +69,6 @@ const AskQuestion = () => {
         <form className="flex-grow max-w-sm mx-auto" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="title" className="block text-lg font-semibold mb-2">Title</label>
-            Be specific and imagine you’re asking a question to another person.
             <input
               type="text"
               id="title"
@@ -105,26 +111,29 @@ const AskQuestion = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="tags" className="block text-lg font-semibold mb-2">Tags</label>
-            {tags && tags.length > 0 ? (
-              <select
-                multiple
-                id="tags"
-                name="tags"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-                value={selectedTags}
-                onChange={handleTagsChange}
-              >
-                {tags.map((tag) => (
-                  <option key={tag.id} value={tag.id}>
-                    {tag.name}
-                  </option>
+            <input
+              type="text"
+              id="tags"
+              name="tags"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              placeholder="Enter tags (e.g., javascript, react)"
+              value={tagInput}
+              onChange={handleTagInputChange}
+              onKeyPress={handleTagInputKeyPress}
+            />
+            {tags.length > 0 && (
+              <div className="mt-2">
+                Selected Tags:{' '}
+                {selectedTags.map((tag, index) => (
+                  <span key={index} className="px-2 py-1 text-white bg-blue-600 ml-2 rounded">
+                    {tag}
+                  </span>
                 ))}
-              </select>
-            ) : (
-              <p className="text-sm text-gray-500 mt-1">
-                No tags available.
-              </p>
+              </div>
             )}
+            <p className="text-sm text-gray-500 mt-1">
+              Add tags by typing and pressing Enter or comma.
+            </p>
           </div>
           <div className="flex justify-center">
             <button
