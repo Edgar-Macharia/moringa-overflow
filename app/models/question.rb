@@ -7,15 +7,8 @@ class Question < ApplicationRecord
     after_save :update_tag_frequency
     validates :title, presence: true, uniqueness: true
     validates :body, presence: true
-    serialize :tag_names, Array
-
-    before_save :update_tag_names
 
     private
-  
-    def update_tag_names
-      self.tag_names = tags.map(&:name)
-    end
 
     def update_tag_frequency
       tags.each do |tag|

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_03_105541) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_03_231401) do
   create_table "answers", force: :cascade do |t|
     t.text "body"
     t.integer "user_id", null: false
@@ -86,7 +86,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_105541) do
     t.integer "frequency"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "question_ids"
   end
 
   create_table "upvotes", force: :cascade do |t|

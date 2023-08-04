@@ -8,10 +8,19 @@ const AskQuestion = () => {
   const { tags, fetchTags, createQuestion, createTag, addTag } = useContext(QuestionsContext);
   const [body, setBody] = useState('');
   const [title, setTitle] = useState("");
-  const [tag_id, setTagId] = useState("");
   const [tagInput, setTagInput] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
-
+  const removePTags = (html) => {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    const paragraphs = div.getElementsByTagName('p');
+    for (let i = paragraphs.length - 1; i >= 0; i--) {
+      const paragraph = paragraphs[i];
+      paragraph.parentNode.insertBefore(paragraph.firstChild, paragraph);
+      paragraph.parentNode.removeChild(paragraph);
+    }
+    return div.innerHTML;
+  };
     
   useEffect(()=>{
     fetchTags()
@@ -31,40 +40,24 @@ const handleBodyChange = (value) => {
     setTagInput(e.target.value);
   };
 
-  const handleTagInputKeyPress = async (e) => {
+  const handleTagInputKeyPress = (e) => {
     if (e.key === 'Enter' || e.key === ',') {
       e.preventDefault();
       const tagInputValue = tagInput.trim();
-      
-      if (tagInputValue) {
-        const existingTag = tags.find(tag => tag.name.toLowerCase() === tagInputValue.toLowerCase());
-
-        if (existingTag) {
-          setSelectedTags([...selectedTags, existingTag.id]);
-        } else {
-          // If tag doesn't exist, create it
-          const newTag = await createTag(tagInputValue);
-          if (newTag && newTag.id) {
-            console.log('New Tag:', newTag);
-            console.log('Selected Tags:', selectedTags);
-            setSelectedTags([...selectedTags, newTag.id]);
-            addTag(newTag);
-          }
-        }
-
+      if (tagInputValue && !selectedTags.includes(tagInputValue)) {
+        setSelectedTags([...selectedTags, tagInputValue]);
         setTagInput('');
       }
     }
   };
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const user_id = sessionStorage.getItem('userId');
     const question = {
       title,
-      body,
-      tag_ids: selectedTags,
-      tag_names: selectedTags.map(tagId => tags.find(tag => tag.id === tagId)?.name),
+      body: removePTags(body), 
+      tag_names: selectedTags,
       user_id,
       
     };
@@ -92,29 +85,31 @@ const handleBodyChange = (value) => {
           <div className="mb-4 flex-grow">
             <label htmlFor="body" className="block text-lg font-semibold mb-2">Body</label>
             <ReactQuill
-              value={body}
-              onChange={handleBodyChange}
-              modules={{
-                toolbar: [
-                  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                  ['bold', 'italic', 'underline', 'strike'],
-                  [{ list: 'ordered' }, { list: 'bullet' }],
-                  ['link', 'image'],
-                  ['clean'],
-                ],
-              }}
-              formats={[
-                'header',
-                'bold',
-                'italic',
-                'underline',
-                'strike',
-                'list',
-                'bullet',
-                'link',
-                'image',
-              ]}
+      value={body}
+      onChange={handleBodyChange}
+      modules={{
+        toolbar: [
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['link', 'image'],
+          ['clean'],
+        ],
+       
+      }}
+      formats={[
+        'header',
+        'bold',
+        'italic',
+        'underline',
+        'strike',
+        'list',
+        'bullet',
+        'link',
+        'image',
+      ]}
               placeholder="Enter the details of your question"
+              bounds={['self', 'br']}
             />
           </div>
           <div className="mb-4">

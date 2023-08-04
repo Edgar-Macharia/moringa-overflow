@@ -29,12 +29,11 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params)
   
-    tag_ids = params[:question][:tag_ids]
     tag_names = params[:question][:tag_names]
   
-    if tag_ids.present?
-      @question.tags << Tag.find(tag_ids)
-    elsif tag_names.present?
+    if tag_names.present?
+      # Iterate over the tag names and create tags for them.
+      # Then, add the tags to the question.
       tag_names.each do |tag_name|
         tag = Tag.find_or_create_by(name: tag_name)
         @question.tags << tag
@@ -46,7 +45,8 @@ class QuestionsController < ApplicationController
     else
       render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
     end
-  end 
+  end
+  
 
   # PATCH/PUT /questions/1 or /questions/1.json
   def update
@@ -62,6 +62,19 @@ class QuestionsController < ApplicationController
     @question.destroy
     render json: { message: "Question was successfully destroyed." }
   end
+
+    # Archive question
+  def archive
+    question = Question.find_by(id: params[:id])
+
+    if question
+      question.update(archived: true) # Set the 'archived' attribute to true
+      render json: { success: "Question archived successfully!" }, status: :ok
+    else
+      render json: { error: "Question not found" }, status: :not_found
+    end
+  end
+
 
   def search
     query = params[:q]
@@ -81,6 +94,13 @@ class QuestionsController < ApplicationController
     end
   
     render json: { questions: @questions, success: "Successful search." }, each_serializer: QuestionSerializer, include: 'answers'
+  end
+
+  def answers
+    question = Question.find(params[:id])
+    answers = question.answers
+
+    render json: answers
   end
   
   private

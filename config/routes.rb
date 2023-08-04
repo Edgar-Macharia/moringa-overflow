@@ -14,7 +14,11 @@ Rails.application.routes.draw do
     collection do
       get 'search', to: 'questions#search'
     end
+    member do
+      get 'answers', to: 'questions#answers'
+    end
   end
+  
   resources :users, only: [:create, :show, :update] do
     member do
       put :reset_password

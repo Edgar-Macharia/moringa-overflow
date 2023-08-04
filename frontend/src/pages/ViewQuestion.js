@@ -73,19 +73,38 @@ const ViewQuestion = () => {
       }));
     }
   };
+  const handleArchiveQuestion = () => {
+    // Check if the question is already archived or not
+    if (question.isArchived) {
+      // If archived, you want to unarchive it
+      // archiveQuestion(question.id, false);
+    } else {
+      // If not archived, you want to archive it
+      // archiveQuestion(question.id, true);
+    }
+  };
 
   return (
     <>
       <div className="flex justify-end mx-11">
       </div>
       {question ? (
-        <div
-          className="questions-page flex justify-center items-center bg-gray-100 sm:p-6"
-          key={question.id}
-        >
+
+        <div className="questions-page flex justify-center items-center bg-gray-100 sm:p-6" key={question.id}>
           <div className="w-70p sm:w-full bg-white shadow-xl rounded-lg p-3">
-            <div className="flex justify-end mx-11">
-              <div className="questions-btn">
+            <div className="flex items-center justify-between mb-2">
+              <div>
+                <button
+                  className="text-white hover:bg-white-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-brown-600 dark:hover:bg-brown-700 focus:outline-none dark:focus:ring-brown-800"
+                  onClick={handleArchiveQuestion} // Add the function to handle archiving the question
+                >
+                  <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="20" fill="none" viewBox="0 0 18 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 2h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m6 0v3H6V2m6 0a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1M5 5h8m-5 5h5m-8 0h.01M5 14h.01M8 14h5" />
+                  </svg>
+                </button>
+              </div>
+
+              <div>
                 <Link to={`/Answers/${question.id}`}>
                   <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                     Answer Question

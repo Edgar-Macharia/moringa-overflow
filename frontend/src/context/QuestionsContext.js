@@ -15,8 +15,8 @@ export default function QuestionsProvider({ children }) {
   // const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get("/api/notifications");
-      setNotifications(response.data);
+      // const response = await axios.get("/api/notifications");
+      // setNotifications(response.data);
       console.log(setNotifications);
     } catch (error) {
       console.error("Error fetching notifications:", error);
