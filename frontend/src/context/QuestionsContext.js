@@ -189,7 +189,7 @@ const createAnswer = (newAnswerData) => {
           Swal.fire("Error", data.errors, "error");
         } else {
           Swal.fire("Success", "Question updated successfully", "success");
-          nav(`/questions/${questionId}`);
+          nav(`/viewquestion/${questionId}`);
         }
       })
       .catch((error) => {
@@ -197,6 +197,38 @@ const createAnswer = (newAnswerData) => {
         Swal.fire("Error", "Failed to update question", "error");
       });
   };
+
+  // archive a question
+  const archiveQuestion = (id) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      Swal.fire("Error", "Not authorized to archive question", "error");
+      return;
+    }
+
+    fetch(`/questions/${id}/archive`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ archive: true }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.errors) {
+          Swal.fire("Error", data.errors, "error");
+        } else {
+          Swal.fire("Success", "Question archived successfully!", "success");
+          nav(`/viewquestion/${id}`);
+        }
+      })
+      .catch((error) => {
+        console.error("Error archiving question:", error);
+        Swal.fire("Error", "Failed to archive question", "error");
+      });
+  };
+
 
   // Delete a question
   const deleteQuestion = (questionId) => {
@@ -317,6 +349,7 @@ const createAnswer = (newAnswerData) => {
     deleteQuestion,
     searchQuestions,
     fetchTags,
+    archiveQuestion,
     tags,
     notifications,
     upvoteQuestion,
