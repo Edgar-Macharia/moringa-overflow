@@ -268,27 +268,6 @@ const createAnswer = (newAnswerData) => {
       });
   };
 
-
-  const createTag = async (tagName) => {
-    try {
-      const response = await axios.post('/tags', { name: tagName }, { // Adjust the API endpoint as needed
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-        },
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error('Error creating tag:', error);
-      return null;
-    }
-  };
-
-  const addTag = (tag) => {
-    setTags((prevTags) => [...prevTags, tag]);
-  };
-
   const contextData = {
     questions,
     createAnswer,
@@ -300,8 +279,6 @@ const createAnswer = (newAnswerData) => {
     fetchTags,
     tags,
     notifications,
-    createTag,
-    addTag,
   };
 
   return (
