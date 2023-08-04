@@ -1,44 +1,32 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { QuestionsContext } from '../context/QuestionsContext';
 import DOMPurify from 'dompurify';
 
 const AskQuestion = () => {
-  const { tags, fetchTags } = useContext(QuestionsContext);
-  const { createQuestion } = useContext(QuestionsContext);
-  const [body, setBody] = useState('');
-  const [title, setTitle] = useState("");
+  const { tags, createQuestion } = useContext(QuestionsContext);
+  const [title, setTitle] = useState('');
   const [tagInput, setTagInput] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
-  const removePTags = (html) => {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    const paragraphs = div.getElementsByTagName('p');
-    for (let i = paragraphs.length - 1; i >= 0; i--) {
-      const paragraph = paragraphs[i];
-      paragraph.parentNode.insertBefore(paragraph.firstChild, paragraph);
-      paragraph.parentNode.removeChild(paragraph);
-    }
-    return div.innerHTML;
-  };
 
-  useEffect(() => {
-    fetchTags()
-  }, [])
-  
+  const [editorHtml, setEditorHtml] = useState('');
+
   const handleTitleChange = (e) => {
     const sanitizedTitle = DOMPurify.sanitize(e.target.value);
     setTitle(sanitizedTitle);
   };
 
-  const handleTagsChange = (e) => {
-    const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
-    setSelectedTags(selectedValues);
+  const handleBodyChange = (html) => {
+    setEditorHtml(html);
+  };
+
+  const handleTagInputChange = (e) => {
+    setTagInput(e.target.value);
   };
 
   const handleTagInputKeyPress = (e) => {
-    if (e.key === 'Enter' || e.key === ',') {
+    if (e.key === ',') {
       e.preventDefault();
       const tagInputValue = tagInput.trim();
       if (tagInputValue && !selectedTags.includes(tagInputValue)) {
@@ -47,19 +35,29 @@ const AskQuestion = () => {
       }
     }
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const user_id = sessionStorage.getItem('userId');
+
+    // Create a hidden div element to get the text content
+    const div = document.createElement('div');
+    div.innerHTML = editorHtml;
+    const textContent = div.textContent || div.innerText;
+
     const question = {
       title,
-      body: removePTags(body), 
+      body: textContent,
       tag_names: selectedTags,
       user_id,
-      
     };
     console.log('Question Data:', question);
     createQuestion(question);
+  };
+
+  const handleRemoveTag = (tagToRemove) => {
+    const updatedTags = selectedTags.filter((tag) => tag !== tagToRemove);
+    setSelectedTags(updatedTags);
   };
 
   return (
@@ -82,7 +80,7 @@ const AskQuestion = () => {
           <div className="mb-4 flex-grow">
             <label htmlFor="body" className="block text-lg font-semibold mb-2">Body</label>
             <ReactQuill
-              value={body}
+              value={editorHtml}
               onChange={handleBodyChange}
               modules={{
                 toolbar: [
@@ -92,7 +90,6 @@ const AskQuestion = () => {
                   ['link', 'image'],
                   ['clean'],
                 ],
-
               }}
               formats={[
                 'header',
@@ -119,13 +116,16 @@ const AskQuestion = () => {
               placeholder="Enter tags (e.g., javascript, react)"
               value={tagInput}
               onChange={handleTagInputChange}
-              onKeyPress={handleTagInputKeyPress}
+              onKeyDown={handleTagInputKeyPress}
             />
             {tags.length > 0 && (
               <div className="mt-2">
                 Selected Tags:{' '}
                 {selectedTags.map((tag, index) => (
-                  <span key={index} className="px-2 py-1 text-white bg-blue-600 ml-2 rounded">
+                  <span key={index} 
+                  className="px-2 py-1 text-white bg-blue-600 ml-2 rounded"
+                  onClick={() => handleRemoveTag(tag)}
+                  >
                     {tag}
                   </span>
                 ))}
