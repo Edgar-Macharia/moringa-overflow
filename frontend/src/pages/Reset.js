@@ -12,11 +12,11 @@ const Reset = () => {
   };
 
   return (
-    <div className="container mx-auto p-24">
-      <div className="max-w-sm mx-auto rounded-lg shadow-md homepage">
+    <div className="mx-auto p-24">
+      <div className="container max-w-sm mx-auto rounded-lg shadow-md">
         <p className="text-center mt-6">Forgot your account’s password? Enter your email address and we’ll send you a recovery link.</p>
         <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-          <div>
+          <div className="flex justify-center px-10 p-4 px-8 mt-4">
             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email</label>
             <input
               type="email"
@@ -28,9 +28,11 @@ const Reset = () => {
             />
 
           </div>
-          <div className="flex justify-center mt-4">
-            <button type="submit" className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Send Recovery email</button>
+          <div className="flex justify-center px-10 p-10 px-8 mt-4">
+            <button type="submit" className="w-60 p-10 text-white hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">Send Recovery email</button>
           </div>
+
+
         </form>
         {recoverySent && (
           <div className="mt-4 flex justify-center">
