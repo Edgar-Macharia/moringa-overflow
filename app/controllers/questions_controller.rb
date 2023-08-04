@@ -64,16 +64,18 @@ class QuestionsController < ApplicationController
   end
 
     # Archive question
-  def archive
-    question = Question.find_by(id: params[:id])
-
-    if question
-      question.update(archive: true) # Set the 'archived' attribute to true
-      render json: { success: "Question saved successfully!" }, status: :ok
-    else
-      render json: { error: "Question not found" }, status: :not_found
+ 
+    
+    def archive
+      question = Question.find_by(id: params[:id])
+    
+      if question
+        question.update(archive: !question.archive) # Toggle the 'archive' attribute
+        render json: { success: "Question archived/unarchived successfully!" }, status: :ok
+      else
+        render json: { error: "Question not found" }, status: :not_found
+      end
     end
-  end
 
 
   def search

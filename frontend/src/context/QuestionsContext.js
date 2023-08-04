@@ -212,7 +212,7 @@ const createAnswer = (newAnswerData) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ archive: true }),
+      // body: JSON.stringify({ archive: true }),
     })
       .then((res) => res.json())
       .then((data) => {
