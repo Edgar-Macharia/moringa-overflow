@@ -180,10 +180,11 @@ export default function AuthProvider({ children }) {
   };
 
   const editUserProfile = (newProfileData) => {
+    const userId = sessionStorage.getItem("userId");
     const token = sessionStorage.getItem("token");
     if (!token) return;
 
-    fetch("/users/profile", {
+    fetch(`/users/${userId}`, {
       method: "PUT",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -193,9 +194,12 @@ export default function AuthProvider({ children }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        Swal.fire("Success", data.message, "success");
-        const userId = sessionStorage.getItem("userId");
-        fetchUserById(userId);
+        if (data.message) {
+          Swal.fire("Success", data.message, "success");
+          fetchUserById(userId);
+        } else {
+          Swal.fire("Error", data.errors[0], "error");
+        }
       })
       .catch((error) => {
         console.error("Error editing user profile:", error);

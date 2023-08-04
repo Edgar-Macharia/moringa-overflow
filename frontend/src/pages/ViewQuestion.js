@@ -5,7 +5,7 @@ import { faThumbsUp, faThumbsDown, faTrash, faEdit } from '@fortawesome/free-sol
 import { QuestionsContext } from '../context/QuestionsContext';
 
 const ViewQuestion = () => {
-  const { fetchSingleQuestion, deleteQuestion } = useContext(QuestionsContext)
+  const { deleteQuestion } = useContext(QuestionsContext)
   const { id } = useParams();
 
   const [question, setQuestion] = useState();
