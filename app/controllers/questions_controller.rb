@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   # GET /questions or /questions.json
   def index
     @questions = Question.includes(:tags, :answers)
-    render json: @questions, each_serializer: QuestionSerializer, include: ['answers', 'tags']
+    render json: @questions, each_serializer: QuestionSerializer, include: ['answers', 'tags', 'author_username']
   end  
 
   # GET /questions/1 or /questions/1.json
