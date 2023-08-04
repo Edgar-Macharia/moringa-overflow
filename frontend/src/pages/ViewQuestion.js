@@ -5,7 +5,8 @@ import { faThumbsUp, faThumbsDown, faTrash, faEdit } from '@fortawesome/free-sol
 import { QuestionsContext } from '../context/QuestionsContext';
 
 const ViewQuestion = () => {
-  const { deleteQuestion } = useContext(QuestionsContext)
+
+  const { archiveQuestion, updateQuestion, deleteQuestion } = useContext(QuestionsContext)
   const { id } = useParams();
 
   const [question, setQuestion] = useState();
@@ -75,21 +76,24 @@ const ViewQuestion = () => {
       }));
     }
   };
-  const handleArchiveQuestion = () => {
-    // Check if the question is already archived or not
-    if (question.isArchived) {
-      // If archived, you want to unarchive it
-      // archiveQuestion(question.id, false);
-    } else {
-      // If not archived, you want to archive it
-      // archiveQuestion(question.id, true);
-    }
-  };
-
+ 
   const handleDeleteQuestion = (questionId) => {
     // Implement your deleteQuestion function here or call it from your context.
     deleteQuestion(questionId);
   };
+
+  const handleArchiveQuestion = (id) => {
+
+    if (question.archive === false) {
+      archiveQuestion(id);
+    // } else {
+    //   unarchiveQuestion(id)
+    }
+  };
+  // const unarchiveQuestion = (id) => {
+  //   const archivedQuestion = { archive: false }; 
+  //   updateQuestion(id, archivedQuestion);
+  // };
 
 
   return (
@@ -104,7 +108,7 @@ const ViewQuestion = () => {
               <div>
                 <button
                   className="text-white hover:bg-white-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-brown-600 dark:hover:bg-brown-700 focus:outline-none dark:focus:ring-brown-800"
-                  onClick={handleArchiveQuestion} // Add the function to handle archiving the question
+                  onClick={() => handleArchiveQuestion(question.id)}
                 >
                   <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="20" fill="none" viewBox="0 0 18 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 2h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m6 0v3H6V2m6 0a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1M5 5h8m-5 5h5m-8 0h.01M5 14h.01M8 14h5" />

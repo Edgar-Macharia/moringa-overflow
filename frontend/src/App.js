@@ -40,15 +40,15 @@ function App() {
             <Route path="/About" element={<About />} />
             <Route path="/Questions" element={<Questions />} />
             <Route path="/Tags" element={<Tags />} />
-            <Route path="/Notifications" element={<Notifications />} />
+            <Route path="/notifications" element={<Notifications />} />
             <Route path="/ReportedContent" element={<ReportedContent />} />
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Reset" element={<Reset />} />
-            <Route path="/AskQuestion" element={<AskQuestion />} />
+            <Route path="/askQuestion" element={<AskQuestion />} />
             <Route path="/Answers/:question_id" element={<AnswerQuestion />} />
-            <Route path="/ViewQuestion/:id" element={<ViewQuestion />} />
-            <Route path="/ViewTag/:id" element={<ViewTag />} />
-            <Route path="/SavedQuestions" element={<SavedQuestions />} />
+            <Route path="/viewQuestion/:id" element={<ViewQuestion />} />
+            <Route path="/viewTag/:id" element={<ViewTag />} />
+            <Route path="/savedQuestions" element={<SavedQuestions />} />
           </Route>
         </Routes>
         </QuestionsProvider>
