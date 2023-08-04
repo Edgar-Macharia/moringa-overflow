@@ -6,7 +6,7 @@ import { QuestionsContext } from '../context/QuestionsContext';
 
 const Questions = () => {
 
-  const { questions, fetchQuestionAnswers } = useContext(QuestionsContext);
+  const { questions, downvoteQuestion, upvoteQuestion } = useContext(QuestionsContext);
   const { id } = useParams();
 
   const [answers, setAnswers] = useState([]);
@@ -78,6 +78,10 @@ const Questions = () => {
                   <p className="question-details mb-4 ">{question.body}</p>
                   <div className="vote-buttons">
                     <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        upvoteQuestion(question.id); 
+                      }}
                       className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${userVote.question ? 'pointer-events-none opacity-50' : ''}`}
                     >
                       <FontAwesomeIcon
@@ -87,6 +91,10 @@ const Questions = () => {
                       <span className="ml-2"> (Upvotes)</span>
                     </button>
                     <button
+                       onClick={(e) => {
+                        e.preventDefault(); 
+                        downvoteQuestion(question.id);
+                      }}
                       className={`text-gray-600 hover:text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${userVote.question ? 'pointer-events-none opacity-50' : ''}`}
                     >
                       <FontAwesomeIcon

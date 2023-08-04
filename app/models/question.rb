@@ -8,6 +8,11 @@ class Question < ApplicationRecord
     validates :title, presence: true, uniqueness: true
     validates :body, presence: true
 
+    has_many :upvotes
+    has_many :downvotes
+    has_many :upvotes, counter_cache: :upvotes_count
+    has_many :downvotes, counter_cache: :downvotes_count
+    
     private
 
     def update_tag_frequency
