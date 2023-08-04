@@ -83,17 +83,8 @@ const ViewQuestion = () => {
   };
 
   const handleArchiveQuestion = (id) => {
-
-    if (question.archive === false) {
       archiveQuestion(id);
-    // } else {
-    //   unarchiveQuestion(id)
-    }
   };
-  // const unarchiveQuestion = (id) => {
-  //   const archivedQuestion = { archive: false }; 
-  //   updateQuestion(id, archivedQuestion);
-  // };
 
 
   return (
