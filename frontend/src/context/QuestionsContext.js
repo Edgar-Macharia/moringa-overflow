@@ -268,6 +268,46 @@ const createAnswer = (newAnswerData) => {
       });
   };
 
+  const upvoteQuestion = (questionId) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+  
+    fetch(`/questions/${questionId}/upvote`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error upvoting question:", error);
+      });
+  };
+  
+  const downvoteQuestion = (questionId) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+  
+    fetch(`/questions/${questionId}/downvote`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error downvoting question:", error);
+      });
+  };
+  
   const contextData = {
     questions,
     createAnswer,
@@ -279,6 +319,8 @@ const createAnswer = (newAnswerData) => {
     fetchTags,
     tags,
     notifications,
+    upvoteQuestion,
+    downvoteQuestion,
   };
 
   return (

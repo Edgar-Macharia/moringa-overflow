@@ -102,6 +102,31 @@ class QuestionsController < ApplicationController
 
     render json: answers
   end
+
+  def upvote
+    @question = Question.find(params[:id])
+    @user = current_user
+
+    if @question.upvotes.exists?(user_id: @user.id)
+      render json: { error: 'You have already upvoted this question.' }, status: :unprocessable_entity
+    else
+      @question.upvotes.create(user: @user)
+      render json: { message: 'Upvoted successfully.' }
+    end
+  end
+
+  # Downvote a question
+  def downvote
+    @question = Question.find(params[:id])
+    @user = current_user
+
+    if @question.downvotes.exists?(user_id: @user.id)
+      render json: { error: 'You have already downvoted this question.' }, status: :unprocessable_entity
+    else
+      @question.downvotes.create(user: @user)
+      render json: { message: 'Downvoted successfully.' }
+    end
+  end
   
   private
 

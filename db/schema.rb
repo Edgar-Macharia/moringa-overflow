@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_03_231401) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_04_053509) do
   create_table "answers", force: :cascade do |t|
     t.text "body"
     t.integer "user_id", null: false
@@ -48,7 +48,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_231401) do
   create_table "notifications", force: :cascade do |t|
     t.string "message"
     t.integer "user_id"
-    t.boolean "read_status", default: false
+    t.boolean "is_read", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -63,11 +63,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_231401) do
   create_table "questions", force: :cascade do |t|
     t.string "title"
     t.text "body"
-    t.boolean "archive", default: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "tag_names", default: ""
+    t.integer "upvotes_count", default: 0
+    t.integer "downvotes_count", default: 0
+    t.index ["downvotes_count"], name: "index_questions_on_downvotes_count"
+    t.index ["upvotes_count"], name: "index_questions_on_upvotes_count"
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
