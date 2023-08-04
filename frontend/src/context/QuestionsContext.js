@@ -22,19 +22,19 @@ export default function QuestionsProvider({ children }) {
       console.error("Error fetching notifications:", error);
     }
   };
-  
-  useEffect(()=>{
-    fetchQuestions()
-    fetchTags()
+
+  useEffect(() => {
+    fetchQuestions();
+    fetchTags();
     fetchNotifications();
-  }, [])
+  }, []);
 
   // Fetch all questions
   const fetchQuestions = () => {
     fetch("/questions")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         const sortedQuestions = data.sort((a, b) => b.id - a.id);
         setQuestions(sortedQuestions);
       })
@@ -75,6 +75,98 @@ export default function QuestionsProvider({ children }) {
       });
   };
 
+  ///Single Question
+  const fetchSingleQuestion = (id) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      Swal.fire("Error", "Not authorized to view the question", "error");
+      return;
+    }
+
+    fetch(`/questions/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch question");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setQuestion(data);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching question:", error);
+        Swal.fire("Error", "Failed to fetch question", "error");
+      });
+  };
+
+  //answers for single question
+
+  const fetchQuestionAnswers = (id) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      Swal.fire("Error", "Not authorized to view the question", "error");
+      return;
+    }
+
+    fetch(`/questions/${id}/answers`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch answers");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setQuestion(data);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching answers:", error);
+        Swal.fire("Error", "Failed to fetch answers", "error");
+      });
+  };
+// Create a new question
+const createAnswer = (newAnswerData) => {
+  const token = sessionStorage.getItem("token");
+  if (!token) {
+    Swal.fire("Error", "Not authorized to create question", "error");
+    return;
+  }
+
+  fetch("/answers", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify(newAnswerData),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.errors) {
+        console.log(data.errors)
+
+        Swal.fire("Error", data.errors[0], "error");
+      } else {
+        Swal.fire("Success", data.message, "success");
+        nav(`/questions`);
+      }
+    })
+    .catch((error) => {
+      console.error("Error creating answer:", error);
+      Swal.fire("Error", "Failed to create answer", "error");
+    });
+};
   // Update a question
   const updateQuestion = (questionId, updatedQuestionData) => {
     const token = sessionStorage.getItem("token");
@@ -135,11 +227,9 @@ export default function QuestionsProvider({ children }) {
       });
   };
 
-
   useEffect(() => {
     fetchQuestions();
   }, []);
-
 
   // Search questions
   const searchQuestions = (searchTerm) => {
@@ -164,20 +254,17 @@ export default function QuestionsProvider({ children }) {
         Swal.fire("Error", "Failed to search questions", "error");
       });
   };
-
+  ///fetch tags
   const fetchTags = () => {
-    axios
-      .get('/tags', {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-        },
-      })
-      .then((response) => {
-        setTags(response.data); // Assuming the response is an array of tag objects
+    fetch("/tags")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setTags(data); // Assuming the response is an array of tag objects
       })
       .catch((error) => {
-        console.error('Error fetching tags:', error);
-        Swal.fire('Error', 'Failed to fetch tags', 'error');
+        console.error("Error fetching tags:", error);
+        Swal.fire("Error", "Failed to fetch tags", "error");
       });
   };
 
@@ -204,6 +291,7 @@ export default function QuestionsProvider({ children }) {
 
   const contextData = {
     questions,
+    createAnswer,
     fetchQuestions,
     createQuestion,
     updateQuestion,

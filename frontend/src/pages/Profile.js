@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 const Profile = () => {
-  const { currentUserData,  fetchCurrentUser, editUserProfile, resetPassword } = useContext(AuthContext);
+  const { currentUserData, fetchCurrentUser, editUserProfile, resetPassword } = useContext(AuthContext);
   const [isEditMode, setIsEditMode] = useState(false);
   const [username, setUsername] = useState(currentUserData.username || "Your Username");
   const [email, setEmail] = useState(currentUserData.email || "your.email@example.com");
@@ -13,7 +13,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchCurrentUser();
-  }, []); 
+  }, []);
 
   const handleEditClick = () => {
     setIsEditMode(true);
@@ -39,7 +39,7 @@ const Profile = () => {
 
   return (
     <div className=''>
-      <div className="container mx-auto p-6 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <div className="container mx-auto p-6 m-16 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="">
           {/* Profile Picture */}
           <img className="w-32 h-32 mx-auto mt-6 rounded-full" src={"https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png"} alt="Avatar" />
@@ -123,7 +123,7 @@ const Profile = () => {
               <button onClick={handleResetPasswordClick} className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">Change Password</button>
             </div>
           )}
-            {currentUserData.questions.length > 0 ? (
+          {currentUserData.questions.length > 0 ? (
             <div className="mt-6">
               <h2 className="text-xl font-semibold">Questions Asked by You</h2>
               <ul className="mt-4 space-y-2">

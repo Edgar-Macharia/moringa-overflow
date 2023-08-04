@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faThumbsDown, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { QuestionsContext } from '../context/QuestionsContext';
 
 const ViewQuestion = () => {
+  const { fetchSingleQuestion, deleteQuestion } = useContext(QuestionsContext)
   const { id } = useParams();
 
   const [question, setQuestion] = useState();
@@ -84,14 +86,20 @@ const ViewQuestion = () => {
     }
   };
 
+  const handleDeleteQuestion = (questionId) => {
+    // Implement your deleteQuestion function here or call it from your context.
+    deleteQuestion(questionId);
+  };
+
+
   return (
     <>
-      <div className="flex justify-end mx-11">
+      <div className="flex justify-end mx-11 homepage">
       </div>
       {question ? (
 
-        <div className="questions-page flex justify-center items-center bg-gray-100 sm:p-6" key={question.id}>
-          <div className="w-70p sm:w-full bg-white shadow-xl rounded-lg p-3">
+        <div className="questions-page flex justify-center items-center bg-gray-100 sm:p-6 homepage" key={question.id}>
+          <div className="w-70p sm:w-full bg-white shadow-xl rounded-lg p-3 homepage">
             <div className="flex items-center justify-between mb-2">
               <div>
                 <button
@@ -106,12 +114,35 @@ const ViewQuestion = () => {
 
               <div>
                 <Link to={`/Answers/${question.id}`}>
-                  <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                  <button className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
                     Answer Question
                   </button>
                 </Link>
+
+                {/* Buttons for Delete and Update */}
+                <div className="flex justify-end mt-4">
+                  <button
+                    className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                    onClick={() => handleDeleteQuestion(question.id)}
+                  >
+                    <FontAwesomeIcon icon={faTrash} className="w-5 h-5 mr-2" />
+                    Delete
+                  </button>
+                  <button
+                    className="text-white bg-yellow-700 hover:bg-yellow-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                    onClick={() => {
+                      // Add code to prompt for question update and call handleUpdateQuestion
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faEdit} className="w-5 h-5 mr-2" />
+                    Update
+                  </button>
+                </div>
               </div>
             </div>
+
+
+
 
             <div className="question-details p-4 bg-white rounded-lg shadow-md">
               <h3 className="question-title text-xl font-bold mb-2">{question.title}</h3>

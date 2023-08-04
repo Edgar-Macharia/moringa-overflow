@@ -27,7 +27,7 @@ const Tags = () => {
       {/* Intro to Tags section */}
       <div className='gap-4 mx-20 py-10'>
         <h2 className="text-4xl font-extrabold dark:text-white">Tags</h2>
-        <p className="my-4 text-lg text-gray-500">A tag is a keyword or label that categorizes your question with other, similar questions.</p>
+        <p className="my-4 text-lg">A tag is a keyword or label that categorizes your question with other, similar questions.</p>
       </div>
 
       {/* Cards section to be fetched from the backend */}

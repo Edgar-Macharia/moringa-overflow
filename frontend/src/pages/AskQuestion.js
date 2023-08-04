@@ -5,7 +5,8 @@ import { QuestionsContext } from '../context/QuestionsContext';
 import DOMPurify from 'dompurify';
 
 const AskQuestion = () => {
-  const { tags, fetchTags, createQuestion, createTag, addTag } = useContext(QuestionsContext);
+  const { tags, fetchTags } = useContext(QuestionsContext);
+  const { createQuestion } = useContext(QuestionsContext);
   const [body, setBody] = useState('');
   const [title, setTitle] = useState("");
   const [tagInput, setTagInput] = useState('');
@@ -21,8 +22,8 @@ const AskQuestion = () => {
     }
     return div.innerHTML;
   };
-    
-  useEffect(()=>{
+
+  useEffect(() => {
     fetchTags()
   }, [])
   
@@ -30,14 +31,10 @@ const AskQuestion = () => {
     const sanitizedTitle = DOMPurify.sanitize(e.target.value);
     setTitle(sanitizedTitle);
   };
-  
-const handleBodyChange = (value) => {
-  const sanitizedBody = value.replace(/<[^>]+>/g, '');
-  setBody(sanitizedBody);
-};
 
-  const handleTagInputChange = (e) => {
-    setTagInput(e.target.value);
+  const handleTagsChange = (e) => {
+    const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
+    setSelectedTags(selectedValues);
   };
 
   const handleTagInputKeyPress = (e) => {
@@ -66,8 +63,8 @@ const handleBodyChange = (value) => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-      <div className="container mx-auto py-8 max-w-screen-lg flex flex-col h-full">
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center homepage">
+      <div className="container flex justify-center items-center bg-gray-100 sm:p-6 mx-auto py-8 max-w-screen-lg flex flex-col h-full">
         <h1 className="text-3xl font-bold mb-4">Ask a Question</h1>
         <form className="flex-grow max-w-sm mx-auto" onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -85,29 +82,29 @@ const handleBodyChange = (value) => {
           <div className="mb-4 flex-grow">
             <label htmlFor="body" className="block text-lg font-semibold mb-2">Body</label>
             <ReactQuill
-      value={body}
-      onChange={handleBodyChange}
-      modules={{
-        toolbar: [
-          [{ header: [1, 2, 3, 4, 5, 6, false] }],
-          ['bold', 'italic', 'underline', 'strike'],
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          ['link', 'image'],
-          ['clean'],
-        ],
-       
-      }}
-      formats={[
-        'header',
-        'bold',
-        'italic',
-        'underline',
-        'strike',
-        'list',
-        'bullet',
-        'link',
-        'image',
-      ]}
+              value={body}
+              onChange={handleBodyChange}
+              modules={{
+                toolbar: [
+                  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                  ['bold', 'italic', 'underline', 'strike'],
+                  [{ list: 'ordered' }, { list: 'bullet' }],
+                  ['link', 'image'],
+                  ['clean'],
+                ],
+
+              }}
+              formats={[
+                'header',
+                'bold',
+                'italic',
+                'underline',
+                'strike',
+                'list',
+                'bullet',
+                'link',
+                'image',
+              ]}
               placeholder="Enter the details of your question"
               bounds={['self', 'br']}
             />
@@ -141,7 +138,7 @@ const handleBodyChange = (value) => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
+              className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]"
             >
               Ask Question
             </button>

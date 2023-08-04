@@ -83,6 +83,7 @@ export default function AuthProvider({ children }) {
     setUsername("");
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userId");
+    nav("/");
   };
 
   // Fetch current user

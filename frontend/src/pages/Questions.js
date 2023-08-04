@@ -67,7 +67,7 @@ const Questions = () => {
 
         <div className="questions-btn">
           <Link to="/AskQuestion">
-            <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+            <button className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
               Ask A Question
             </button>
           </Link>
@@ -82,7 +82,7 @@ const Questions = () => {
           return (
             <div
               key={question.id || index}
-              className="questions-page flex justify-center items-center bg-gray-100 sm:p-6"
+              className="questions-page flex justify-center items-center bg-gray-100 sm:p-6 homepage"
             >
               <Link to={`/ViewQuestion/${question.id}`} className="w-70p sm:w-full bg-white shadow-xl rounded-lg p-3">
                 <div className="question-details p-4 bg-white rounded-lg shadow-md whitespace-normal">
