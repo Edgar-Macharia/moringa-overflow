@@ -34,9 +34,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_053509) do
   end
 
   create_table "downvotes", force: :cascade do |t|
-    t.integer "question_id", null: false
+    t.integer "question_id"
     t.integer "user_id", null: false
-    t.integer "answer_id", null: false
+    t.integer "answer_id"
     t.integer "downvote_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -94,9 +94,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_053509) do
   end
 
   create_table "upvotes", force: :cascade do |t|
-    t.integer "question_id", null: false
+    t.integer "question_id"
     t.integer "user_id", null: false
-    t.integer "answer_id", null: false
+    t.integer "answer_id"
     t.integer "upvote_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
