@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_04_053509) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_06_035124) do
   create_table "answers", force: :cascade do |t|
     t.text "body"
     t.integer "user_id", null: false
@@ -37,12 +37,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_053509) do
     t.integer "question_id"
     t.integer "user_id", null: false
     t.integer "answer_id"
-    t.integer "downvote_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["answer_id"], name: "index_downvotes_on_answer_id"
     t.index ["question_id"], name: "index_downvotes_on_question_id"
     t.index ["user_id"], name: "index_downvotes_on_user_id"
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "question_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_favorites_on_question_id"
+    t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -63,7 +71,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_053509) do
   create_table "questions", force: :cascade do |t|
     t.string "title"
     t.text "body"
-    t.boolean "archive", default: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -97,7 +104,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_053509) do
     t.integer "question_id"
     t.integer "user_id", null: false
     t.integer "answer_id"
-    t.integer "upvote_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["answer_id"], name: "index_upvotes_on_answer_id"
@@ -125,6 +131,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_053509) do
   add_foreign_key "downvotes", "answers"
   add_foreign_key "downvotes", "questions"
   add_foreign_key "downvotes", "users"
+  add_foreign_key "favorites", "questions"
+  add_foreign_key "favorites", "users"
   add_foreign_key "question_tags", "questions"
   add_foreign_key "question_tags", "tags"
   add_foreign_key "questions", "users"
