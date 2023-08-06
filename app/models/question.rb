@@ -5,8 +5,8 @@ class Question < ApplicationRecord
     has_many :answers, dependent: :destroy
     has_many :favorites
     has_many :favorited_by_users, through: :favorites, source: :user
-    has_many :upvotes, counter_cache: :upvotes_count
-    has_many :downvotes, counter_cache: :downvotes_count
+    has_many :upvotes
+    has_many :downvotes
 
     after_save :update_tag_frequency
     validates :title, presence: true, uniqueness: true
