@@ -19,11 +19,13 @@ Rails.application.routes.draw do
       
       post 'upvote', to: 'questions#upvote'
       post 'downvote', to: 'questions#downvote'
+      post 'favorite', to: 'questions#favorite'
     end
   end
   
   resources :users, only: [:create, :show, :update] do
     member do
+      get 'favorite_questions', to: 'users#favorite_questions'
       put :reset_password
     end
   end
@@ -32,8 +34,6 @@ Rails.application.routes.draw do
   post '/logout', to: 'sessions#create'
   get "/questions/search", to: "questions#search"
   delete '/questions', to: 'questions#destroy'
-
-  patch '/questions/:id/archive', to: 'questions#archive'
   
   # Defines the root path route ("/")
   # root "articles#index"

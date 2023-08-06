@@ -1,18 +1,20 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize_request, only: [:create]
+skip_before_action :authorize_request, only: [:create]
+rescue_from ActiveRecord::RecordInvalid, with: :handle_record_invalid
+rescue_from ActiveRecord::RecordNotFound, with: :user_not_found
 
-  def create
-    begin
-      if params[:password] == params[:password_confirmation]
-        user = User.create!(user_params.slice(:username, :email, :password))
-        render json: { message: "Account created successfully" }, status: :created
-      else
-        render json: { errors: ["Password and password confirmation do not match"] }, status: :unprocessable_entity
-      end
-    rescue ActiveRecord::RecordInvalid => e
-      render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
+def create
+  begin
+    if params[:password] == params[:password_confirmation]
+      user = User.create!(user_params.slice(:username, :email, :password))
+      render json: { message: "Account created successfully" }, status: :created
+    else
+      render json: { errors: ["Password and password confirmation do not match"] }, status: :unprocessable_entity
     end
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
   end
+end
 
 def update
   user = User.find(params[:id])
@@ -75,6 +77,13 @@ end
     user = User.find(params[:id])
     render json: user, include: ['questions']
   end
+
+  def favorite_questions
+    user = User.find(params[:id])
+    favorite_questions = user.favorited_questions
+
+    render json: favorite_questions, status: :ok
+  end
   
   private
 
@@ -84,5 +93,13 @@ end
   
   def update_params
     params.require(:user).permit(:username, :email)
+  end
+
+  def handle_record_invalid(exception)
+    render json: { error: exception.message }, status: :unprocessable_entity
+  end
+  
+  def user_not_found
+    render json: { error: 'User not found' }, status: :not_found
   end
 end

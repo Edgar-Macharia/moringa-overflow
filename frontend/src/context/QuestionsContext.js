@@ -10,9 +10,10 @@ export default function QuestionsProvider({ children }) {
   const [questions, setQuestions] = useState([]);
   const [question, setQuestion] = useState([]);
   const [notifications, setNotifications] = useState([]);
+  const [favoriteQuestions, setFavoriteQuestions] = useState([]);
 
   const [tags, setTags] = useState([]);
-  // const { isLoggedIn } = useContext(AuthContext); // Get the isLoggedIn state from AuthContext
+  // const { isLoggedIn } = useContext(AuthContext); 
   const fetchNotifications = async () => {
     try {
       // const response = await axios.get("/api/notifications");
@@ -27,22 +28,23 @@ export default function QuestionsProvider({ children }) {
     fetchQuestions();
     fetchTags();
     fetchNotifications();
+    fetchFavoriteQuestions();
   }, []);
 
-  // Fetch all questions
-  const fetchQuestions = () => {
-    fetch("/questions")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        const sortedQuestions = data.sort((a, b) => b.id - a.id);
-        setQuestions(sortedQuestions);
-      })
-      .catch((error) => {
-        console.error("Error fetching questions:", error);
-        Swal.fire("Error", "Failed to fetch questions", "error");
-      });
-  };
+// Fetch all questions
+const fetchQuestions = () => {
+  fetch("/questions")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      const sortedQuestions = data.sort((a, b) => b.id - a.id);
+      setQuestions(sortedQuestions);
+    })
+    .catch((error) => {
+      console.error("Error fetching questions:", error);
+      Swal.fire("Error", "Failed to fetch questions", "error");
+    });
+};
 
   // Create a new question
   const createQuestion = (newQuestionData) => {
@@ -198,37 +200,35 @@ const createAnswer = (newAnswerData) => {
       });
   };
 
-  // archive a question
-  const archiveQuestion = (id) => {
-    const token = sessionStorage.getItem("token");
-    if (!token) {
-      Swal.fire("Error", "Not authorized to archive question", "error");
-      return;
-    }
+// favorite a question
+const toggleFavorite = (id) => {
+  const token = sessionStorage.getItem("token");
+  if (!token) {
+    Swal.fire("Error", "Not authorized to favorite question", "error");
+    return;
+  }
 
-    fetch(`/questions/${id}/archive`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      // body: JSON.stringify({ archive: true }),
+  fetch(`/questions/${id}/favorite`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      if (data.errors) {
+        Swal.fire("Error", data.errors, "error");
+      } else {
+        setFavoriteQuestions(data);
+      }
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.errors) {
-          Swal.fire("Error", data.errors, "error");
-        } else {
-          Swal.fire("Success", "Question archived successfully!", "success");
-          nav(`/viewquestion/${id}`);
-        }
-      })
-      .catch((error) => {
-        console.error("Error archiving question:", error);
-        Swal.fire("Error", "Failed to archive question", "error");
-      });
+    .catch((error) => {
+      console.error("Error favoriting question:", error);
+      Swal.fire("Error", "Failed to favorite question", "error");
+    });
   };
-
 
   // Delete a question
   const deleteQuestion = (questionId) => {
@@ -258,10 +258,6 @@ const createAnswer = (newAnswerData) => {
         Swal.fire("Error", "Failed to delete question", "error");
       });
   };
-
-  useEffect(() => {
-    fetchQuestions();
-  }, []);
 
   // Search questions
   const searchQuestions = (searchTerm) => {
@@ -313,7 +309,23 @@ const createAnswer = (newAnswerData) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log(data); 
+        if (data.message === 'Upvoted successfully.') {
+          // Find the question in the state by its ID
+          const updatedQuestions = questions.map((q) => {
+            if (q.id === questionId) {
+              // Update the upvotes_count and downvotes_count
+              return {
+                ...q,
+                upvotes_count: data.upvotes_count,
+                downvotes_count: data.downvotes_count,
+              };
+            }
+            return q;
+          });
+          // Update the state with the updated questions
+          setQuestions(updatedQuestions);
+        }
       })
       .catch((error) => {
         console.error("Error upvoting question:", error);
@@ -333,11 +345,61 @@ const createAnswer = (newAnswerData) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log(data); 
+        if (data.message === 'Downvoted successfully.') {
+          // Find the question in the state by its ID
+          const updatedQuestions = questions.map((q) => {
+            if (q.id === questionId) {
+              // Update the upvotes_count and downvotes_count
+              return {
+                ...q,
+                upvotes_count: data.upvotes_count,
+                downvotes_count: data.downvotes_count,
+              };
+            }
+            return q;
+          });
+          // Update the state with the updated questions
+          setQuestions(updatedQuestions);
+        }
       })
       .catch((error) => {
         console.error("Error downvoting question:", error);
       });
+  };
+  
+  const fetchFavoriteQuestions = () => {
+    const token = sessionStorage.getItem("token");
+    const userId = sessionStorage.getItem("userId");
+    if (!token) {
+      Swal.fire("Error", "Not authorized to view favorite questions", "error");
+      return;
+    }
+  
+    fetch(`/users/${userId}/favorite_questions`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch favorite questions");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setFavoriteQuestions(data); 
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching favorite questions:", error);
+      });
+  };
+  
+
+  const isQuestionFavorited = (questionId) => {
+    return favoriteQuestions.some((favorite) => favorite.id === questionId);
   };
   
   const contextData = {
@@ -349,11 +411,14 @@ const createAnswer = (newAnswerData) => {
     deleteQuestion,
     searchQuestions,
     fetchTags,
-    archiveQuestion,
+    toggleFavorite,
     tags,
     notifications,
     upvoteQuestion,
     downvoteQuestion,
+    favoriteQuestions,
+    fetchFavoriteQuestions,
+    isQuestionFavorited,
   };
 
   return (

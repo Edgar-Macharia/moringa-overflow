@@ -1,12 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { QuestionsContext } from '../context/QuestionsContext';
+import { AuthContext } from '../context/AuthContext';
 
 const Questions = () => {
-  const { questions, downvoteQuestion, upvoteQuestion } = useContext(QuestionsContext);
-  const { id } = useParams();
+  const { questions, downvoteQuestion, upvoteQuestion, toggleFavorite, isQuestionFavorited } = useContext(QuestionsContext);
+  const { isLoggedIn } = useContext(AuthContext);
 
   const handleUpvote = (questionId, e) => {
     e.preventDefault();
@@ -21,22 +23,24 @@ const Questions = () => {
   return (
     <div>
       <div className="flex justify-end mx-11">
-        <Link to="/SavedQuestions" className="mr-5 title = saved questions ">
-          <svg
-            class="w-6 h-6 text-gray-800 dark:text-white"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 17 10"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-width="2"
-              d="M6 1h10M6 5h10M6 9h10M1.49 1h.01m-.01 4h.01m-.01 4h.01"
-            />
-          </svg>
-        </Link>
+        {isLoggedIn && (
+          <Link to="/favoriteQuestions" className="mr-5 title = saved questions ">
+            <svg
+              class="w-6 h-6 text-gray-800 dark:text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 17 10"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+                d="M6 1h10M6 5h10M6 9h10M1.49 1h.01m-.01 4h.01m-.01 4h.01"
+              />
+            </svg>
+          </Link>
+        )}
 
         <div className="questions-btn">
           <Link to="/AskQuestion">
@@ -72,7 +76,7 @@ const Questions = () => {
                         icon={faThumbsUp}
                         className={`w-5 h-5`}
                       />
-                      <span className="ml-2"> (Upvotes: {question.upvotes_count})</span>
+                      <span className="ml-2"> ({question.upvotes_count} Upvotes)</span>
                     </button>
                     <button
                       onClick={(e) => handleDownvote(question.id, e)}
@@ -82,8 +86,26 @@ const Questions = () => {
                         icon={faThumbsDown}
                         className={`w-5 h-5`}
                       />
-                      <span className="ml-2"> (Downvotes: {question.downvotes_count})</span>
+                      <span className="ml-2"> ( {question.downvotes_count} Downvotes)</span>
                     </button>
+                    {isLoggedIn && (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleFavorite(question.id);
+                        }}
+                        className={`text-gray-600 ${
+                          isQuestionFavorited(question.id) ? 'text-red-600' : 'hover:text-yellow-600'
+                        } font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none`}
+                      >
+                        <FontAwesomeIcon
+                          icon={faHeart}
+                          className={`w-5 h-5 ${
+                            isQuestionFavorited(question.id) ? 'text-red-600' : 'text-gray-600'
+                          }`}
+                        />
+                      </button>
+                    )}
                   </div>
                   <div className="flex items-center justify-between">
                     <p className="text-sm text-brown-500 font-medium mb-2">

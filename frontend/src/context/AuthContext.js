@@ -12,14 +12,12 @@ export default function AuthProvider({ children }) {
   const [questions, setQuestions] = useState([]);
   const [onChange, setonChange] = useState(true);
 
-
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     const userId = sessionStorage.getItem("userId");
     if (token && userId) {
       setIsLoggedIn(true);
       fetchUserById(userId);
-      fetchQuestions();
     }
   }, []);
 
@@ -110,27 +108,6 @@ export default function AuthProvider({ children }) {
       });
   };
 
-  // Fetch questions
-
-  const fetchQuestions = () => {
-    const token = sessionStorage.getItem("token");
-    if (!token) return;
-    fetch("/questions", {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setQuestions(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching questions:", error);
-      });
-  };
-
   // Fetch user by ID
 
   const fetchUserById = (userId) => {
@@ -171,7 +148,6 @@ export default function AuthProvider({ children }) {
         Swal.fire("Success", data.message, "success");
         const userId = sessionStorage.getItem("userId");
         fetchUserById(userId);
-        fetchQuestions();
       })
       .catch((error) => {
         console.error("Error editing user post:", error);

@@ -19,8 +19,7 @@ import QuestionsProvider from "./context/QuestionsContext";
 import AnswerQuestion from "./pages/Answers";
 import ViewQuestion from "./pages/ViewQuestion";
 import ViewTag from "./pages/ViewTag";
-import SavedQuestions from "./pages/SavedQuestions";
-
+import FavoriteQuestions from "./pages/FavoriteQuestions";
 
 function App() {
   useEffect(() => {
@@ -48,7 +47,7 @@ function App() {
             <Route path="/Answers/:question_id" element={<AnswerQuestion />} />
             <Route path="/viewQuestion/:id" element={<ViewQuestion />} />
             <Route path="/viewTag/:id" element={<ViewTag />} />
-            <Route path="/savedQuestions" element={<SavedQuestions />} />
+            <Route path="/favoriteQuestions" element={<FavoriteQuestions />} />
           </Route>
         </Routes>
         </QuestionsProvider>

@@ -58,90 +58,90 @@ questions_data = [
   {
     title: "How to handle database migrations in Django?",
     body: "I'm working on a Django project and I'm not sure how to handle database migrations. What's the recommended approach?",
-      user: users.sample,
-      upvotes_count: rand(0..100),
-      downvotes_count: rand(0..100),
-      tag_names: ["Gemfile", "Github"]
+    user: users.sample,
+    upvotes_count: rand(0..100),
+    downvotes_count: rand(0..100),
+    tag_names: ["Gemfile", "Github"]
   },
   {
     title: "Troubleshooting SQL query performance",
     body: "I have a slow-performing SQL query and I'm not sure how to optimize it. Are there any tools or techniques I can use to troubleshoot?",
-           user: users.sample,
-      upvotes_count: rand(0..100),
-      downvotes_count: rand(0..100),
-      tag_names: ["Git", "Gitignore"]
+    user: users.sample,
+    upvotes_count: rand(0..100),
+    downvotes_count: rand(0..100),
+    tag_names: ["Git", "Gitignore"]
   },
   {
     title: "Getting started with Python for data analysis",
     body: "I'm interested in using Python for data analysis tasks. What are the essential libraries and resources I should start with?",
-           user: users.sample,
-      upvotes_count: rand(0..100),
-      downvotes_count: rand(0..100),
-      tag_names: ["Newbie", "rails"]
+    user: users.sample,
+    upvotes_count: rand(0..100),
+    downvotes_count: rand(0..100),
+    tag_names: ["Newbie", "rails"]
   },
   {
     title: "How to deploy a Ruby on Rails app to Heroku?",
     body: "I've developed a Ruby on Rails application and I want to deploy it to Heroku. Can someone walk me through the process?",
-           user: users.sample,
-      upvotes_count: rand(0..100),
-      downvotes_count: rand(0..100),
-      tag_names: ["Framework", "Laravel"]
+    user: users.sample,
+    upvotes_count: rand(0..100),
+    downvotes_count: rand(0..100),
+    tag_names: ["Framework", "Laravel"]
   },
   {
     title: "Is it possible to use async/await with JavaScript's Fetch API?",
     body: "I've been using JavaScript's Fetch API for making API requests, but I'm wondering if it's possible to use async/await with it. Any examples?",
-           user: users.sample,
-      upvotes_count: rand(0..100),
-      downvotes_count: rand(0..100),
-      tag_names: ["coding", "Javascript"]
+    user: users.sample,
+    upvotes_count: rand(0..100),
+    downvotes_count: rand(0..100),
+    tag_names: ["coding", "Javascript"]
   },
   {
     title: "Optimizing Java application performance",
     body: "I have a Java application that's running slowly. What are some strategies I can use to optimize its performance?",
-           user: users.sample,
-      upvotes_count: rand(0..100),
-      downvotes_count: rand(0..100),
-      tag_names: ["ruby", "Chrome"]
+    user: users.sample,
+    upvotes_count: rand(0..100),
+    downvotes_count: rand(0..100),
+    tag_names: ["ruby", "Chrome"]
   },
   {
     title: "Creating responsive web designs with CSS Grid",
     body: "I want to create a responsive web design using CSS Grid. Are there any tutorials or resources that can help me get started?",
-           user: users.sample,
-      upvotes_count: rand(0..100),
-      downvotes_count: rand(0..100),
-      tag_names: ["firefox", "rails"]
+    user: users.sample,
+    upvotes_count: rand(0..100),
+    downvotes_count: rand(0..100),
+    tag_names: ["firefox", "rails"]
   },
   {
     title: "How to handle user authentication in Flask?",
     body: "I'm building a web application with Flask and I need to implement user authentication. What's the recommended approach?",
-           user: users.sample,
-      upvotes_count: rand(0..100),
-      downvotes_count: rand(0..100),
-      tag_names: ["ruby", "rails"]
+    user: users.sample,
+    upvotes_count: rand(0..100),
+    downvotes_count: rand(0..100),
+    tag_names: ["ruby", "rails"]
   },
   {
     title: "Tips for writing clean and maintainable code in C#",
     body: "I'm working on a C# project and I want to ensure that my code is clean and maintainable. Any best practices or tips?",
-           user: users.sample,
-      upvotes_count: rand(0..100),
-      downvotes_count: rand(0..100),
-      tag_names: ["ruby", "rails"]
+    user: users.sample,
+    upvotes_count: rand(0..100),
+    downvotes_count: rand(0..100),
+    tag_names: ["ruby", "rails"]
   },
   {
     title: "Getting started with version control using Git",
     body: "I'm new to version control and Git. Can someone provide a beginner-friendly guide on how to get started?",
-           user: users.sample,
-      upvotes_count: rand(0..100),
-      downvotes_count: rand(0..100),
-      tag_names: ["Jobs", "rails"]
+    user: users.sample,
+    upvotes_count: rand(0..100),
+    downvotes_count: rand(0..100),
+    tag_names: ["Jobs", "rails"]
   },
   {
     title: "Debugging techniques in Python",
     body: "I'm encountering bugs in my Python code and I'm not sure how to debug them. What are some effective debugging techniques?",
-           user: users.sample,
-      upvotes_count: rand(0..100),
-      downvotes_count: rand(0..100),
-      tag_names: ["Wanted", "rails"]
+    user: users.sample,
+    upvotes_count: rand(0..100),
+    downvotes_count: rand(0..100),
+    tag_names: ["Wanted", "rails"]
   }
 ]
 

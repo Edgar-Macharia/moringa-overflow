@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: %i[show edit update destroy]
   skip_before_action :authorize_request, only: [:index, :show]
+  rescue_from ActiveRecord::RecordInvalid, with: :handle_record_invalid
 
   # GET /questions or /questions.json
   def index
@@ -14,39 +15,25 @@ class QuestionsController < ApplicationController
     render json: @question, include: 'answers'
   end
 
-  # GET /questions/new
-  def new
-    @question = Question.new
-    render json: @question
-  end
-
-  # GET /questions/1/edit
-  def edit
-    render json: @question
-  end
-
   # POST /questions or /questions.json
   def create
     @question = Question.new(question_params)
-  
+
     tag_names = params[:question][:tag_names]
-  
+
     if tag_names.present?
-      # Iterate over the tag names and create tags for them.
-      # Then, add the tags to the question.
       tag_names.each do |tag_name|
         tag = Tag.find_or_create_by(name: tag_name)
         @question.tags << tag
       end
     end
-  
+
     if @question.save
       render json: @question, status: :created, location: @question
     else
       render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
     end
   end
-  
 
   # PATCH/PUT /questions/1 or /questions/1.json
   def update
@@ -63,19 +50,24 @@ class QuestionsController < ApplicationController
     render json: { message: "Question was successfully destroyed." }
   end
 
-    # Archive question
- 
+  # POST /questions/1/favorite => Favorite a question
     
-    def archive
-      question = Question.find_by(id: params[:id])
-    
-      if question
-        question.update(archive: !question.archive) # Toggle the 'archive' attribute
-        render json: { success: "Question archived/unarchived successfully!" }, status: :ok
-      else
-        render json: { error: "Question not found" }, status: :not_found
-      end
+  def favorite
+    @question = Question.find(params[:id])
+    @user = current_user
+
+    if @user.favorites.exists?(question_id: @question.id)
+      @user.favorites.find_by(question_id: @question.id).destroy
+    else
+      @user.favorites.create(question: @question)
     end
+
+    favorited_questions = @user.favorited_questions.includes(:tags, :answers)
+
+    render json: favorited_questions, each_serializer: QuestionSerializer, include: ['answers', 'tags', 'author_username']
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Question not found.' }, status: :not_found
+  end
 
 
   def search
@@ -109,35 +101,47 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     @user = current_user
   
-    begin
-      if @question.upvotes.exists?(user_id: @user.id)
-        render json: { error: 'You have already upvoted this question.' }, status: :unprocessable_entity
-      else
-        @question.upvotes.create!(user: @user)
-        @question.increment!(:upvotes_count)
-        render json: { message: 'Upvoted successfully.' }
-      end
-    rescue ActiveRecord::RecordInvalid => e
-      render json: { error: e.message }, status: :unprocessable_entity
+    if @question.upvotes.exists?(user_id: @user.id)
+      render json: { error: 'You have already upvoted this question.' }, status: :unprocessable_entity
+      return
     end
+  
+    @question.upvotes.create!(user: @user)
+  
+    if @question.downvotes.exists?(user_id: @user.id)
+      downvote = @question.downvotes.find_by(user_id: @user.id)
+      downvote.destroy
+    end
+  
+    render json: {
+      message: 'Upvoted successfully.',
+      upvotes_count: @question.upvotes_count,
+      downvotes_count: @question.downvotes_count
+    }
   end
   
   def downvote
     @question = Question.find(params[:id])
     @user = current_user
   
-    begin
-      if @question.downvotes.exists?(user_id: @user.id)
-        render json: { error: 'You have already downvoted this question.' }, status: :unprocessable_entity
-      else
-        @question.downvotes.create!(user: @user)
-        @question.increment!(:downvotes_count)
-        render json: { message: 'Downvoted successfully.' }
-      end
-    rescue ActiveRecord::RecordInvalid => e
-      render json: { error: e.message }, status: :unprocessable_entity
+    if @question.downvotes.exists?(user_id: @user.id)
+      render json: { error: 'You have already downvoted this question.' }, status: :unprocessable_entity
+      return
     end
-  end
+  
+    @question.downvotes.create!(user: @user)
+  
+    if @question.upvotes.exists?(user_id: @user.id)
+      upvote = @question.upvotes.find_by(user_id: @user.id)
+      upvote.destroy
+    end
+  
+    render json: {
+      message: 'Downvoted successfully.',
+      upvotes_count: @question.upvotes_count,
+      downvotes_count: @question.downvotes_count
+    }
+  end  
   
   private
 
@@ -152,4 +156,8 @@ class QuestionsController < ApplicationController
   def question_params
     params.require(:question).permit(:title, :body, :user_id, tag_ids: [], tag_names: [])
   end  
+
+  def handle_record_invalid(exception)
+    render json: { error: exception.message }, status: :unprocessable_entity
+  end
 end
