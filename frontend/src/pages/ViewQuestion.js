@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faThumbsDown, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { QuestionsContext } from '../context/QuestionsContext';
+import { AuthContext } from '../context/AuthContext';
 
 const ViewQuestion = () => {
 
-  const { archiveQuestion, updateQuestion, deleteQuestion } = useContext(QuestionsContext)
+  const {  updateQuestion, deleteQuestion, downvoteQuestion, upvoteQuestion, toggleFavorite, isQuestionFavorited, questions } = useContext(QuestionsContext)
+  const { isLoggedIn } = useContext(AuthContext);
   const { id } = useParams();
 
   const [question, setQuestion] = useState();
@@ -25,27 +28,7 @@ const ViewQuestion = () => {
       .catch((error) => {
         console.error('Error fetching question:', error);
       });
-  }, [id]);
-
-  const handleQuestionUpvote = () => {
-    if (!userVote.question) {
-      setQuestion((prevQuestion) => ({
-        ...prevQuestion,
-        upvotes: prevQuestion.upvotes + 1,
-      }));
-      setUserVote((prevUserVote) => ({ ...prevUserVote, question: true }));
-    }
-  };
-
-  const handleQuestionDownvote = () => {
-    if (!userVote.question) {
-      setQuestion((prevQuestion) => ({
-        ...prevQuestion,
-        downvotes: prevQuestion.downvotes + 1,
-      }));
-      setUserVote((prevUserVote) => ({ ...prevUserVote, question: true }));
-    }
-  };
+  }, [id, questions]);
 
   const handleAnswerUpvote = (answerId) => {
     if (!userVote.answers[answerId]) {
@@ -82,10 +65,15 @@ const ViewQuestion = () => {
     deleteQuestion(questionId);
   };
 
-  const handleArchiveQuestion = (id) => {
-      archiveQuestion(id);
+  const handleUpvote = (questionId, e) => {
+    e.preventDefault();
+    upvoteQuestion(questionId);
   };
 
+  const handleDownvote = (questionId, e) => {
+    e.preventDefault();
+    downvoteQuestion(questionId);
+  };
 
   return (
     <>
@@ -99,7 +87,7 @@ const ViewQuestion = () => {
               <div>
                 <button
                   className="text-white hover:bg-white-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-brown-600 dark:hover:bg-brown-700 focus:outline-none dark:focus:ring-brown-800"
-                  onClick={() => handleArchiveQuestion(question.id)}
+                  onClick={() => toggleFavorite(question.id)}
                 >
                   <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="20" fill="none" viewBox="0 0 18 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 2h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m6 0v3H6V2m6 0a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1M5 5h8m-5 5h5m-8 0h.01M5 14h.01M8 14h5" />
@@ -137,38 +125,67 @@ const ViewQuestion = () => {
             </div>
 
 
-
-
-            <div className="question-details p-4 bg-white rounded-lg shadow-md">
-              <h3 className="question-title text-xl font-bold mb-2">{question.title}</h3>
-              <p className="question-details mb-4">{question.body}</p>
-              <div className="vote-buttons">
-                <button
-                  className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${userVote.question ? 'pointer-events-none opacity-50' : ''
-                    }`}
-                  onClick={handleQuestionUpvote}
-                  disabled={userVote.question}
-                >
-                  <FontAwesomeIcon
-                    icon={faThumbsUp}
-                    className={`w-5 h-5 ${userVote.question ? 'text-blue-600' : ''}`}
-                  />
-                  <span className="ml-2"> ({question.upvotes})</span>
-                </button>
-                <button
-                  className={`text-gray-600 hover:text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${userVote.question ? 'pointer-events-none opacity-50' : ''
-                    }`}
-                  onClick={handleQuestionDownvote}
-                  disabled={userVote.question}
-                >
-                  <FontAwesomeIcon
-                    icon={faThumbsDown}
-                    className={`w-5 h-5 ${userVote.question ? 'text-red-600' : ''}`}
-                  />
-                  <span className="ml-2"> ({question.downvotes})</span>
-                </button>
-              </div>
-            </div>
+            <div className="question-details p-4 bg-white rounded-lg shadow-md whitespace-normal">
+                  <h3 className="question-title text-xl font-bold mb-2">{question.title}</h3>
+                  <p className="question-details mb-4 ">{question.body}</p>
+                  <div className="vote-buttons">
+                    {isLoggedIn && (
+                    <button
+                      onClick={(e) => handleUpvote(question.id, e)}
+                      className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faThumbsUp}
+                        className={`w-5 h-5`}
+                      />
+                      <span className="ml-2"> ({question.upvotes_count} Upvotes)</span>
+                    </button>
+                    )}
+                    {isLoggedIn && (
+                      <button
+                        onClick={(e) => handleDownvote(question.id, e)}
+                        className={`text-gray-600 hover:text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none`}
+                      >
+                        <FontAwesomeIcon
+                          icon={faThumbsDown}
+                          className={`w-5 h-5`}
+                        />
+                        <span className="ml-2"> ( {question.downvotes_count} Downvotes)</span>
+                      </button>
+                    )}
+                    {isLoggedIn && (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleFavorite(question.id);
+                        }}
+                        className={`text-gray-600 ${
+                          isQuestionFavorited(question.id) ? 'text-red-600' : 'hover:text-yellow-600'
+                        } font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none`}
+                      >
+                        <FontAwesomeIcon
+                          icon={faHeart}
+                          className={`w-5 h-5 ${
+                            isQuestionFavorited(question.id) ? 'text-red-600' : 'text-gray-600'
+                          }`}
+                        />
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-brown-500 font-medium mb-2">
+                      Answers: {question && question.answers && question.answers.length}
+                    </p>
+                    <p className="text-sm text-blue-500 font-medium mb-2">
+                      {question &&
+                        question.tag_names &&
+                        JSON.parse(question.tag_names).join(', ')}
+                    </p>
+                    <p className="text-sm text-brown-500 font-medium mb-2">
+                      {question.author_username}
+                    </p>
+                  </div>
+                </div>
 
             <div className="answers mt-4">
               <h4 className="text-lg font-bold">Answers:</h4>

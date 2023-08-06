@@ -372,7 +372,6 @@ const toggleFavorite = (id) => {
     const token = sessionStorage.getItem("token");
     const userId = sessionStorage.getItem("userId");
     if (!token) {
-      Swal.fire("Error", "Not authorized to view favorite questions", "error");
       return;
     }
   

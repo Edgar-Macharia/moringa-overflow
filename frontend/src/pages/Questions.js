@@ -43,11 +43,13 @@ const Questions = () => {
         )}
 
         <div className="questions-btn">
-          <Link to="/AskQuestion">
-            <button className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
-              Ask A Question
-            </button>
-          </Link>
+          {isLoggedIn && (
+            <Link to="/AskQuestion">
+              <button className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
+                Ask A Question
+              </button>
+            </Link>
+          )}
         </div>
       </div>
       {questions && questions.length === 0 ? (
@@ -68,6 +70,7 @@ const Questions = () => {
                   <h3 className="question-title text-xl font-bold mb-2">{question.title}</h3>
                   <p className="question-details mb-4 ">{question.body}</p>
                   <div className="vote-buttons">
+                    {isLoggedIn && (
                     <button
                       onClick={(e) => handleUpvote(question.id, e)}
                       className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none`}
@@ -78,16 +81,19 @@ const Questions = () => {
                       />
                       <span className="ml-2"> ({question.upvotes_count} Upvotes)</span>
                     </button>
-                    <button
-                      onClick={(e) => handleDownvote(question.id, e)}
-                      className={`text-gray-600 hover:text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none`}
-                    >
-                      <FontAwesomeIcon
-                        icon={faThumbsDown}
-                        className={`w-5 h-5`}
-                      />
-                      <span className="ml-2"> ( {question.downvotes_count} Downvotes)</span>
-                    </button>
+                    )}
+                    {isLoggedIn && (
+                      <button
+                        onClick={(e) => handleDownvote(question.id, e)}
+                        className={`text-gray-600 hover:text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none`}
+                      >
+                        <FontAwesomeIcon
+                          icon={faThumbsDown}
+                          className={`w-5 h-5`}
+                        />
+                        <span className="ml-2"> ( {question.downvotes_count} Downvotes)</span>
+                      </button>
+                    )}
                     {isLoggedIn && (
                       <button
                         onClick={(e) => {
