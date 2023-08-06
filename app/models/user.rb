@@ -9,4 +9,10 @@ class User < ApplicationRecord
     validates :username, presence: true, uniqueness: true
     validates :email, presence: true, uniqueness: true
     validates :password, presence: true, length: { minimum: 6 }
+    attr_accessor :password_reset_token
+    attr_accessor :password_reset_token_expiration
+    def generate_password_reset_token
+        self.password_reset_token = SecureRandom.urlsafe_base64
+        self.password_reset_token_expiration = 1.hour.from_now
+      end
 end

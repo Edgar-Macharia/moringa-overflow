@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_06_035124) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_06_065220) do
   create_table "answers", force: :cascade do |t|
     t.text "body"
     t.integer "user_id", null: false
@@ -122,6 +122,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_035124) do
     t.boolean "is_moderator", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_reset_token"
+    t.datetime "password_reset_token_expiration"
+    t.index ["password_reset_token"], name: "index_users_on_password_reset_token", unique: true
   end
 
   add_foreign_key "answers", "questions"
