@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :notifications, only: [:index]
     patch 'notifications/mark_as_read/:id', to: 'notifications#mark_as_read', as: :mark_notification_as_read
   end
-  
+  post '/api/password-reset', to: 'reset#request_reset'
   resources :notifications, only: [:index]
   resources :reported_contents
   resources :comments
