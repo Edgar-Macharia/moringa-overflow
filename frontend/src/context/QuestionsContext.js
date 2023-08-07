@@ -11,6 +11,8 @@ export default function QuestionsProvider({ children }) {
   const [question, setQuestion] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [favoriteQuestions, setFavoriteQuestions] = useState([]);
+  const [isReporting, setIsReporting] = useState(false);
+  const [reportSuccess, setReportSuccess] = useState(false);
 
   const [tags, setTags] = useState([]);
   // const { isLoggedIn } = useContext(AuthContext); 
@@ -400,7 +402,40 @@ const toggleFavorite = (id) => {
   const isQuestionFavorited = (questionId) => {
     return favoriteQuestions.some((favorite) => favorite.id === questionId);
   };
-  
+
+  // Report a question
+  const report = (reportData) => {
+  const token = sessionStorage.getItem("token");
+  if (!token) {
+    Swal.fire("Error", "Not authorized to report question", "error");
+    return;
+  }
+
+  fetch("/reported_contents", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(reportData),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.errors) {
+        Swal.fire("Error", data.errors[0], "error");
+      } else if (data.message) {
+        setReportSuccess(true);
+        nav(`/questions`);
+        Swal.fire("Success", data.message, "success");
+        setIsReporting(false);
+      }
+    })
+    .catch((error) => {
+      console.error("Error reporting question:", error);
+      Swal.fire("Error", "Failed to report question", "error");
+    });
+  };
+
   const contextData = {
     questions,
     createAnswer,
@@ -418,6 +453,10 @@ const toggleFavorite = (id) => {
     favoriteQuestions,
     fetchFavoriteQuestions,
     isQuestionFavorited,
+    report,
+    isReporting,
+    reportSuccess,
+    setIsReporting,
   };
 
   return (

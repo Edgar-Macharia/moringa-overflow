@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_06_065220) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_07_051414) do
   create_table "answers", force: :cascade do |t|
     t.text "body"
     t.integer "user_id", null: false
@@ -84,12 +84,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_065220) do
 
   create_table "reported_contents", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "content_type"
     t.integer "question_id", null: false
     t.string "reason"
     t.boolean "is_handled"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "moderator_id"
+    t.string "action_taken"
+    t.text "action_description"
+    t.datetime "handled_at", precision: nil
+    t.boolean "resolved", default: false
+    t.integer "answer_id"
+    t.index ["answer_id"], name: "index_reported_contents_on_answer_id"
     t.index ["user_id"], name: "index_reported_contents_on_user_id"
   end
 
@@ -139,8 +145,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_065220) do
   add_foreign_key "question_tags", "questions"
   add_foreign_key "question_tags", "tags"
   add_foreign_key "questions", "users"
+  add_foreign_key "reported_contents", "answers", on_delete: :cascade
   add_foreign_key "reported_contents", "questions"
   add_foreign_key "reported_contents", "users"
+  add_foreign_key "reported_contents", "users", column: "moderator_id"
   add_foreign_key "upvotes", "answers"
   add_foreign_key "upvotes", "questions"
   add_foreign_key "upvotes", "users"

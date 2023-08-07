@@ -1,70 +1,45 @@
 class ReportedContentsController < ApplicationController
   before_action :set_reported_content, only: %i[ show edit update destroy ]
 
-  # GET /reported_contents or /reported_contents.json
-  def index
-    @reported_contents = ReportedContent.all
-  end
-
-  # GET /reported_contents/1 or /reported_contents/1.json
-  def show
-  end
-
-  # GET /reported_contents/new
-  def new
-    @reported_content = ReportedContent.new
-  end
-
-  # GET /reported_contents/1/edit
-  def edit
-  end
-
-  # POST /reported_contents or /reported_contents.json
   def create
-    @reported_content = ReportedContent.new(reported_content_params)
+    reported_content = ReportedContent.new(reported_content_params)
+    reported_content.user = current_user
+    reported_content.is_handled = false
 
-    respond_to do |format|
-      if @reported_content.save
-        format.html { redirect_to reported_content_url(@reported_content), notice: "Reported content was successfully created." }
-        format.json { render :show, status: :created, location: @reported_content }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @reported_content.errors, status: :unprocessable_entity }
-      end
+    if reported_content.save
+      render json: { message: 'Content reported successfully.' }, status: :created
+    else
+      render json: { errors: reported_content.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /reported_contents/1 or /reported_contents/1.json
   def update
-    respond_to do |format|
-      if @reported_content.update(reported_content_params)
-        format.html { redirect_to reported_content_url(@reported_content), notice: "Reported content was successfully updated." }
-        format.json { render :show, status: :ok, location: @reported_content }
+    reported_content = ReportedContent.find(params[:id])
+
+    # Ensure the current user is authorized to handle reported content (e.g., moderator/admin)
+    if current_user_can_handle_reported_content?
+      if reported_content.update(report_handling_params)
+        render json: { message: 'Reported content updated successfully.' }, status: :ok
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @reported_content.errors, status: :unprocessable_entity }
+        render json: { errors: reported_content.errors.full_messages }, status: :unprocessable_entity
       end
-    end
-  end
-
-  # DELETE /reported_contents/1 or /reported_contents/1.json
-  def destroy
-    @reported_content.destroy
-
-    respond_to do |format|
-      format.html { redirect_to reported_contents_url, notice: "Reported content was successfully destroyed." }
-      format.json { head :no_content }
+    else
+      render json: { error: 'Unauthorized to handle reported content.' }, status: :unauthorized
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_reported_content
-      @reported_content = ReportedContent.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def reported_content_params
-      params.require(:reported_content).permit(:user_id, :content_type, :content_id, :reason, :is_handled)
-    end
+  def reported_content_params
+    params.require(:reported_content).permit(:question_id, :reason)
+  end
+
+  def report_handling_params
+    params.require(:reported_content).permit(:is_handled)
+  end
+
+  def current_user_can_handle_reported_content?
+    # Implement your logic to check if the current user is authorized to handle reported content
+
+  end
 end
