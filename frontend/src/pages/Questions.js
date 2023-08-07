@@ -25,7 +25,8 @@ const Questions = () => {
       <div className="flex justify-end mx-11">
         {isLoggedIn && (
           <Link to="/favoriteQuestions" className="mr-5 title = saved questions ">
-            <svg
+
+            {/* <svg
               class="w-6 h-6 text-gray-800 dark:text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +39,12 @@ const Questions = () => {
                 stroke-width="2"
                 d="M6 1h10M6 5h10M6 9h10M1.49 1h.01m-.01 4h.01m-.01 4h.01"
               />
-            </svg>
+            </svg> */}
+
+            <button class="float-left ml-5 space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
+              Favorites
+            </button>
+
           </Link>
         )}
 
@@ -71,16 +77,16 @@ const Questions = () => {
                   <p className="question-details mb-4 ">{question.body}</p>
                   <div className="vote-buttons">
                     {isLoggedIn && (
-                    <button
-                      onClick={(e) => handleUpvote(question.id, e)}
-                      className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none`}
-                    >
-                      <FontAwesomeIcon
-                        icon={faThumbsUp}
-                        className={`w-5 h-5`}
-                      />
-                      <span className="ml-2"> ({question.upvotes_count} Upvotes)</span>
-                    </button>
+                      <button
+                        onClick={(e) => handleUpvote(question.id, e)}
+                        className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none`}
+                      >
+                        <FontAwesomeIcon
+                          icon={faThumbsUp}
+                          className={`w-5 h-5`}
+                        />
+                        <span className="ml-2"> ({question.upvotes_count} Upvotes)</span>
+                      </button>
                     )}
                     {isLoggedIn && (
                       <button
@@ -100,15 +106,13 @@ const Questions = () => {
                           e.preventDefault();
                           toggleFavorite(question.id);
                         }}
-                        className={`text-gray-600 ${
-                          isQuestionFavorited(question.id) ? 'text-red-600' : 'hover:text-yellow-600'
-                        } font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none`}
+                        className={`text-gray-600 ${isQuestionFavorited(question.id) ? 'text-red-600' : 'hover:text-yellow-600'
+                          } font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none`}
                       >
                         <FontAwesomeIcon
                           icon={faHeart}
-                          className={`w-5 h-5 ${
-                            isQuestionFavorited(question.id) ? 'text-red-600' : 'text-gray-600'
-                          }`}
+                          className={`w-5 h-5 ${isQuestionFavorited(question.id) ? 'text-red-600' : 'text-gray-600'
+                            }`}
                         />
                       </button>
                     )}

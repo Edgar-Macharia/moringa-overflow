@@ -34,7 +34,7 @@ const FavoriteQuestions = () => {
             </button>
           </Link>
         </div>      </div>
-      <p className="ml-5 text-lg">Saved Questions</p>
+      <p className="ml-5 text-lg">Your Favorite Question Saved</p>
       {favoriteQuestions && favoriteQuestions.length === 0 ? (
         <p>No saved questions found.</p>
       ) : (
@@ -73,23 +73,21 @@ const FavoriteQuestions = () => {
                     <span className="ml-2"> ( {question.downvotes_count} Downvotes )</span>
                   </button>
                   {isLoggedIn && (
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          toggleFavorite(question.id);
-                        }}
-                        className={`text-gray-600 ${
-                          isQuestionFavorited(question.id) ? 'text-red-600' : 'hover:text-yellow-600'
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        toggleFavorite(question.id);
+                      }}
+                      className={`text-gray-600 ${isQuestionFavorited(question.id) ? 'text-red-600' : 'hover:text-yellow-600'
                         } font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none`}
-                      >
-                        <FontAwesomeIcon
-                          icon={faHeart}
-                          className={`w-5 h-5 ${
-                            isQuestionFavorited(question.id) ? 'text-red-600' : 'text-gray-600'
+                    >
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        className={`w-5 h-5 ${isQuestionFavorited(question.id) ? 'text-red-600' : 'text-gray-600'
                           }`}
-                        />
-                      </button>
-                    )}
+                      />
+                    </button>
+                  )}
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-sm text-brown-500 font-medium mb-2">
