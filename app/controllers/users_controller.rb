@@ -88,13 +88,18 @@ end
   def update_profile_picture
     user = User.find(params[:id])
     uploaded_image = params[:image]
-    puts "Uploading profile picture"
-    puts uploaded_image 
-    cloudinary_response = Cloudinary::Uploader.upload(uploaded_image)
-    user.update!(profile_picture: cloudinary_response['secure_url'])
-
-    render json: { profile_picture_url: user.profile_picture }
-  end
+    
+    begin
+      puts "Uploading profile picture"
+      puts uploaded_image 
+      cloudinary_response = Cloudinary::Uploader.upload(uploaded_image)
+      user.update!(profile_picture: cloudinary_response['secure_url'])
+      
+      render json: { profile_picture_url: user.profile_picture }
+    rescue => e
+      render json: { error: "Error updating profile picture: #{e.message}" }, status: :unprocessable_entity
+    end
+  end  
   
   private
 
