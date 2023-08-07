@@ -52,12 +52,13 @@ const Profile = () => {
   };
 
   const handleImageUpload = async () => {
+    const token = sessionStorage.getItem("token");
     const formData = new FormData();
     formData.append('image', selectedImage);
 
     try {
       const response = await axios.post(`/users/${userId}/update_profile_picture`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}`, },
       });
       console.log('Uploaded Profile Picture URL:', response.data.profile_picture_url);
     } catch (error) {
