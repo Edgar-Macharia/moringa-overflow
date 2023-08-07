@@ -20,6 +20,7 @@ import AnswerQuestion from "./pages/Answers";
 import ViewQuestion from "./pages/ViewQuestion";
 import ViewTag from "./pages/ViewTag";
 import FavoriteQuestions from "./pages/FavoriteQuestions";
+import Admin from "./pages/Admin ";
 
 function App() {
   useEffect(() => {
@@ -48,6 +49,7 @@ function App() {
             <Route path="/viewQuestion/:id" element={<ViewQuestion />} />
             <Route path="/viewTag/:id" element={<ViewTag />} />
             <Route path="/favoriteQuestions" element={<FavoriteQuestions />} />
+            <Route path="/admin" element={<Admin />} />
           </Route>
         </Routes>
         </QuestionsProvider>
