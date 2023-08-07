@@ -84,6 +84,17 @@ end
 
     render json: favorite_questions, status: :ok
   end
+
+  def update_profile_picture
+    user = User.find(params[:id])
+    uploaded_image = params[:image]
+    puts "Uploading profile picture"
+    puts uploaded_image 
+    cloudinary_response = Cloudinary::Uploader.upload(uploaded_image)
+    user.update!(profile_picture: cloudinary_response['secure_url'])
+
+    render json: { profile_picture_url: user.profile_picture }
+  end
   
   private
 
