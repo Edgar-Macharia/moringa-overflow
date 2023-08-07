@@ -6,13 +6,15 @@ class User < ApplicationRecord
     has_many :reported_contents
     has_many :notifications
     has_secure_password
-    validates :username, presence: true, uniqueness: true
-    validates :email, presence: true, uniqueness: true
+
+    validates :username, presence: true, uniqueness: { case_sensitive: false, message: "username must be unique" }
+    validates :email, presence: true, uniqueness: { case_sensitive: false, message: "email must be unique" }
     validates :password, presence: true, length: { minimum: 6 }
+
     attr_accessor :password_reset_token
     attr_accessor :password_reset_token_expiration
     def generate_password_reset_token
         self.password_reset_token = SecureRandom.urlsafe_base64
         self.password_reset_token_expiration = 1.hour.from_now
-      end
+    end
 end
