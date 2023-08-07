@@ -67,7 +67,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_095259) do
     t.datetime "updated_at", null: false
     t.integer "question_id"
     t.index ["question_id"], name: "index_notifications_on_question_id"
-    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "question_tags", force: :cascade do |t|
