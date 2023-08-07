@@ -15,7 +15,7 @@ class QuestionsController < ApplicationController
     render json: @question, include: 'answers'
   end
 
-  # POST /questions or /questions.json
+    # POST /questions or /questions.json
   def create
     @question = Question.new(question_params)
 
@@ -27,13 +27,19 @@ class QuestionsController < ApplicationController
         @question.tags << tag
       end
     end
-
+    @user = current_user
     if @question.save
-      render json: @question, status: :created, location: @question
+      begin
+        @user.notifications.create!(message: 'Your question was successfully created.')
+        render json: @question, status: :created, location: @question
+      rescue => e
+        render json: { errors: ["Error creating notification: #{e.message}"] }, status: :unprocessable_entity
+      end      
     else
       render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
 
   # PATCH/PUT /questions/1 or /questions/1.json
   def update
