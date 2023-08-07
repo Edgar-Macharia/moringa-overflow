@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_06_035124) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_06_085230) do
   create_table "answers", force: :cascade do |t|
     t.text "body"
     t.integer "user_id", null: false
@@ -51,6 +51,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_035124) do
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_favorites_on_question_id"
     t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "notifications", force: :cascade do |t|

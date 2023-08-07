@@ -27,13 +27,16 @@ Rails.application.routes.draw do
     member do
       get 'favorite_questions', to: 'users#favorite_questions'
       put :reset_password
+      post 'update_profile_picture'
     end
   end
+
 
   post '/login', to: 'sessions#create'
   post '/logout', to: 'sessions#create'
   get "/questions/search", to: "questions#search"
   delete '/questions', to: 'questions#destroy'
+  
   
   # Defines the root path route ("/")
   # root "articles#index"
