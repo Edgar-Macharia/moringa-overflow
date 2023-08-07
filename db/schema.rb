@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_07_051414) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_07_095259) do
   create_table "answers", force: :cascade do |t|
     t.text "body"
     t.integer "user_id", null: false
@@ -65,7 +65,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_051414) do
     t.boolean "read_status", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_notifications_on_user_id"
+    t.integer "question_id"
+    t.index ["question_id"], name: "index_notifications_on_question_id"
   end
 
   create_table "question_tags", force: :cascade do |t|
@@ -149,7 +150,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_051414) do
   add_foreign_key "downvotes", "users"
   add_foreign_key "favorites", "questions"
   add_foreign_key "favorites", "users"
-  add_foreign_key "notifications", "users"
+  add_foreign_key "notifications", "questions"
   add_foreign_key "question_tags", "questions"
   add_foreign_key "question_tags", "tags"
   add_foreign_key "questions", "users"
