@@ -27,8 +27,9 @@ class QuestionsController < ApplicationController
         @question.tags << tag
       end
     end
-
+user_id = current_user.id
     if @question.save
+      Notification.create(user_id: user_id, message: 'Your question was successfully created.')
       render json: @question, status: :created, location: @question
     else
       render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity

@@ -1,4 +1,14 @@
 # config/initializers/sendgrid.rb
 require 'sendgrid-ruby'
-# SendGrid::API_KEY = ENV['SENDGRID_API_KEY'] # or your API key directly
-SendGrid::API_KEY = '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'
+
+# SendGrid::API_KEY = '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'
+
+ActionMailer::Base.smtp_settings = {
+  address: 'smtp.sendgrid.net',
+  port: 587,
+  domain: 'your-domain.com', # Replace with your actual domain or leave as is
+  user_name: 'apikey',
+  password: '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',
+  authentication: :plain,
+  enable_starttls_auto: true
+}

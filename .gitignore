@@ -31,3 +31,5 @@
 Gemfile.lock
 Gemfile
 .ruby-version
+sendgrid.env
+sendgrid.env
