@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
 import logo from "../images/Logo.png";
 import userIcon from "../images/user.png";
-import React, { useContext, useState } from "react";
-import Search from "../pages/Search";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { QuestionsContext } from "../context/QuestionsContext";
 
 const Navbar = () => {
-  const { isLoggedIn, logout, username } = useContext(AuthContext);
-  const { searchQuestions } = useContext(QuestionsContext);
+  const { isLoggedIn, logout, username, currentUserData } = useContext(AuthContext);
+  console.log(currentUserData)
+  const { searchQuestions, notifications } = useContext(QuestionsContext);
   const [searchQuery, setSearchQuery] = useState("");
-  const { notifications } = useContext(QuestionsContext);
+
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -61,6 +61,11 @@ const Navbar = () => {
 
           <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
             <ul className="bg-[#DFA878] flex flex-col font-medium p-4 rounded-lg md:flex-row md:space-x-16 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              {isLoggedIn && currentUserData.is_admin &&
+              <li>
+                <Link to="/admin" href="#" className="block py-2 pl-3 pr-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Admin</Link>
+              </li>
+              }
               <li>
                 <Link to="/about" href="#" className="block py-2 pl-3 pr-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</Link>
               </li>
