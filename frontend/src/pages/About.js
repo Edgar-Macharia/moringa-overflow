@@ -1,5 +1,8 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
+import imageOne from "../images/image1.jpg";
+import imageTwo from "../images/image2.jpg";
+import imageThree from "../images/image3.jpg";
 const About = () => {
   return (
     <div className='homepage'>
@@ -59,6 +62,43 @@ const About = () => {
           </div>
         </div>
       </section>
+
+
+      <div class="flex space-x-4">
+        <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+          <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src={imageOne} alt="" />
+          <div class="flex flex-col justify-between p-4 leading-normal">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">You Ask your question</h5>
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">The process begins with you posing your question, initiating the exchange of information and knowledge within the community.</p>
+          </div>
+        </a>
+
+        <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+          <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src={imageTwo} alt="" />
+          <div class="flex flex-col justify-between p-4 leading-normal">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">You get an answer / Insight to your Question</h5>
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Upon posting your question on the platform, you receive valuable answers and insights from the community, helping you gain clarity and knowledge on the topic of your inquiry.</p>
+          </div>
+        </a>
+
+        <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+          <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src={imageThree} alt="" />
+          <div class="flex flex-col justify-between p-4 leading-normal">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">You Upvote, Downvote, Answer or Post a Query</h5>
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">On the platform, you can upvote, downvote, answer, or post queries, fostering an interactive and collaborative community where users collectively curate content quality and relevance.</p>
+          </div>
+        </a>
+      </div>
+      <Link to="/Signup">
+        <button className='float-right space-x-2 hover:space-x-4 px-3 py-2 mt-5 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]'>
+          <span className='transition-[margin]'>Get started</span>
+          <span className='relative ml-4 text-base transition-[margin]'><i className="fa-solid fa-arrow-right"></i></span>
+        </button>
+      </Link>
+      <p class="font-light sm:text-xl mb-3 first-letter:text-7xl first-letter:font-bold p-20">The platform offers a range of interactive features such as upvoting, downvoting, answering, and posting queries, fostering an engaged and collaborative community where users collectively shape content quality. By asking questions, users initiate valuable knowledge exchanges, receiving insights and answers that contribute to their understanding of various topics.</p>
+
+
+
     </div>
   )
 }
