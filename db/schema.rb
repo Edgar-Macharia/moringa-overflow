@@ -11,14 +11,10 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_08_07_095259) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-  enable_extension "timescaledb"
-
   create_table "answers", force: :cascade do |t|
     t.text "body"
-    t.bigint "user_id", null: false
-    t.bigint "question_id", null: false
+    t.integer "user_id", null: false
+    t.integer "question_id", null: false
     t.integer "upvotes"
     t.integer "downvotes"
     t.datetime "created_at", null: false
@@ -29,8 +25,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_095259) do
 
   create_table "comments", force: :cascade do |t|
     t.text "body"
-    t.bigint "user_id", null: false
-    t.bigint "question_id", null: false
+    t.integer "user_id", null: false
+    t.integer "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_comments_on_question_id"
@@ -38,9 +34,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_095259) do
   end
 
   create_table "downvotes", force: :cascade do |t|
-    t.bigint "question_id"
-    t.bigint "user_id", null: false
-    t.bigint "answer_id"
+    t.integer "question_id"
+    t.integer "user_id", null: false
+    t.integer "answer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["answer_id"], name: "index_downvotes_on_answer_id"
@@ -49,8 +45,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_095259) do
   end
 
   create_table "favorites", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "question_id", null: false
+    t.integer "user_id", null: false
+    t.integer "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_favorites_on_question_id"
@@ -65,18 +61,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_095259) do
 
   create_table "notifications", force: :cascade do |t|
     t.string "message"
-    t.bigint "user_id", null: false
+    t.integer "user_id"
     t.boolean "read_status", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "question_id"
+    t.integer "question_id"
     t.index ["question_id"], name: "index_notifications_on_question_id"
-    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "question_tags", force: :cascade do |t|
-    t.bigint "question_id", null: false
-    t.bigint "tag_id", null: false
+    t.integer "question_id", null: false
+    t.integer "tag_id", null: false
     t.index ["question_id"], name: "index_question_tags_on_question_id"
     t.index ["tag_id"], name: "index_question_tags_on_tag_id"
   end
@@ -84,10 +79,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_095259) do
   create_table "questions", force: :cascade do |t|
     t.string "title"
     t.text "body"
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "tag_names", default: [], array: true
+    t.string "tag_names", default: ""
     t.integer "upvotes_count", default: 0
     t.integer "downvotes_count", default: 0
     t.index ["downvotes_count"], name: "index_questions_on_downvotes_count"
@@ -96,7 +91,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_095259) do
   end
 
   create_table "reported_contents", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.integer "question_id", null: false
     t.string "reason"
     t.boolean "is_handled"
@@ -120,9 +115,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_095259) do
   end
 
   create_table "upvotes", force: :cascade do |t|
-    t.bigint "question_id"
-    t.bigint "user_id", null: false
-    t.bigint "answer_id"
+    t.integer "question_id"
+    t.integer "user_id", null: false
+    t.integer "answer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["answer_id"], name: "index_upvotes_on_answer_id"
@@ -156,7 +151,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_095259) do
   add_foreign_key "favorites", "questions"
   add_foreign_key "favorites", "users"
   add_foreign_key "notifications", "questions"
-  add_foreign_key "notifications", "users"
   add_foreign_key "question_tags", "questions"
   add_foreign_key "question_tags", "tags"
   add_foreign_key "questions", "users"
