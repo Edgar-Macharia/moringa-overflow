@@ -44,7 +44,12 @@ class QuestionsController < ApplicationController
   # PATCH/PUT /questions/1 or /questions/1.json
   def update
     if @question.update(question_params)
+      begin
+        @user.notifications.create!(message: 'Your question was successfully updated.')
       render json: @question
+    rescue => e
+      render json: { errors: ["Error creating notification: #{e.message}"] }, status: :unprocessable_entity
+    end
     else
       render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
     end

@@ -22,6 +22,7 @@ import ViewTag from "./pages/ViewTag";
 import FavoriteQuestions from "./pages/FavoriteQuestions";
 import ReportContent from "./pages/ReportContent";
 import Admin from "./pages/Admin ";
+import PasswordResetPage from "./pages/PasswordResetPage";
 
 function App() {
   useEffect(() => {
@@ -45,6 +46,8 @@ function App() {
             <Route path="/ReportContent/:id" element={<ReportContent />} />
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Reset" element={<Reset />} />
+            {/* <Route path="/PasswordResetPage" element={<PasswordResetPage />} /> */}
+            <Route path="/PasswordResetPage/:resetToken" element={<PasswordResetPage />} />
             <Route path="/askQuestion" element={<AskQuestion />} />
             <Route path="/Answers/:question_id" element={<AnswerQuestion />} />
             <Route path="/viewQuestion/:id" element={<ViewQuestion />} />

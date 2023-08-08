@@ -22,9 +22,14 @@ class AnswersController < ApplicationController
   # POST /answers or /answers.json
   def create
     @answer = Answer.new(answer_params)
-  
+    @user = current_user
     if @answer.save
+      begin
+        @user.notifications.create!(message: 'Your answer was successfully posted.')
       render json: { message: 'Answer created successfully', answer: @answer }, status: :created
+    rescue => e
+      render json: { errors: ["Error creating notification: #{e.message}"] }, status: :unprocessable_entity
+    end
     else
       render json: { errors: @answer.errors.full_messages }, status: :unprocessable_entity
     end

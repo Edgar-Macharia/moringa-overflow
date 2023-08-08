@@ -3,8 +3,13 @@ Rails.application.routes.draw do
     resources :notifications, only: [:index]
     patch 'notifications/mark_as_read/:id', to: 'notifications#mark_as_read', as: :mark_notification_as_read
   end
-  post '/password-reset', to: 'reset#request_reset'
-  get '/password-reset', to: 'reset#reset_password'
+   post '/api/password-reset', to: 'reset#request_reset'
+   post '/password-reset', to: 'reset#request_reset'
+  put '/PasswordResetPage/:reset_token', to: 'reset#reset_password', as: 'password_reset_page'
+  # get '/api/password-reset', to: 'reset#reset_password', as: :reset_password
+  # get '/PasswordResetPage/:reset_token', to: 'reset#reset_password', as: 'password_reset_page'
+  # get 'api/password-reset', to: 'reset#reset_password', as: :password_reset_page
+  put 'api/password-reset/:reset_token', to: 'reset#reset_password', as: :reset_password
   resources :notifications, only: [:index]
   resources :reported_contents
   resources :comments
