@@ -13,10 +13,12 @@ class ResetController < ApplicationController
   end
   
   def reset_password
-    @user = User.find_by(password_reset_token: params[:reset_token])
-    puts "expire"
-    puts  @user.password_reset_token_expiration
-    if @user && @user.password_reset_token_expiration > Time.now
+    user = User.find_by(id: params[:reset_token])
+    # expiration = @user.id
+    puts params[:reset_token]
+    puts "expiry"
+    puts user
+    if user && user.password_reset_token_expiration > Time.now
       if user.update(password: params[:password], password_reset_token: nil, password_reset_token_expiration: nil)
         render json: { message: 'Password reset successful.' }, status: :ok
       else
