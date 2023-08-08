@@ -7,7 +7,7 @@ import { QuestionsContext } from '../context/QuestionsContext';
 import { AuthContext } from '../context/AuthContext';
 
 const Questions = () => {
-  const { questions, downvoteQuestion, upvoteQuestion, toggleFavorite, isQuestionFavorited } = useContext(QuestionsContext);
+  const { questions,tags, downvoteQuestion, upvoteQuestion, toggleFavorite, isQuestionFavorited } = useContext(QuestionsContext);
   const { isLoggedIn } = useContext(AuthContext);
 
   const handleUpvote = (questionId, e) => {
@@ -106,10 +106,18 @@ const Questions = () => {
                       Answers: {question && question.answers && question.answers.length}
                     </p>
                     <p className="text-sm text-blue-500 font-medium mb-2">
-                      {question &&
-                        question.tag_names &&
-                        JSON.parse(question.tag_names).join(', ')}
-                    </p>
+                  {question && question.tag_names && (
+                    JSON.parse(question.tag_names).map((tagName, index) => (
+                      <Link
+                        key={index}
+                        to={`/viewTag/${tags.find(tag => tag.name === tagName).id}`}
+                        className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 "
+                      >
+                        {tagName}
+                      </Link>
+                    ))
+                  )}
+                </p>
                     <p className="text-sm text-brown-500 font-medium mb-2">
                       {question.author_username}
                     </p>
