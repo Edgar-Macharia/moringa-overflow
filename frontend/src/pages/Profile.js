@@ -18,6 +18,7 @@ const Profile = () => {
   const [profilePictureUrl, setProfilePictureUrl] = useState(currentUserData.profile_picture);
   const userId = currentUserData.id;
 
+  console.log(currentUserData)
   const handleImageChange = (e) => {
     setSelectedImage(e.target.files[0]);
   };

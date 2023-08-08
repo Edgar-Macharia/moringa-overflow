@@ -39,14 +39,17 @@ const PasswordResetPage = () => {
       },
       body: JSON.stringify({ password, password_confirmation })
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Failed to reset password. Please try again later.');
-        }
-      })
+      .then((response) => response.json())
+      // .then((response) => {
+        
+      //   // if (response.ok) {
+      //   //   return response.json();
+      //   // } else {
+      //   //   throw new Error('Failed to reset password. Please try again later.');
+      //   // }
+      // })
       .then((data) => {
+        console.log(data)
         setSuccessMessage(data.message);
         setErrorMessage('');
       })
