@@ -62,6 +62,7 @@ const fetchQuestions = () => {
         } else {
           Swal.fire("Success", "Question created successfully", "success");
           nav(`/questions`);
+          fetchNotifications();
         }
       })
       .catch((error) => {
