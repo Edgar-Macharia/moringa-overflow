@@ -1,5 +1,3 @@
-# app/controllers/reset_controller.rb
-
 class ResetController < ApplicationController
   require 'sendgrid_mailer'
   skip_before_action :authorize_request, only: [:request_reset, :reset_password]
@@ -11,6 +9,7 @@ class ResetController < ApplicationController
       reset_token = generate_reset_token(user)
 
       SendgridMailer.send_password_reset(user.email, reset_token).deliver_now
+      # user.update_columns(password_reset_token: reset_token)
 
       render json: { message: 'Password reset email sent successfully.' }, status: :ok
     else
@@ -18,9 +17,12 @@ class ResetController < ApplicationController
     end
   end
   def reset_password
-    user = User.find_by(password_reset_token: params[:reset_token])
+    @user = User.find_by(password_reset_token: params[:reset_token])
+    expiration = @user.password_reset_token_expiration
+    puts "expire"
+    puts expiration
 
-    if user && user.password_reset_token_expiration > Time.now
+    if @user && @user.password_reset_token_expiration && @user.password_reset_token_expiration > Time.now
       if user.update(password: params[:password], password_reset_token: nil, password_reset_token_expiration: nil)
         render json: { message: 'Password reset successful.' }, status: :ok
       else
@@ -34,7 +36,7 @@ class ResetController < ApplicationController
 
   def generate_reset_token(user)
     token = SecureRandom.urlsafe_base64
-    user.update(password_reset_token: token, password_reset_token_expiration: 27.hour.from_now)
-    token
+    user.update_columns(password_reset_token: token, password_reset_token_expiration: 27.hour.from_now)
+    user
   end
 end
