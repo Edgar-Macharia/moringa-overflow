@@ -36,20 +36,13 @@ const Tags = () => {
       </div>
 
       {/* Cards section to be fetched from the backend */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mx-20 py-10">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mx-20 py-10">
         {tags.length > 0 ? (
           tags.map((tag) => (
-<<<<<<< HEAD
             <div className='mb-2' key={tag.id}>
               <Link to={`/ViewTag/${tag.id}`}
                 // href="#"
                 className={`inline-flex items-center px-2 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700 ${selectedTag === tag ? 'bg-blue-500 text-white' : ''}`}
-=======
-            <div className='mb-10' key={tag.id}>
-              <a
-                href=" "
-                className={`inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700 ${selectedTag === tag ? 'bg-blue-500 text-white' : ''}`}
->>>>>>> 6a8f6137ad4717569cffe0d6460eb9c21632cd7d
                 onClick={() => handleTagClick(tag)}
               >
                 {tag.name} 
