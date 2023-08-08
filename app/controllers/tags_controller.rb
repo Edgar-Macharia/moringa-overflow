@@ -9,9 +9,11 @@ class TagsController < ApplicationController
 
   # GET /tags/1 or /tags/1.json
   def show
+    @tag = Tag.find(params[:id])
+
     render json: @tag
   end
-
+  
   # POST /tags or /tags.json
   def create
     @tag = Tag.new(tag_params)

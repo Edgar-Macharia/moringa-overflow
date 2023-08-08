@@ -25,29 +25,13 @@ const Questions = () => {
       <div className="flex justify-end mx-11">
         {isLoggedIn && (
           <Link to="/favoriteQuestions" className="mr-5 title = saved questions ">
-
-            {/* <svg
-              class="w-6 h-6 text-gray-800 dark:text-white"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 10"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-width="2"
-                d="M6 1h10M6 5h10M6 9h10M1.49 1h.01m-.01 4h.01m-.01 4h.01"
-              />
-            </svg> */}
-
-            <button class="float-left ml-5 space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
-              Favorites
-            </button>
-
+          <button
+            className="text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none focus:ring focus:ring-green-400"
+          >
+            <FontAwesomeIcon icon={faHeart} className="w-10 h-10" />
+          </button>
           </Link>
         )}
-
         <div className="questions-btn">
           {isLoggedIn && (
             <Link to="/AskQuestion">
