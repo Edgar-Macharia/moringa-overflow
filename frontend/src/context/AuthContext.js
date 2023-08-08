@@ -225,6 +225,7 @@ export default function AuthProvider({ children }) {
     editUserProfile,
     resetPassword,
     fetchCurrentUser,
+    setCurrentUserData,
   };
 
   return <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>;
