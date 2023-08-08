@@ -7,16 +7,16 @@ import { QuestionsContext } from '../context/QuestionsContext';
 
 
 const ViewTag = () => {
-  const { tags, questions, downvoteQuestion, upvoteQuestion, toggleFavorite, isQuestionFavorited } = useContext(QuestionsContext);
+  const { tags, downvoteQuestion, upvoteQuestion, toggleFavorite, isQuestionFavorited } = useContext(QuestionsContext);
   const { id } = useParams()
 
-const [question, setQuestion] = useState();
+const [questions, setQuestions] = useState();
 
 useEffect(() => {
   fetch(`/tags/${id}`)
     .then((res) => res.json())
     .then((response) => {
-      setQuestion(response.questions);
+      setQuestions(response.questions);
       console.log(response.questions)
     })
     .catch((error) => {
