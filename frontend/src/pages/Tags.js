@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { QuestionsContext } from '../context/QuestionsContext';
+import { Link } from 'react-router-dom';
 
 const Tags = () => {
   const { fetchTags, tags, fetchQuestions } = useContext(QuestionsContext);
@@ -13,14 +14,18 @@ const Tags = () => {
 
   const handleTagClick = (tag) => {
     setSelectedTag(tag);
+    // Fetch questions related to the selected tag using fetchQuestions function
     fetchQuestions(tag.id)
       .then((response) => {
-        setQuestions(response); // Update the state with the fetched questions
+        console.log('API Response:', response)
+        // Update the state with the fetched questions
+        setQuestions(response);
       })
       .catch((error) => {
         console.error('Error fetching questions:', error);
       });
   };
+  
 
   return (
     <>
@@ -31,17 +36,25 @@ const Tags = () => {
       </div>
 
       {/* Cards section to be fetched from the backend */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mx-20 py-10">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mx-20 py-10">
         {tags.length > 0 ? (
           tags.map((tag) => (
+<<<<<<< HEAD
+            <div className='mb-2' key={tag.id}>
+              <Link to={`/ViewTag/${tag.id}`}
+                // href="#"
+                className={`inline-flex items-center px-2 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700 ${selectedTag === tag ? 'bg-blue-500 text-white' : ''}`}
+=======
             <div className='mb-10' key={tag.id}>
               <a
                 href=" "
                 className={`inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700 ${selectedTag === tag ? 'bg-blue-500 text-white' : ''}`}
+>>>>>>> 6a8f6137ad4717569cffe0d6460eb9c21632cd7d
                 onClick={() => handleTagClick(tag)}
               >
-                {tag.name}
-              </a>
+                {tag.name} 
+                ({tag.questions_count})
+              </Link>
               <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">{tag.description}</p>
             </div>
           ))
