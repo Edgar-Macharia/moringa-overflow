@@ -45,7 +45,7 @@
 // }
 
 // export default Search
-import React,{useState} from "react";
+import React from "react";
 
 
 const Search = ({ searchQuery }) => {
