@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   end
    post '/api/password-reset', to: 'reset#request_reset'
    post '/password-reset', to: 'reset#request_reset'
-  put '/PasswordResetPage/:reset_token', to: 'reset#reset_password', as: 'password_reset_page'
+   put '/PasswordResetPage/:reset_token', to: 'reset#reset_password', as: 'password_reset_page'
   # get '/api/password-reset', to: 'reset#reset_password', as: :reset_password
   # get '/PasswordResetPage/:reset_token', to: 'reset#reset_password', as: 'password_reset_page'
   # get 'api/password-reset', to: 'reset#reset_password', as: :password_reset_page
