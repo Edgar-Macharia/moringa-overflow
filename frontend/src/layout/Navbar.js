@@ -115,7 +115,7 @@ const Navbar = () => {
               <li>
 
 
-                {isLoggedIn && notifications && notifications.length >= 0 && (
+                {isLoggedIn && notifications &&  (
 
                   <div className="relative">
                     <Link to="/Notifications" className="">
@@ -124,7 +124,7 @@ const Navbar = () => {
                       </svg>
                     </Link>
                     <div className="absolute top-0 right-0 -mt-2 -mr-2 px-1 text-xs text-white bg-red-500 rounded-full">
-                      {notifications.length}
+                    {notifications.filter(notification => !notification.read_status).length}
                     </div>
                   </div>
                 )}
