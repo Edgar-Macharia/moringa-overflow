@@ -453,8 +453,11 @@ const downvoteAnswer = (answerId) => {
       });
   };
   
-
   const isQuestionFavorited = (questionId) => {
+    if (!Array.isArray(favoriteQuestions)) {
+      return false; // Or handle the case when favoriteQuestions is not an array
+    }
+    
     return favoriteQuestions.some((favorite) => favorite.id === questionId);
   };
 

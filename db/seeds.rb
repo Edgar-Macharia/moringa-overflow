@@ -61,7 +61,7 @@ questions_data = [
     user: users.sample,
     upvotes_count: rand(0..100),
     downvotes_count: rand(0..100),
-    tag_names: ["Gemfile", "Github"]
+    tag_names: ["Django", "Python"]
   },
   {
     title: "Troubleshooting SQL query performance",
@@ -69,7 +69,7 @@ questions_data = [
     user: users.sample,
     upvotes_count: rand(0..100),
     downvotes_count: rand(0..100),
-    tag_names: ["Git", "Gitignore"]
+    tag_names: ["SQL"]
   },
   {
     title: "Getting started with Python for data analysis",
@@ -77,7 +77,7 @@ questions_data = [
     user: users.sample,
     upvotes_count: rand(0..100),
     downvotes_count: rand(0..100),
-    tag_names: ["Newbie", "rails"]
+    tag_names: ["Python", "Data"]
   },
   {
     title: "How to deploy a Ruby on Rails app to Heroku?",
@@ -85,7 +85,7 @@ questions_data = [
     user: users.sample,
     upvotes_count: rand(0..100),
     downvotes_count: rand(0..100),
-    tag_names: ["Framework", "Laravel"]
+    tag_names: ["Ruby", "Heroku"]
   },
   {
     title: "Is it possible to use async/await with JavaScript's Fetch API?",
@@ -93,7 +93,7 @@ questions_data = [
     user: users.sample,
     upvotes_count: rand(0..100),
     downvotes_count: rand(0..100),
-    tag_names: ["coding", "Javascript"]
+    tag_names: ["API", "Javascript"]
   },
   {
     title: "Optimizing Java application performance",
@@ -101,7 +101,7 @@ questions_data = [
     user: users.sample,
     upvotes_count: rand(0..100),
     downvotes_count: rand(0..100),
-    tag_names: ["ruby", "Chrome"]
+    tag_names: ["Java"]
   },
   {
     title: "Creating responsive web designs with CSS Grid",
@@ -109,7 +109,7 @@ questions_data = [
     user: users.sample,
     upvotes_count: rand(0..100),
     downvotes_count: rand(0..100),
-    tag_names: ["firefox", "rails"]
+    tag_names: ["frameworks", "CSS", "Bootstrap", "Tailwind"]
   },
   {
     title: "How to handle user authentication in Flask?",
@@ -117,7 +117,7 @@ questions_data = [
     user: users.sample,
     upvotes_count: rand(0..100),
     downvotes_count: rand(0..100),
-    tag_names: ["ruby", "rails"]
+    tag_names: ["Flask", "Authentication"]
   },
   {
     title: "Tips for writing clean and maintainable code in C#",
@@ -125,7 +125,7 @@ questions_data = [
     user: users.sample,
     upvotes_count: rand(0..100),
     downvotes_count: rand(0..100),
-    tag_names: ["ruby", "rails"]
+    tag_names: ["C#"]
   },
   {
     title: "Getting started with version control using Git",
@@ -133,7 +133,7 @@ questions_data = [
     user: users.sample,
     upvotes_count: rand(0..100),
     downvotes_count: rand(0..100),
-    tag_names: ["Jobs", "rails"]
+    tag_names: ["Git", "version control"]
   },
   {
     title: "Debugging techniques in Python",
@@ -141,7 +141,7 @@ questions_data = [
     user: users.sample,
     upvotes_count: rand(0..100),
     downvotes_count: rand(0..100),
-    tag_names: ["Wanted", "rails"]
+    tag_names: ["Python", "Debug"]
   }
 ]
 
@@ -164,71 +164,71 @@ answers_data = [
     body: "To set up a new Ruby on Rails project, you can use the `rails new` command. Make sure you have Ruby and Rails installed, then run:",
     user: users.sample,
     question: questions.sample,
-    upvotes: rand(0..10),
-    downvotes: rand(0..5)
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
   },
   {
     body: "For React component architecture, it's recommended to follow a modular structure using components. Consider using a container/presentational pattern and separating concerns.",
     user: users.sample,
     question: questions.sample,
-    upvotes: rand(0..10),
-    downvotes: rand(0..5)
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
   },
   {
     body: "In Django, you can manage database migrations using the `makemigrations` and `migrate` commands. They allow you to define and apply changes to your database schema.",
     user: users.sample,
     question: questions.sample,
-    upvotes: rand(0..10),
-    downvotes: rand(0..5)
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
   },
   {
     body: "To troubleshoot SQL query performance, you can use tools like EXPLAIN and ANALYZE to analyze query plans. Additionally, consider indexing and optimizing your queries.",
     user: users.sample,
     question: questions.sample,
-    upvotes: rand(0..10),
-    downvotes: rand(0..5)
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
   },
   {
     body: "For Python data analysis, start with libraries like Pandas, NumPy, and Matplotlib. You can use Jupyter notebooks for interactive analysis and visualization.",
     user: users.sample,
     question: questions.sample,
-    upvotes: rand(0..10),
-    downvotes: rand(0..5)
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
   },
   {
     body: "To deploy a Ruby on Rails app to Heroku, you can follow these steps:\n1. Install the Heroku CLI.\n2. Create a Heroku app using `heroku create`.\n3. Push your code to Heroku's remote repository.\n4. Run migrations on the Heroku database using `heroku run rake db:migrate`.\n5. Open your app in the browser using `heroku open`.",
     user: users.sample,
     question: questions.sample,
-    upvotes: rand(0..10),
-    downvotes: rand(0..5)
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
   },
   {
     body: "Yes, you can use async/await with JavaScript's Fetch API. Here's an example:\n\n```javascript\nasync function fetchData() {\n  try {\n    const response = await fetch('https://api.example.com/data');\n    const data = await response.json();\n    console.log(data);\n  } catch (error) {\n    console.error('Error fetching data:', error);\n  }\n}\n```",
     user: users.sample,
     question: questions.sample,
-    upvotes: rand(0..10),
-    downvotes: rand(0..5)
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
   },
   {
     body: "When optimizing Java application performance, consider:\n1. Profiling your code to identify bottlenecks.\n2. Using efficient data structures and algorithms.\n3. Minimizing object creation and garbage collection.\n4. Utilizing multithreading and concurrency.\n5. Caching frequently used data.",
     user: users.sample,
     question: questions.sample,
-    upvotes: rand(0..10),
-    downvotes: rand(0..5)
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
   },
   {
     body: "To create a responsive web design using CSS Grid, you can:\n1. Define a grid container using `display: grid`.\n2. Place grid items using `grid-template-rows` and `grid-template-columns`.\n3. Use media queries to adjust the grid layout based on screen size.\n4. Utilize the `grid-gap` property for spacing.\n5. Experiment with `grid-template-areas` for complex layouts.",
     user: users.sample,
     question: questions.sample,
-    upvotes: rand(0..10),
-    downvotes: rand(0..5)
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
   },
   {
     body: "For user authentication in Flask, you can use libraries like Flask-Login or Flask-Security. Here's an example using Flask-Login:\n\n```python\nfrom flask import Flask, request\nfrom flask_login import LoginManager, UserMixin, login_user\n\napp = Flask(__name__)\nlogin_manager = LoginManager(app)\n\nclass User(UserMixin):\n    def __init__(self, user_id):\n        self.id = user_id\n\n@login_manager.user_loader\ndef load_user(user_id):\n    return User(user_id)\n\n@app.route('/login', methods=['POST'])\ndef login():\n    user_id = request.form.get('user_id')\n    user = User(user_id)\n    login_user(user)\n    return 'Logged in'\n\nif __name__ == '__main__':\n    app.run()\n```",
     user: users.sample,
     question: questions.sample,
-    upvotes: rand(0..10),
-    downvotes: rand(0..5)
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
   }
   
 ]
