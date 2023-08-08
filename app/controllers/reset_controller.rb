@@ -1,22 +1,19 @@
 class ResetController < ApplicationController
   require 'sendgrid_mailer'
   skip_before_action :authorize_request, only: [:request_reset, :reset_password]
-
   def request_reset
     user = User.find_by(email: params[:email])
-
     if user
       reset_token = generate_reset_token(user)
-
       SendgridMailer.send_password_reset(user.email, reset_token).deliver_now
-      # user.update_columns(password_reset_token: reset_token)
-
       render json: { message: 'Password reset email sent successfully.' }, status: :ok
     else
       render json: { error: 'Email not found.' }, status: :not_found
     end
   end
+  
   def reset_password
+<<<<<<< HEAD
     user = User.find_by(id: params[:reset_token])
     # expiration = @user.password_reset_token_expiration
     # puts params[:reset_token]
@@ -27,6 +24,13 @@ class ResetController < ApplicationController
       # && user.password_reset_token_expiration && user.password_reset_token_expiration > Time.now)
       
       if user.update(password: params[:password])
+=======
+    @user = User.find_by(password_reset_token: params[:reset_token])
+    puts "expire"
+    puts  @user.password_reset_token_expiration
+    if @user && @user.password_reset_token_expiration > Time.now
+      if user.update(password: params[:password], password_reset_token: nil, password_reset_token_expiration: nil)
+>>>>>>> 7e48003866e11a18003d45ceac0c196c91d1e052
         render json: { message: 'Password reset successful.' }, status: :ok
       else
         render json: { error: 'Failed to reset password. Please try again later.' }, status: :unprocessable_entity
@@ -37,7 +41,6 @@ class ResetController < ApplicationController
     end
   end
   private
-
   def generate_reset_token(user)
     token = SecureRandom.urlsafe_base64
     user.update_columns(password_reset_token: token, password_reset_token_expiration: 27.hour.from_now)
