@@ -1,51 +1,22 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext} from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-// import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryContext } from 'cloudinary-react';
 
 const Profile = () => {
-  const { currentUserData, fetchCurrentUser, editUserProfile, resetPassword } = useContext(AuthContext);
+  const { currentUserData, editUserProfile, resetPassword } = useContext(AuthContext);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [username, setUsername] = useState(currentUserData.username || "Your Username");
-  const [email, setEmail] = useState(currentUserData.email || "your.email@example.com");
+  const [username, setUsername] = useState(currentUserData.username);
+  const [email, setEmail] = useState(currentUserData.email);
   const [currentPassword, setCurrentPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [resetMode, setResetMode] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
-
   const [selectedImage, setSelectedImage] = useState(null);
-  const [images, setImages] = useState([]);
-  const [image, setImage] = useState(null);
-
+  const [profilePictureUrl, setProfilePictureUrl] = useState(currentUserData.profile_picture);
   const userId = currentUserData.id;
-
-  const handleUpload = (event) => {
-    const file = event.target.files[0];
-
-    // cloudinary.uploader.upload(file, {
-    //   public_id: "my-image",
-    // }).then((result) => {
-    //   setImage(result.url);
-    // });
-  };
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await axios.get('/images');
-        setImages(response.data.images);
-      } catch (error) {
-        console.error('Error fetching images:', error);
-      }
-    };
-
-    fetchImages();
-    fetchCurrentUser();
-  }, []);
-
 
   const handleImageChange = (e) => {
     setSelectedImage(e.target.files[0]);
@@ -55,12 +26,15 @@ const Profile = () => {
     const token = sessionStorage.getItem("token");
     const formData = new FormData();
     formData.append('image', selectedImage);
-
     try {
       const response = await axios.post(`/users/${userId}/update_profile_picture`, formData, {
         headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}`, },
       });
-      console.log('Uploaded Profile Picture URL:', response.data.profile_picture_url);
+      if (response.status === 200) {
+      console.log(response);
+      setProfilePictureUrl(response.data.profile_picture_url);
+      setIsEditMode(false);
+      }
     } catch (error) {
       console.error('Error uploading profile picture:', error);
     }
@@ -72,14 +46,24 @@ const Profile = () => {
   };
 
   const handleSaveClick = () => {
+    const updatedUserData = {};
+    
+    if (username !== currentUserData.username) {
+      updatedUserData.username = username;
+    }
+  
+    if (email !== currentUserData.email) {
+      updatedUserData.email = email;
+    }
+  
+    if (password) {
+      updatedUserData.password = password;
+    }
+  
     const newUserData = {
-      user: {
-        username: username,
-        email: email,
-        password: password
-      }
+      user: updatedUserData
     };
-    console.log(newUserData)
+  
     editUserProfile(newUserData);
     setIsEditMode(false);
   };
@@ -106,36 +90,27 @@ const Profile = () => {
       <div className="container mx-auto p-6 m-16 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="">
           {/* Profile Picture */}
-          <img className="w-32 h-32 mx-auto mt-6 rounded-full" src={"https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png"} alt="Avatar" />
-
-          {/* Button for changing the profile image */}
-
-          <CloudinaryContext cloudName="dkcfnb31k">
-            <div>
-
-              {/* {images.map((image) => (
-                <img className="w-32 h-32 mx-auto mt-6 rounded-full" key={image.id} src={image.url} alt="Avatar" />
-
-                // <img key={image.id} src={image.url} alt="Uploaded" />
-              ))} */}
-              <input type="file" onChange={handleImageChange} />
-              <button onClick={handleImageUpload} className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
-                Upload Image
-              </button>
-            </div>
-          </CloudinaryContext>
-
-          {/* <input type="file" accept="image/*" onChange={handleUpload} />
-          {image && <img src={image} />} */}
-
+          <img className="w-32 h-32 mx-auto mt-6 rounded-full" src={profilePictureUrl} alt="Avatar" />
           {/* Username */}
           {isEditMode ? (
+            <>
+            <p>Update your Avatar, Email or Username below</p>
+             <CloudinaryContext cloudName="dkcfnb31k">
+             <div>
+               <input type="file" onChange={handleImageChange} />
+               <button onClick={handleImageUpload} className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
+                 Upload Image
+               </button>
+             </div>
+           </CloudinaryContext>
             <input
               type="text"
               value={username}
+              placeholder={username}
               onChange={(e) => setUsername(e.target.value)}
               className="block w-full px-4 py-2 text-xl font-semibold text-center mt-4 border border-gray-300 rounded focus:outline-none focus:ring-primary-600 focus:border-primary-600"
             />
+            </>
           ) : (
             <h1 className="text-3xl font-semibold text-center mt-4">{currentUserData.username}</h1>
           )}
@@ -145,6 +120,7 @@ const Profile = () => {
               <input
                 type="email"
                 value={email}
+                placeholder={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="block w-full px-4 py-2 text-gray-600 text-center mt-2 border border-gray-300 rounded focus:outline-none focus:ring-primary-600 focus:border-primary-600"
               />
@@ -182,11 +158,11 @@ const Profile = () => {
             // Password Reset Form
             resetSuccess ? (
               <div className="mt-4 flex justify-center">
-                <p className="text-green-500">Password Reset Successful!</p>
+                <p className="text-green-500">Password Change Successful!</p>
               </div>
             ) : (
               <div className="mt-6">
-                <h2 className="text-xl font-semibold">Password Reset</h2>
+                <h2 className="text-xl font-semibold"> Change Password</h2>
                 <form className="mt-4 space-y-4" onSubmit={handlePasswordReset}>
                   <div>
                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Current Password</label>

@@ -3,43 +3,44 @@ skip_before_action :authorize_request, only: [:create]
 rescue_from ActiveRecord::RecordInvalid, with: :handle_record_invalid
 rescue_from ActiveRecord::RecordNotFound, with: :user_not_found
 
-def create
-  begin
-    if params[:password] == params[:password_confirmation]
-      user = User.create!(user_params.slice(:username, :email, :password))
-      render json: { message: "Account created successfully" }, status: :created
-    else
-      render json: { errors: ["Password and password confirmation do not match"] }, status: :unprocessable_entity
+  def create
+    begin
+      if params[:password] == params[:password_confirmation]
+        user = User.create!(user_params.slice(:username, :email, :password))
+        render json: { message: "Account created successfully" }, status: :created
+      else
+        render json: { errors: ["Password and password confirmation do not match"] }, status: :unprocessable_entity
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
     end
-  rescue ActiveRecord::RecordInvalid => e
-    render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
-  end
-end
-
-def update
-  user = User.find(params[:id])
-
-  # Check if the username already exists
-  if User.exists?(username: params[:username]) && user.username != params[:username]
-    render json: { errors: ["Username already exists"] }, status: :unprocessable_entity
-    return
   end
 
-  # Check if the email already exists
-  if User.exists?(email: params[:email]) && user.email != params[:email]
-    render json: { errors: ["Email already exists"] }, status: :unprocessable_entity
-    return
+  def update
+    user = User.find(params[:id])
+
+    # Check if the username already exists
+    if params[:username] && User.exists?(username: params[:username]) && user.username != params[:username]
+      render json: { errors: ["Username already exists"] }, status: :unprocessable_entity
+      return
+    end
+
+    # Check if the email already exists
+    if params[:email] && User.exists?(email: params[:email]) && user.email != params[:email]
+      render json: { errors: ["Email already exists"] }, status: :unprocessable_entity
+      return
+    end
+
+    # Update the user's profile attributes
+    updated_params = params.require(:user).permit(:username, :email, :password)
+    
+    if user.update(updated_params)
+      render json: { message: "Profile updated successfully" }, status: :ok
+    else
+      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
-  # Update the user's profile attributes
-  if user.update(params.require(:user).permit(:username, :email, :password))
-    render json: { message: "Profile updated successfully" }, status: :ok
-  else
-    render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
-  end
-end
-
-  
 
   def reset_password
     user = User.find(params[:id])
@@ -92,14 +93,19 @@ end
     begin
       puts "Uploading profile picture"
       puts uploaded_image 
-      cloudinary_response = Cloudinary::Uploader.upload(uploaded_image)
-      user.update!(profile_picture: cloudinary_response['secure_url'])
+      cloudinary_response = Cloudinary::Uploader.upload(uploaded_image, with_secure_url: true)
       
-      render json: { profile_picture_url: user.profile_picture }
+      user.update_columns(profile_picture: cloudinary_response['secure_url'])
+
+      if cloudinary_response['error']
+        render json: { error: "Error uploading profile picture: #{cloudinary_response['error']}" }, status: :unprocessable_entity
+      else
+        render json: { profile_picture_url: user.profile_picture }
+      end
     rescue => e
       render json: { error: "Error updating profile picture: #{e.message}" }, status: :unprocessable_entity
     end
-  end  
+  end
   
   private
 
