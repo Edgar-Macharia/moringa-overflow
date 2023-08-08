@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_07_095259) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_08_093030) do
   create_table "answers", force: :cascade do |t|
     t.text "body"
     t.integer "user_id", null: false
     t.integer "question_id", null: false
-    t.integer "upvotes"
-    t.integer "downvotes"
+    t.integer "upvotes_count"
+    t.integer "downvotes_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_answers_on_question_id"

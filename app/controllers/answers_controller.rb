@@ -59,6 +59,56 @@ class AnswersController < ApplicationController
     end
   end
 
+  def upvote
+    @answer = Answer.find(params[:id])
+    @user = current_user
+  
+    if @answer.upvotes.exists?(user_id: @user.id)
+      render json: { error: 'You have already upvoted this answer.' }, status: :unprocessable_entity
+      return
+    end
+  
+    @answer.upvotes.create!(user: @user)
+    @answer.update(upvotes_count: @answer.upvotes.count)
+  
+    if @answer.downvotes.exists?(user_id: @user.id)
+      downvote = @answer.downvotes.find_by(user_id: @user.id)
+      downvote.destroy
+      @answer.update(downvotes_count: @answer.downvotes.count)
+    end
+  
+    render json: {
+      message: 'Upvoted answer successfully.',
+      upvotes_count: @answer.upvotes_count,
+      downvotes_count: @answer.downvotes_count
+    }
+  end
+  
+  def downvote
+    @answer = Answer.find(params[:id])
+    @user = current_user
+  
+    if @answer.downvotes.exists?(user_id: @user.id)
+      render json: { error: 'You have already downvoted this answer.' }, status: :unprocessable_entity
+      return
+    end
+  
+    @answer.downvotes.create!(user: @user)
+    @answer.update(downvotes_count: @answer.downvotes.count)
+  
+    if @answer.upvotes.exists?(user_id: @user.id)
+      upvote = @answer.upvotes.find_by(user_id: @user.id)
+      upvote.destroy
+      @answer.update(upvotes_count: @answer.upvotes.count)
+    end
+  
+    render json: {
+      message: 'Downvoted answer successfully.',
+      upvotes_count: @answer.upvotes_count,
+      downvotes_count: @answer.downvotes_count
+    }
+  end  
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_answer

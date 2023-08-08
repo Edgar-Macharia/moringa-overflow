@@ -13,7 +13,14 @@ Rails.application.routes.draw do
   resources :notifications, only: [:index]
   resources :reported_contents
   resources :comments
-  resources :answers
+
+  resources :answers do
+    member do
+      post 'upvote', to: 'answers#upvote'
+      post 'downvote', to: 'answers#downvote'
+    end
+  end
+
   resources :tags
 
   resources :questions do

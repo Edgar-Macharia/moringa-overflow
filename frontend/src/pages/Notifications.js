@@ -40,7 +40,7 @@ const Notifications = () => {
 
   return (
     <div>
-      <h2>Notifications</h2>
+      <h2 className='text-4xl font-extrabold dark:text-white'>Notifications</h2>
       <ul>
         {notifications.map((notification) => (
           <li

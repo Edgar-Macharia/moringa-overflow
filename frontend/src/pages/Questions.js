@@ -7,7 +7,7 @@ import { QuestionsContext } from '../context/QuestionsContext';
 import { AuthContext } from '../context/AuthContext';
 
 const Questions = () => {
-  const { questions, downvoteQuestion, upvoteQuestion, toggleFavorite, isQuestionFavorited } = useContext(QuestionsContext);
+  const { questions,tags, downvoteQuestion, upvoteQuestion, toggleFavorite, isQuestionFavorited } = useContext(QuestionsContext);
   const { isLoggedIn } = useContext(AuthContext);
 
   const handleUpvote = (questionId, e) => {
@@ -22,26 +22,24 @@ const Questions = () => {
 
   return (
     <div>
-      <div className="flex justify-end mx-11">
-        {isLoggedIn && (
-          <Link to="/favoriteQuestions" className="mr-5 title = saved questions ">
-          <button
-            className="text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none focus:ring focus:ring-green-400"
-          >
-            <FontAwesomeIcon icon={faHeart} className="w-10 h-10" />
-          </button>
-          </Link>
-        )}
-        <div className="questions-btn">
-          {isLoggedIn && (
-            <Link to="/AskQuestion">
-              <button className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
-                Ask A Question
-              </button>
-            </Link>
-          )}
-        </div>
-      </div>
+      <div className="flex justify-between items-center">
+  {isLoggedIn && (
+    <Link to="/favoriteQuestions" className="title-saved-questions mr-5">
+      <button
+        className="text-black-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none focus:ring focus:ring-green-400"
+      >
+        <FontAwesomeIcon icon={faHeart} className="w-10 h-10" />
+      </button>
+    </Link>
+  )}
+  {isLoggedIn && (
+    <Link to="/AskQuestion">
+      <button className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
+        Ask A Question
+      </button>
+    </Link>
+  )}
+</div>
       {questions && questions.length === 0 ? (
         <p>No questions found.</p>
       ) : (
@@ -106,10 +104,18 @@ const Questions = () => {
                       Answers: {question && question.answers && question.answers.length}
                     </p>
                     <p className="text-sm text-blue-500 font-medium mb-2">
-                      {question &&
-                        question.tag_names &&
-                        JSON.parse(question.tag_names).join(', ')}
-                    </p>
+                  {question && question.tag_names && (
+                    JSON.parse(question.tag_names).map((tagName, index) => (
+                      <Link
+                        key={index}
+                        to={`/viewTag/${tags.find(tag => tag.name === tagName).id}`}
+                        className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 "
+                      >
+                        {tagName}
+                      </Link>
+                    ))
+                  )}
+                </p>
                     <p className="text-sm text-brown-500 font-medium mb-2">
                       {question.author_username}
                     </p>

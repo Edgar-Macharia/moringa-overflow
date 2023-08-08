@@ -177,26 +177,48 @@ const toggleFavorite = (id) => {
       Swal.fire("Error", "Not authorized to delete question", "error");
       return;
     }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
 
-    fetch(`/questions/${questionId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        fetch(`/questions/${questionId}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.message) {
+              Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+              )
+              setQuestions((prevQuestions) =>
+              prevQuestions.filter((question) => question.id !== questionId)
+            );
+              nav("/questions");
+            } else {
+              Swal.fire("Error", "Failed to delete question", "error");
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting question:", error);
+            Swal.fire("Error", "Failed to delete question", "error");
+          });
+      }
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message) {
-          Swal.fire("Success", data.message, "success");
-          nav("/questions");
-        } else {
-          Swal.fire("Error", "Failed to delete question", "error");
-        }
-      })
-      .catch((error) => {
-        console.error("Error deleting question:", error);
-        Swal.fire("Error", "Failed to delete question", "error");
-      });
+
+
+    
   };
 
   // Search questions
@@ -235,6 +257,7 @@ const toggleFavorite = (id) => {
       });
   };
 
+  ///Upvote question
   const upvoteQuestion = (questionId) => {
     const token = sessionStorage.getItem("token");
     if (!token) return;
@@ -270,7 +293,8 @@ const toggleFavorite = (id) => {
         console.error("Error upvoting question:", error);
       });
   };
-  
+
+    ///Downvote questions
   const downvoteQuestion = (questionId) => {
     const token = sessionStorage.getItem("token");
     if (!token) return;
@@ -306,7 +330,101 @@ const toggleFavorite = (id) => {
         console.error("Error downvoting question:", error);
       });
   };
+
+ /// Upvote answers
+const upvoteAnswer = (answerId) => {
+  const token = sessionStorage.getItem("token");
+  if (!token) return;
+
+  fetch(`/answers/${answerId}/upvote`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      if (data.message === 'Upvoted answer successfully.') {
+        // Find the question that contains the answer by its ID
+        const updatedQuestions = questions.map((q) => {
+          const updatedAnswers = q.answers.map((a) => {
+            if (a.id === answerId) {
+              // Update the upvotes_count and downvotes_count of the answer
+              return {
+                ...a,
+                upvotes_count: data.upvotes_count,
+                downvotes_count: data.downvotes_count,
+              };
+            }
+            return a;
+          });
+
+          // Update the answers of the question
+          return {
+            ...q,
+            answers: updatedAnswers,
+          };
+        });
+
+        // Update the state with the updated questions
+        setQuestions(updatedQuestions);
+      }
+    })
+    .catch((error) => {
+      console.error("Error upvoting answer:", error);
+    });
+};
+
+/// Downvote answers
+const downvoteAnswer = (answerId) => {
+  const token = sessionStorage.getItem("token");
+  if (!token) return;
+
+  fetch(`/answers/${answerId}/downvote`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      if (data.message === 'Downvoted answer successfully.') {
+        // Find the question that contains the answer by its ID
+        const updatedQuestions = questions.map((q) => {
+          const updatedAnswers = q.answers.map((a) => {
+            if (a.id === answerId) {
+              // Update the upvotes_count and downvotes_count of the answer
+              return {
+                ...a,
+                upvotes_count: data.upvotes_count,
+                downvotes_count: data.downvotes_count,
+              };
+            }
+            return a;
+          });
+
+          // Update the answers of the question
+          return {
+            ...q,
+            answers: updatedAnswers,
+          };
+        });
+
+        // Update the state with the updated questions
+        setQuestions(updatedQuestions);
+      }
+    })
+    .catch((error) => {
+      console.error("Error downvoting answer:", error);
+    });
+};
+
   
+  ///Favorite questions
   const fetchFavoriteQuestions = () => {
     const token = sessionStorage.getItem("token");
     const userId = sessionStorage.getItem("userId");
@@ -335,8 +453,11 @@ const toggleFavorite = (id) => {
       });
   };
   
-
   const isQuestionFavorited = (questionId) => {
+    if (!Array.isArray(favoriteQuestions)) {
+      return false; // Or handle the case when favoriteQuestions is not an array
+    }
+    
     return favoriteQuestions.some((favorite) => favorite.id === questionId);
   };
 
@@ -387,6 +508,8 @@ const toggleFavorite = (id) => {
     notifications,
     upvoteQuestion,
     downvoteQuestion,
+    upvoteAnswer,
+    downvoteAnswer,
     favoriteQuestions,
     fetchFavoriteQuestions,
     isQuestionFavorited,
