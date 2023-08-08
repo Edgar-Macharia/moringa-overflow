@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';

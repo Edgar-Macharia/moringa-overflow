@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import logo from "../images/Logo.png";
 import userIcon from "../images/user.png";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { QuestionsContext } from "../context/QuestionsContext";
 
@@ -27,7 +27,7 @@ const Navbar = () => {
           <div className="flex items-center md:order-2">
             <button type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
               <span className="sr-only">Open user menu</span>
-              <img className="w-14 h-14 rounded-full" src={userIcon} alt="user photo" />
+              <img className="w-14 h-14 rounded-full" src={userIcon} alt="Avatar" />
             </button>
             {/* <!-- Dropdown menu --> */}
             {isLoggedIn ? (
@@ -38,7 +38,7 @@ const Navbar = () => {
                 </Link>
                 <ul className="py-2" aria-labelledby="user-menu-button">
                   <li>
-                    <a onClick={logout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                    <a onClick={logout} href=" " className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
                   </li>
                 </ul>
               </div>
@@ -77,7 +77,7 @@ const Navbar = () => {
               </li>
               <li>
                 <div className="flex md:order-2">
-                  <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1" >
+                  <button type="button" id ="navbar-search" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1" >
                     <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
@@ -121,7 +121,6 @@ const Navbar = () => {
 
         </div>
       </nav>
-      {/* <Search searchQuery={searchQuery} /> */}
     </div>
   );
 };

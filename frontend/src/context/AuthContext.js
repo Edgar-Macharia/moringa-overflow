@@ -9,7 +9,6 @@ export default function AuthProvider({ children }) {
   const [currentUserData, setCurrentUserData] = useState([]);
   const [username, setUsername] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [questions, setQuestions] = useState([]);
   const [onChange, setonChange] = useState(true);
 
   useEffect(() => {
@@ -222,7 +221,6 @@ export default function AuthProvider({ children }) {
     currentUserData,
     username,
     isLoggedIn,
-    questions,
     editUserPost,
     editUserProfile,
     resetPassword,
