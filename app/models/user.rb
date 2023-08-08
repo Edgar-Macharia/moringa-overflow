@@ -1,10 +1,10 @@
 class User < ApplicationRecord
-    has_many :questions
-    has_many :answers
-    has_many :favorites
-    has_many :favorited_questions, through: :favorites, source: :question
-    has_many :reported_contents
-    has_many :notifications
+    has_many :questions, dependent: :destroy
+    has_many :answers,  dependent: :destroy
+    has_many :favorites,    dependent: :destroy
+    has_many :favorited_questions, through: :favorites, source: :question, dependent: :destroy
+    has_many :reported_contents, dependent: :destroy
+    has_many :notifications, dependent: :destroy
     has_secure_password
 
     validates :username, presence: true, uniqueness: { case_sensitive: false, message: "username must be unique" }
