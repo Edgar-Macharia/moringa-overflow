@@ -13,7 +13,7 @@ class TagsController < ApplicationController
 
     render json: @tag
   end
-
+  
   # POST /tags or /tags.json
   def create
     @tag = Tag.new(tag_params)
