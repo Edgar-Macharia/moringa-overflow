@@ -11,7 +11,7 @@ const Home = () => {
         {/* <img class="h-20 w-20 rounded-full mr-3 transition-all duration-300 rounded-lg blur-sm hover:blur-none" src={logo} alt="image description" /> */}
         <div class="flex justify-center items-center">
 
-          <img class="h-auto max-w-lg" src={questionsImage} alt="image description" />
+          <img class="h-auto max-w-lg" src={questionsImage} alt="Questions" />
         </div>
 
 
@@ -28,7 +28,7 @@ const Home = () => {
             <li>Downvote for unfavourable questions and answers</li>
           </ul>
 
-          <img class="h-auto max-w-lg" src={homepageImage} alt="image description" />
+          <img class="h-auto max-w-lg" src={homepageImage} alt="Homepage" />
           <div className='text-lg sm:text-xl'>
 
             <>

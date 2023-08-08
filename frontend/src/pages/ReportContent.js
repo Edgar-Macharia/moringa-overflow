@@ -1,5 +1,4 @@
 import React, { useState, useContext} from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { QuestionsContext } from '../context/QuestionsContext';
 

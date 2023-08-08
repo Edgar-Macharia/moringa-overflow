@@ -33,3 +33,4 @@ Gemfile
 .ruby-version
 sendgrid.env
 sendgrid.env
+frontend/node_modules

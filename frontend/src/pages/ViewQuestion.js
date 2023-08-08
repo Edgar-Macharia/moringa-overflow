@@ -8,7 +8,7 @@ import { AuthContext } from '../context/AuthContext';
 
 const ViewQuestion = () => {
 
-  const {  updateQuestion, deleteQuestion, downvoteQuestion, upvoteQuestion, toggleFavorite, isQuestionFavorited, questions } = useContext(QuestionsContext)
+  const { deleteQuestion, downvoteQuestion, upvoteQuestion, toggleFavorite, isQuestionFavorited, questions } = useContext(QuestionsContext)
   const { isLoggedIn } = useContext(AuthContext);
   const { id } = useParams();
 
