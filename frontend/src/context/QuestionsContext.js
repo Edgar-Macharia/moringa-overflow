@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 export const QuestionsContext = createContext();
 
@@ -11,19 +12,11 @@ export default function QuestionsProvider({ children }) {
   const [favoriteQuestions, setFavoriteQuestions] = useState([]);
   const [isReporting, setIsReporting] = useState(false);
   const [reportSuccess, setReportSuccess] = useState(false);
+  
 
   const [tags, setTags] = useState([]);
   // const { isLoggedIn } = useContext(AuthContext); 
-  const fetchNotifications = async () => {
-    try {
-      // const response = await axios.get("/api/notifications");
-      // setNotifications(response.data);
-      console.log(setNotifications);
-    } catch (error) {
-      console.error("Error fetching notifications:", error);
-    }
-  };
-
+  
   useEffect(() => {
     fetchQuestions();
     fetchTags();
@@ -69,6 +62,7 @@ const fetchQuestions = () => {
         } else {
           Swal.fire("Success", "Question created successfully", "success");
           nav(`/questions`);
+          fetchNotifications();
         }
       })
       .catch((error) => {
@@ -494,6 +488,53 @@ const downvoteAnswer = (answerId) => {
     });
   };
 
+  // notifications
+  const fetchNotifications = async () => {
+    try {
+      const token = sessionStorage.getItem('token');
+      if (!token) return;
+      const response = await axios.get('/notifications', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      setNotifications(response.data);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
+  const markNotificationAsRead = async (id) => {
+    try {
+      const token = sessionStorage.getItem('token');
+      if (!token) return;
+  
+      // Mark the notification as read in the state to reflect the change instantly
+      setNotifications((prevNotifications) =>
+        prevNotifications.map((notification) =>
+          notification.id === id ? { ...notification, read_status: true } : notification
+        )
+      );
+  
+      // Send the PATCH request to mark the notification as read on the server
+      const response = await axios.patch(
+        `/notifications/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+  
+      // Handle the response as needed
+      console.log(response);
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
+  };
   const contextData = {
     questions,
     createAnswer,
@@ -517,6 +558,8 @@ const downvoteAnswer = (answerId) => {
     isReporting,
     reportSuccess,
     setIsReporting,
+    fetchNotifications,
+    markNotificationAsRead,
   };
 
   return (

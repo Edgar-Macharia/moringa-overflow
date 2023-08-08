@@ -16,6 +16,16 @@ const Navbar = () => {
     searchQuestions(searchQuery);
   };
 
+  let link = ""
+  function src() {
+    if (currentUserData.profile_picture){
+      link = currentUserData.profile_picture
+    } else {
+      link = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png"
+    }
+  }
+  src()
+
   return (
     <div>
       <nav className="bg-[#DFA878] border-gray-200 dark:bg-gray-900 navbar">
@@ -27,7 +37,7 @@ const Navbar = () => {
             <button type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
               <span className="sr-only">Open user menu</span>
               {isLoggedIn ? (
-                <img className="w-14 h-14 rounded-full" src={currentUserData.profile_picture} placeholderSrc={userIcon} alt="Avatar" />
+                <img className="w-14 h-14 rounded-full" src={link} alt="Avatar" />
               ):(
                 <img className="w-14 h-14 rounded-full" src={userIcon} alt="Avatar" />
               )}
@@ -105,7 +115,7 @@ const Navbar = () => {
               <li>
 
 
-                {isLoggedIn && notifications && notifications.length >= 0 && (
+                {isLoggedIn && notifications &&  (
 
                   <div className="relative">
                     <Link to="/Notifications" className="">
@@ -114,7 +124,7 @@ const Navbar = () => {
                       </svg>
                     </Link>
                     <div className="absolute top-0 right-0 -mt-2 -mr-2 px-1 text-xs text-white bg-red-500 rounded-full">
-                      {notifications.length}
+                    {notifications.filter(notification => !notification.read_status).length}
                     </div>
                   </div>
                 )}

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { CloudinaryContext } from 'cloudinary-react';
 
 const Profile = () => {
-  const { currentUserData, editUserProfile, resetPassword } = useContext(AuthContext);
+  const { currentUserData, editUserProfile, resetPassword, setCurrentUserData } = useContext(AuthContext);
   const [isEditMode, setIsEditMode] = useState(false);
   const [username, setUsername] = useState(currentUserData.username);
   const [email, setEmail] = useState(currentUserData.email);
@@ -15,7 +15,6 @@ const Profile = () => {
   const [resetMode, setResetMode] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [profilePictureUrl, setProfilePictureUrl] = useState(currentUserData.profile_picture);
   const userId = currentUserData.id;
 
   const handleImageChange = (e) => {
@@ -32,7 +31,9 @@ const Profile = () => {
       });
       if (response.status === 200) {
       console.log(response);
-      setProfilePictureUrl(response.data.profile_picture_url);
+      const updatedUserData = { ...currentUserData, profile_picture: response.data.profile_picture_url };
+      setCurrentUserData(updatedUserData);
+      console.log(updatedUserData);
       setIsEditMode(false);
       }
     } catch (error) {
@@ -85,12 +86,22 @@ const Profile = () => {
     setResetSuccess(false);
   };
 
+  let link = ""
+  function src() {
+    if (currentUserData.profile_picture){
+      link = currentUserData.profile_picture
+    } else {
+      link = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png"
+    }
+  }
+  src()
+
   return (
     <div className=''>
       <div className="container mx-auto p-6 m-16 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="">
           {/* Profile Picture */}
-          <img className="w-32 h-32 mx-auto mt-6 rounded-full" src={profilePictureUrl} alt="Avatar" />
+          <img className="w-32 h-32 mx-auto mt-6 rounded-full" src={link} alt="Avatar" />
           {/* Username */}
           {isEditMode ? (
             <>
