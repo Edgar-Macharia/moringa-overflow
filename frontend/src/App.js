@@ -24,7 +24,7 @@ import Admin from "./pages/Admin ";
 import PasswordResetPage from "./pages/PasswordResetPage";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   useEffect(() => {
     isUserLoggedIn();
