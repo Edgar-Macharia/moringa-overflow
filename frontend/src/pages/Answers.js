@@ -31,7 +31,7 @@ const AnswerQuestion = () => {
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center homepage">
       <div className="container bg-white rounded-all mx-auto py-8 max-w-screen-lg flex flex-col h-full">
-        <h1 className="text-3xl font-bold mb-4">Answer</h1>
+        <h1 className="text-3xl font-bold mb-4 pl-3">Answer</h1>
         <form className="flex-grow max-w-sm mx-auto" onSubmit={handleSubmit}>
           <div className="mb-4 flex-grow">
             <label htmlFor="body" className="block text-lg font-semibold mb-2">
