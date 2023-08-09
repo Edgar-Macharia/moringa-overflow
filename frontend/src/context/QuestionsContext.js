@@ -186,13 +186,10 @@ const toggleFavorite = (id) => {
 
   // Search questions
   const searchQuestions = (searchTerm) => {
-    const token = sessionStorage.getItem("token");
-    if (!token) return;
 
     fetch(`/questions/search?q=${encodeURIComponent(searchTerm)}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     })
@@ -206,6 +203,7 @@ const toggleFavorite = (id) => {
         console.error("Error searching questions:", error);
       });
   };
+  
   ///fetch tags
   const fetchTags = () => {
     fetch("/tags")
