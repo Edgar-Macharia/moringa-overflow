@@ -35,7 +35,6 @@ const fetchQuestions = () => {
     })
     .catch((error) => {
       console.error("Error fetching questions:", error);
-      Swal.fire("Error", "Failed to fetch questions", "error");
     });
 };
 
@@ -235,7 +234,6 @@ const toggleFavorite = (id) => {
       })
       .catch((error) => {
         console.error("Error searching questions:", error);
-        Swal.fire("Error", "Failed to search questions", "error");
       });
   };
   ///fetch tags
