@@ -1,11 +1,10 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import "flowbite";
 import Layout from "./layout/Layout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Search from "./pages/Search";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
 import Questions from "./pages/Questions";
@@ -25,8 +24,20 @@ import Admin from "./pages/Admin ";
 import PasswordResetPage from "./pages/PasswordResetPage";
 
 function App() {
-  useEffect(() => {}, []);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  useEffect(() => {
+    isUserLoggedIn();
+  }, []);
+
+  function isUserLoggedIn() {
+    const token = sessionStorage.getItem("token");
+    const userId = sessionStorage.getItem("userId");
+    if (token && userId) {
+      setIsLoggedIn(true);
+    }
+  }
+  
   return (
     <BrowserRouter>
       <AuthProvider>
@@ -36,20 +47,25 @@ function App() {
               <Route index element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/Signup" element={<Signup />} />
-              <Route path="/Search" element={<Search />} />
               <Route path="/About" element={<About />} />
               <Route path="/Questions" element={<Questions />} />
               <Route path="/Tags" element={<Tags />} />
-              <Route path="/notifications" element={<Notifications />} />
-              <Route path="/ReportContent/:id" element={<ReportContent />} />
-              <Route path="/Profile" element={<Profile />} />
+              <Route path="/notifications" element={isLoggedIn ? <Notifications/> : <Navigate to="/login" />} />
+              <Route path="/ReportContent/:id" element={isLoggedIn? <ReportContent /> : <Navigate to="/login" />} />
+              <Route
+                path="/Profile"
+                element={isLoggedIn ? <Profile /> : <Navigate to="/login" />}
+              />
               <Route path="/Reset" element={<Reset />} />
               {/* <Route path="/PasswordResetPage" element={<PasswordResetPage />} /> */}
               <Route
                 path="/PasswordResetPage/:id"
                 element={<PasswordResetPage />}
               />
-              <Route path="/askQuestion" element={<AskQuestion />} />
+              <Route
+                path="/askQuestion"
+                element={isLoggedIn ? <AskQuestion /> : <Navigate to="/login" />}
+              />
               <Route
                 path="/Answers/:question_id"
                 element={<AnswerQuestion />}
@@ -58,13 +74,16 @@ function App() {
               <Route path="/viewTag/:id" element={<ViewTag />} />
               <Route
                 path="/favoriteQuestions"
-                element={<FavoriteQuestions />}
+                element={isLoggedIn ? <FavoriteQuestions /> : <Navigate to="/login" />}
               />
               <Route
                 path="/moderatorDashboard"
-                element={<ModeratorDashboard />}
+                element={isLoggedIn ? <ModeratorDashboard /> : <Navigate to="/login" />}
               />
-              <Route path="/admin" element={<Admin />} />
+              <Route
+                path="/admin"
+                element={isLoggedIn ? <Admin /> : <Navigate to="/login" />}
+              />
             </Route>
           </Routes>
         </QuestionsProvider>

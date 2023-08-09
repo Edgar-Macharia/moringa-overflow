@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: %i[show edit update destroy]
-  skip_before_action :authorize_request, only: [:index, :show]
+  skip_before_action :authorize_request, only: [:index, :show, :search]
   rescue_from ActiveRecord::RecordInvalid, with: :handle_record_invalid
 
   # GET /questions or /questions.json
