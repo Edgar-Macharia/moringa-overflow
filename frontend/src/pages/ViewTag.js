@@ -46,6 +46,10 @@ useEffect(() => {
         questions &&
         questions.map((question, index) => {
           return (
+            <div>
+            <div>
+            {/* <h2 className='text-2xl font-extrabold dark:text-white'>tag:{tags.tag_names}</h2> */}
+            </div>
             <div
               key={question.id || index}
               className="questions-page flex justify-center items-center bg-gray-100 sm:p-6 homepage"
@@ -111,6 +115,7 @@ useEffect(() => {
                   </div>
                 </div>
               </Link>
+            </div>
             </div>
           );
         })
