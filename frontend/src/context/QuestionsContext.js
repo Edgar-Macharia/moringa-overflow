@@ -102,36 +102,6 @@ const createAnswer = (newAnswerData) => {
       Swal.fire("Error", "Failed to create answer", "error");
     });
 };
-  // Update a question
-  const updateQuestion = (questionId, updatedQuestionData) => {
-    const token = sessionStorage.getItem("token");
-    if (!token) {
-      Swal.fire("Error", "Not authorized to update question", "error");
-      return;
-    }
-
-    fetch(`/questions/${questionId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ question: updatedQuestionData }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.errors) {
-          Swal.fire("Error", data.errors, "error");
-        } else {
-          Swal.fire("Success", "Question updated successfully", "success");
-          nav(`/viewquestion/${questionId}`);
-        }
-      })
-      .catch((error) => {
-        console.error("Error updating question:", error);
-        Swal.fire("Error", "Failed to update question", "error");
-      });
-  };
 
 // favorite a question
 const toggleFavorite = (id) => {
@@ -192,7 +162,7 @@ const toggleFavorite = (id) => {
             if (data.message) {
               Swal.fire(
                 'Deleted!',
-                'Your file has been deleted.',
+                'Your Question has been deleted.',
                 'success'
               )
               setQuestions((prevQuestions) =>
@@ -538,7 +508,6 @@ const downvoteAnswer = (answerId) => {
     createAnswer,
     fetchQuestions,
     createQuestion,
-    updateQuestion,
     deleteQuestion,
     searchQuestions,
     fetchTags,

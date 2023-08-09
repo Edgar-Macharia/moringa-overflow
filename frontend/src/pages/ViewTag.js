@@ -105,7 +105,7 @@ useEffect(() => {
                       Answers: {question && question.answers && question.answers.length}
                     </p>
                     <p className="text-sm text-blue-500 font-medium mb-2">
-                      {question &&
+                      {question && 
                         question.tag_names &&
                         JSON.parse(question.tag_names).join(', ')}
                     </p>
