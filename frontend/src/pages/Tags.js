@@ -7,7 +7,7 @@ const Tags = () => {
 
   useEffect(() => {
     fetchTags();
-  }, [fetchTags]);
+  }, []);
 
   const [selectedTag, setSelectedTag] = useState(null);
   const [questions, setQuestions] = useState([]);
