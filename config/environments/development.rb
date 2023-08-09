@@ -73,7 +73,7 @@ Rails.application.configure do
     port: 465, # Use 25 or 587 for unencrypted/TLS connections, 465 for SSL connections
     domain: 'your_domain.com', # Replace with your actual domain
     user_name: 'apikey',
-    password: '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',
+    password: ENV['SENDGRID_API_KEY'], # Use the environment variable
     authentication: :plain,
     enable_starttls_auto: true
   }
