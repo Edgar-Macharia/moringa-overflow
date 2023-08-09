@@ -8,7 +8,7 @@ ActionMailer::Base.smtp_settings = {
   port: 587,
   domain: 'your-domain.com', # Replace with your actual domain or leave as is
   user_name: 'apikey',
-  password: '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',
+  password: ENV['SENDGRID_API_KEY'], # Use the environment variable
   authentication: :plain,
   enable_starttls_auto: true
 }

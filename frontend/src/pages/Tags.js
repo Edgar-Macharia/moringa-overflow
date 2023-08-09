@@ -46,8 +46,8 @@ const Tags = () => {
                 onClick={() => handleTagClick(tag)}
               >
                 {tag.name} 
-                ({tag.questions_count})
               </Link>
+              <p className='text-gray-600 text-sm font-medium'>{tag.questions.length} questions</p>
               <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">{tag.description}</p>
             </div>
           ))

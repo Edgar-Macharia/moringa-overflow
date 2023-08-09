@@ -34,7 +34,7 @@ const Questions = () => {
   )}
   {isLoggedIn && (
     <Link to="/AskQuestion">
-      <button className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
+      <button className="transition delay-150 space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
         Ask A Question
       </button>
     </Link>
@@ -100,7 +100,7 @@ const Questions = () => {
                     )}
                   </div>
                   <div className="flex items-center justify-between">
-                    <p className="text-sm text-brown-500 font-medium mb-2">
+                    <p className="text-gray-600 text-sm font-medium mb-2">
                       Answers: {question && question.answers && question.answers.length}
                     </p>
                     <p className="text-sm text-blue-500 font-medium mb-2">
