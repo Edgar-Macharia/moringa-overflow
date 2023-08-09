@@ -18,7 +18,7 @@ const Navbar = () => {
 
   let link = ""
   function src() {
-    if (currentUserData.profile_picture){
+    if (currentUserData.profile_picture) {
       link = currentUserData.profile_picture
     } else {
       link = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png"
@@ -38,10 +38,10 @@ const Navbar = () => {
               <span className="sr-only">Open user menu</span>
               {isLoggedIn ? (
                 <img className="w-14 h-14 rounded-full" src={link} alt="Avatar" />
-              ):(
+              ) : (
                 <img className="w-14 h-14 rounded-full" src={userIcon} alt="Avatar" />
               )}
-              
+
             </button>
             {/* <!-- Dropdown menu --> */}
             {isLoggedIn ? (
@@ -76,9 +76,9 @@ const Navbar = () => {
           <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
             <ul className="bg-[#DFA878] flex flex-col font-medium p-4 rounded-lg md:flex-row md:space-x-16 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               {isLoggedIn && currentUserData.is_admin &&
-              <li>
-                <Link to="/admin" href="#" className="block py-2 pl-3 pr-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Admin</Link>
-              </li>
+                <li>
+                  <Link to="/admin" href="#" className="block py-2 pl-3 pr-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Admin</Link>
+                </li>
               }
               <li>
                 <Link to="/about" href="#" className="block py-2 pl-3 pr-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</Link>
@@ -91,7 +91,7 @@ const Navbar = () => {
               </li>
               <li>
                 <div className="flex md:order-2">
-                  <button type="button" id ="navbar-search" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1" >
+                  <button type="button" id="navbar-search" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1" >
                     <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>

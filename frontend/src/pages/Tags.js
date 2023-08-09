@@ -7,7 +7,7 @@ const Tags = () => {
 
   useEffect(() => {
     fetchTags();
-  }, [fetchTags]);
+  }, []);
 
   const [selectedTag, setSelectedTag] = useState(null);
   const [questions, setQuestions] = useState([]);
@@ -42,7 +42,7 @@ const Tags = () => {
             <div className='mb-2' key={tag.id}>
               <Link to={`/ViewTag/${tag.id}`}
                 // href="#"
-                className={`inline-flex items-center px-2 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700 ${selectedTag === tag ? 'bg-blue-500 text-white' : ''}`}
+                className={`text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2  inline-flex items-center px-2 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700 ${selectedTag === tag ? 'bg-blue-500 text-white' : ''}`}
                 onClick={() => handleTagClick(tag)}
               >
                 {tag.name} 
