@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "flowbite";
 import Layout from "./layout/Layout";
 import Home from "./pages/Home";
@@ -25,8 +25,6 @@ import PasswordResetPage from "./pages/PasswordResetPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  console.log("Is Logged In?", isLoggedIn)
 
   function isUserLoggedIn(status) {
    

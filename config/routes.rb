@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       get 'favorite_questions', to: 'users#favorite_questions'
       put :reset_password
       post 'update_profile_picture'
+      put 'ban', to: 'users#ban'
     end
   end
   post '/login', to: 'sessions#create'
@@ -14,7 +15,7 @@ Rails.application.routes.draw do
   put '/PasswordResetPage/:reset_token', to: 'reset#reset_password', as: 'password_reset_page'
 
   resources :notifications, only: [:index, :update]
-  resources :reported_contents, only: [:index, :create, :destroy]
+  resources :reported_contents, only: [:index, :create, :update]
 
   resources :tags, only: [:index, :show, :create,]
   resources :questions do

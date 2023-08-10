@@ -10,7 +10,6 @@ const Navbar = () => {
   const { searchQuestions, notifications } = useContext(QuestionsContext);
   const [searchQuery, setSearchQuery] = useState("");
 
-
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
     searchQuestions(searchQuery);
@@ -75,14 +74,19 @@ const Navbar = () => {
 
           <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
             <ul className="bg-[#DFA878] flex flex-col font-medium p-4 rounded-lg md:flex-row md:space-x-16 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              {isLoggedIn && currentUserData.is_admin &&
+              {isLoggedIn && currentUserData.is_moderator &&
                 <li>
-                  <Link to="/admin" href="#" className="block py-2 pl-3 pr-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Admin</Link>
+                  <Link to="/moderatorDashboard" href="#" className="block py-2 pl-3 pr-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Moderator</Link>
                 </li>
               }
               <li>
                 <Link to="/about" href="#" className="block py-2 pl-3 pr-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</Link>
               </li>
+              {isLoggedIn && currentUserData.is_admin &&
+                <li>
+                  <Link to="/admin" href="#" className="block py-2 pl-3 pr-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Admin</Link>
+                </li>
+              }
               <li>
                 <Link to="/tags" className="block py-2 pl-3 pr-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Tags</Link>
               </li>

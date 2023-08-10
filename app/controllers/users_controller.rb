@@ -143,6 +143,20 @@ end
   end
   
   
+  def ban
+    question = Question.find(params[:id])
+    user = User.find(question.user_id)
+
+    user.update_columns(banned: true)
+
+    Question.find(params[:id]).destroy
+
+    render json: { message: 'User has been banned and question has been deleted.' }, status: :ok
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Question not found.' }, status: :not_found
+  end
+
+  
   private
 
   def user_params

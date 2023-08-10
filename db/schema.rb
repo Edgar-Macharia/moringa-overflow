@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_08_093030) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_10_122843) do
   create_table "answers", force: :cascade do |t|
     t.text "body"
     t.integer "user_id", null: false
@@ -95,7 +95,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_093030) do
     t.integer "user_id", null: false
     t.integer "question_id", null: false
     t.string "reason"
-    t.boolean "is_handled"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "moderator_id"
@@ -139,6 +138,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_093030) do
     t.datetime "updated_at", null: false
     t.string "password_reset_token"
     t.datetime "password_reset_token_expiration"
+    t.boolean "banned", default: false
     t.index ["password_reset_token"], name: "index_users_on_password_reset_token", unique: true
   end
 

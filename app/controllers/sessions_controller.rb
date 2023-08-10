@@ -6,9 +6,13 @@ class SessionsController < ApplicationController
     begin
       user = User.find_by!(email: params[:email])
       if user&.authenticate(params[:password])
-        remember_me =  params[:rememberMe]
-        token = encode_token(user.id, remember: remember_me)
-        render json: { success: "Login successfully", token: token, user_id: user.id, remember_me: remember_me, username: user.username }, status: :ok
+        if user.banned?
+          render json: { error: 'This account has been banned. Please Email support.' }, status: :forbidden
+        else
+          remember_me = params[:rememberMe]
+          token = encode_token(user.id, remember: remember_me)
+          render json: { success: "Login successfully", token: token, user_id: user.id, remember_me: remember_me, username: user.username }, status: :ok
+        end
       else
         render json: { error: 'Invalid password' }, status: :unauthorized
       end
@@ -18,5 +22,4 @@ class SessionsController < ApplicationController
       render json: { error: e.message }, status: :unprocessable_entity
     end
   end
-
 end
