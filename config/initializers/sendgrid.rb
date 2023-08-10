@@ -1,7 +1,7 @@
 # config/initializers/sendgrid.rb
 require 'sendgrid-ruby'
 
-SendGrid::API_KEY = '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'
+# SendGrid::API_KEY = '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'
 
 ActionMailer::Base.smtp_settings = {
   address: 'smtp.sendgrid.net',
