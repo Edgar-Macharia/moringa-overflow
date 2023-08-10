@@ -31,7 +31,7 @@ class QuestionsController < ApplicationController
     if @question.save
       begin
         @user.notifications.create!(message: 'Your question was successfully created.')
-        render json: @question, status: :created, location: @question
+        render json: @question, status: :created
       rescue => e
         render json: { errors: ["Error creating notification: #{e.message}"] }, status: :unprocessable_entity
       end      
