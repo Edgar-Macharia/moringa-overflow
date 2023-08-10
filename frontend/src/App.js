@@ -81,8 +81,7 @@ function App() {
                 element={isLoggedIn ? <ModeratorDashboard /> : <Navigate to="/login" />}
               />
               <Route
-                path="/admin"
-                element={isLoggedIn ? <Admin /> : <Navigate to="/login" />}
+                path="/admin" element={<Admin />}
               />
             </Route>
           </Routes>

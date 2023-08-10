@@ -35,13 +35,16 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :users, only: [:create, :show, :update] do
+  resources :users do
     member do
       get 'favorite_questions', to: 'users#favorite_questions'
       put :reset_password
+      
       post 'update_profile_picture'
     end
   end
+
+  put 'users/:id/update_moderator_status', to: 'users#update_moderator_status'
 
 
   post '/login', to: 'sessions#create'
