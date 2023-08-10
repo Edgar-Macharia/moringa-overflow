@@ -6,11 +6,11 @@ import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { QuestionsContext } from '../context/QuestionsContext';
 import { AuthContext } from '../context/AuthContext';
 
-const Questions = ({isUserLoggedIn}) => {
+const Questions = () => {
  
   const { questions,tags, downvoteQuestion, upvoteQuestion, toggleFavorite, isQuestionFavorited } = useContext(QuestionsContext);
   const { isLoggedIn } = useContext(AuthContext);
-  // isUserLoggedIn( isLoggedIn);
+
   const handleUpvote = (questionId, e) => {
     e.preventDefault();
     upvoteQuestion(questionId);

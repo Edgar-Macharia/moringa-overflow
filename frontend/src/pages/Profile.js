@@ -1,10 +1,16 @@
-import React, { useState, useContext} from 'react';
+import React, { useState, useContext, useEffect} from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { CloudinaryContext } from 'cloudinary-react';
 
 const Profile = () => {
+
+  const {fetchCurrentUser} = useContext(AuthContext)
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
+
   const { currentUserData, editUserProfile, resetPassword, setCurrentUserData } = useContext(AuthContext);
   const [isEditMode, setIsEditMode] = useState(false);
   const [username, setUsername] = useState(currentUserData.username);
@@ -162,7 +168,7 @@ const Profile = () => {
           )}
           {/* Joined At */}
           <div className="flex justify-center mt-4">
-            <p className="text-gray-500">Joined: {new Date(currentUserData.created_at).toLocaleDateString()}</p>
+            <p className="text-gray-500">Joined On: {new Date(currentUserData.created_at).toLocaleDateString()}</p>
           </div>
           {/* Change Password */}
           {resetMode ? (

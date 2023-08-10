@@ -229,6 +229,97 @@ answers_data = [
     question: questions.sample,
     upvotes_count: rand(0..10),
     downvotes_count: rand(0..5)
+  },
+  {
+    body: "The meaning of life is a philosophical question that has been debated for centuries. Some believe it's about seeking happiness and fulfillment, while others think it's about contributing to the greater good of humanity.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
+  },
+  {
+    body: "Love is a complex and powerful emotion that has different meanings for different people. It can be a deep affection, a strong bond, or a feeling of care and concern for someone or something.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
+  },
+  {
+    body: "Success can be defined in various ways, but it often involves achieving goals, realizing dreams, and finding personal satisfaction. It's a journey that requires hard work, dedication, and continuous growth.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
+  },
+  {
+    body: "Happiness is a subjective state of well-being and contentment. It's often found in the simple moments of life and can be cultivated through gratitude, meaningful relationships, and pursuing passions.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
+  },
+  {
+    body: "Time is a fundamental dimension that allows events to be ordered from the past through the present to the future. It shapes our experiences, memories, and the unfolding of reality.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
+  },
+  {
+    body: "Wisdom is the application of knowledge and experience to make sound judgments and decisions. It comes from learning, reflection, and a deep understanding of life's complexities.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
+  },
+  {
+    body: "Freedom is the state of being able to act, think, and express oneself without external restraint. It is a fundamental human right that empowers individuals to shape their lives and contribute to society.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
+  },
+  {
+    body: "Truth is a concept that represents the accurate and objective representation of reality. It is essential for understanding the world and forming the basis of knowledge and informed decisions.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
+  },
+  {
+    body: "Purpose is the sense of direction and meaning in one's life. It can be found through personal growth, contributing to others, and aligning actions with values and passions.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
+  },
+  {
+    body: "Creativity is the ability to generate novel ideas, solutions, and expressions. It involves thinking outside the box, breaking conventions, and exploring new possibilities.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
+  },
+  {
+    body: "Knowledge is the accumulation of information, facts, and insights gained through learning and experience. It empowers individuals to make informed decisions and contribute to society.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
+  },
+  {
+    body: "Justice is the fair and impartial treatment of individuals and the distribution of resources according to ethical and legal principles. It ensures equality and protects the rights of all members of society.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
+  },
+  {
+    body: "Morality is the set of principles and values that guide human behavior and decision-making. It shapes notions of right and wrong, influencing ethical choices and interpersonal interactions.",
+    user: users.sample,
+    question: questions.sample,
+    upvotes_count: rand(0..10),
+    downvotes_count: rand(0..5)
   }
   
 ]
