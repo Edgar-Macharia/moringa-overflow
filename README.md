@@ -15,9 +15,10 @@ The Moringa Overflow is a web application developed using RoR (Ruby on Rails) an
 
 
 ## Geting Started /Setup
-1. The project's frontend has already been deployed on Vercel.  You can use this endpoint to access it 
+1. The project's frontend has already been deployed on railway.  You can use this endpoint to access it 
 
 ```sh
+https://elastic-gate-production.up.railway.app/
 
 ```
 
@@ -58,7 +59,7 @@ Moringa Overflow is a platform designed to facilitate questions and answers amon
 
 1. **User Registration and Login:**
 
-   - To use the application, users need to register or log in. The frontend is deployed at `[Frontend URL]`. Click on the "Register" or "Login" button to create a new account or log in to an existing account.
+   - To use the application, users need to register or log in. The frontend is deployed at `[https://elastic-gate-production.up.railway.app/]`. Click on the "Register" or "Login" button to create a new account or log in to an existing account.
 
 2. **Asking a Question:**
 
