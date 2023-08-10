@@ -47,7 +47,7 @@ Start the Rails server:
 ```sh
 rails s
 ```
-The API is now running on http://localhost:3000.
+The API is now running on http://localhost:4000.
 
 You are now ready to explore the Moringa Overflow project, Ask questions, and answer questions asked  by other developers.
 
