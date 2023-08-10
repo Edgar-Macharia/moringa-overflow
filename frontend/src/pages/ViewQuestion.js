@@ -101,12 +101,16 @@ const ViewQuestion = () => {
   };
 
   const handleEditTitleClick = () => {
-    setEditTitle(true);
+    if (question.author_username === currentUserData.username) {
+      setEditTitle(true);
+    }
   };
-
+  
   const handleEditBodyClick = () => {
-    setEditBody(true);
-  };
+    if (question.author_username === currentUserData.username) {
+      setEditBody(true);
+    }
+  };  
 
   const handleUpdateQuestion = (questionId) => {
     const updatedQuestion = {};

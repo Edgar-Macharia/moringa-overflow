@@ -1,20 +1,25 @@
 import { Link } from 'react-router-dom'
+import React, {useContext, useEffect} from 'react';
 import '../../src/App.css'
 import homepageImage from "../images/homepage.png";
 // import logo from '../images/Logo.png';
 import questionsImage from '../images/questions.png';
+import { AuthContext } from '../context/AuthContext';
 
 const Home = () => {
+
+  const {fetchCurrentUser} = useContext(AuthContext)
+
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
+
   return (
     <div className='homepage'>
       <div className='relative py-16 px-8 bg-brand dark:bg-inherit text-white dark:text-gray-200 min-h-[90vh] overflow-hidden'>
-        {/* <img class="h-20 w-20 rounded-full mr-3 transition-all duration-300 rounded-lg blur-sm hover:blur-none" src={logo} alt="image description" /> */}
         <div class="flex justify-center items-center">
-
           <img class="h-auto max-w-lg" src={questionsImage} alt="Questions" />
         </div>
-
-
         <h1 className='my-4 text-center text-2xl sm:text-4xl font-semibold'>Solve all your questions at one place</h1>
 
         <h3 className='text-center text-lg sm:text-2xl text-gray-50 dark:text-gray-300'>Get best answers to your questions here at Moringa Overflow</h3>

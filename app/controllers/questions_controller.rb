@@ -31,7 +31,7 @@ class QuestionsController < ApplicationController
     if @question.save
       begin
         @user.notifications.create!(message: 'Your question was successfully created.')
-        render json: @question, status: :created, location: @question
+        render json: @question, status: :created
       rescue => e
         render json: { errors: ["Error creating notification: #{e.message}"] }, status: :unprocessable_entity
       end      
@@ -118,12 +118,12 @@ class QuestionsController < ApplicationController
     end
   
     @question.upvotes.create!(user: @user)
-    @question.update(upvotes_count: @question.upvotes.count)
+    @question.increment!(:upvotes_count)
   
     if @question.downvotes.exists?(user_id: @user.id)
       downvote = @question.downvotes.find_by(user_id: @user.id)
       downvote.destroy
-      @question.update(downvotes_count: @question.downvotes.count)
+      @question.decrement!(:downvotes_count)
     end
   
     render json: {
@@ -143,12 +143,12 @@ class QuestionsController < ApplicationController
     end
   
     @question.downvotes.create!(user: @user)
-    @question.update(downvotes_count: @question.downvotes.count)
+    @question.increment!(:downvotes_count)
   
     if @question.upvotes.exists?(user_id: @user.id)
       upvote = @question.upvotes.find_by(user_id: @user.id)
       upvote.destroy
-      @question.update(upvotes_count: @question.upvotes.count)
+      @question.decrement!(:upvotes_count)
     end
   
     render json: {

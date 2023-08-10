@@ -26,21 +26,18 @@ import PasswordResetPage from "./pages/PasswordResetPage";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    isUserLoggedIn();
-  }, []);
+  console.log("Is Logged In?", isLoggedIn)
 
-  function isUserLoggedIn() {
-    const token = sessionStorage.getItem("token");
-    const userId = sessionStorage.getItem("userId");
-    if (token && userId) {
+  function isUserLoggedIn(status) {
+   
+    if (status) {
       setIsLoggedIn(true);
     }
   }
   
   return (
     <BrowserRouter>
-      <AuthProvider>
+      <AuthProvider isUserLoggedIn ={isUserLoggedIn}>
         <QuestionsProvider>
           <Routes>
             <Route path="/" element={<Layout />}>
@@ -59,7 +56,7 @@ function App() {
               <Route path="/Reset" element={<Reset />} />
               {/* <Route path="/PasswordResetPage" element={<PasswordResetPage />} /> */}
               <Route
-                path="/PasswordResetPage/:id"
+                path="/PasswordResetPage/:token"
                 element={<PasswordResetPage />}
               />
               <Route

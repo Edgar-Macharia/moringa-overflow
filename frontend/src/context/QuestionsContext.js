@@ -42,7 +42,7 @@ const fetchQuestions = () => {
   const createQuestion = (newQuestionData) => {
     const token = sessionStorage.getItem("token");
     if (!token) {
-      Swal.fire("Error", "Not authorized to create question", "error");
+      Swal.fire("Error", "Login to create a question", "error");
       return;
     }
 
@@ -60,6 +60,7 @@ const fetchQuestions = () => {
           Swal.fire("Error", data.errors[0], "error");
         } else {
           Swal.fire("Success", "Question created successfully", "success");
+          setQuestions((prevQuestions) => [data, ...prevQuestions]);
           nav(`/questions`);
           fetchNotifications();
         }
@@ -74,7 +75,7 @@ const fetchQuestions = () => {
 const createAnswer = (newAnswerData) => {
   const token = sessionStorage.getItem("token");
   if (!token) {
-    Swal.fire("Error", "Not authorized to create question", "error");
+    Swal.fire("Error", "Login to create an answer", "error");
     return;
   }
 
@@ -107,7 +108,7 @@ const createAnswer = (newAnswerData) => {
 const toggleFavorite = (id) => {
   const token = sessionStorage.getItem("token");
   if (!token) {
-    Swal.fire("Error", "Not authorized to favorite question", "error");
+    Swal.fire("Error", "Login to add question to favorites", "error");
     return;
   }
 
@@ -137,7 +138,7 @@ const toggleFavorite = (id) => {
   const deleteQuestion = (questionId) => {
     const token = sessionStorage.getItem("token");
     if (!token) {
-      Swal.fire("Error", "Not authorized to delete question", "error");
+      Swal.fire("Error", "Login to delete question", "error");
       return;
     }
     Swal.fire({
@@ -422,7 +423,7 @@ const downvoteAnswer = (answerId) => {
   const report = (reportData) => {
   const token = sessionStorage.getItem("token");
   if (!token) {
-    Swal.fire("Error", "Not authorized to report question", "error");
+    Swal.fire("Error", "Login to report question", "error");
     return;
   }
 

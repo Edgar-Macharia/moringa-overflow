@@ -102,10 +102,10 @@ end
     
     begin
       puts "Uploading profile picture"
-      puts uploaded_image 
       cloudinary_response = Cloudinary::Uploader.upload(uploaded_image, with_secure_url: true)
       
       user.update_columns(profile_picture: cloudinary_response['secure_url'])
+      puts cloudinary_response
 
       if cloudinary_response['error']
         render json: { error: "Error uploading profile picture: #{cloudinary_response['error']}" }, status: :unprocessable_entity
