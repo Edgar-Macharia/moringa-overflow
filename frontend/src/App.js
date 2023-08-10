@@ -24,16 +24,13 @@ import Admin from "./pages/Admin ";
 import PasswordResetPage from "./pages/PasswordResetPage";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   function isUserLoggedIn(status) {
    
     if (status) {
       setIsLoggedIn(true);
-    }else{
-      setIsLoggedIn(false);
     }
-    
   }
   
   return (
@@ -79,8 +76,7 @@ function App() {
                 element={isLoggedIn ? <ModeratorDashboard /> : <Navigate to="/login" />}
               />
               <Route
-                path="/admin"
-                element={isLoggedIn ? <Admin /> : <Navigate to="/login" />}
+                path="/admin" element={<Admin />}
               />
             </Route>
           </Routes>

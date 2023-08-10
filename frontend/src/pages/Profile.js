@@ -36,11 +36,11 @@ const Profile = () => {
         headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}`, },
       });
       if (response.status === 200) {
-      console.log(response);
-      const updatedUserData = { ...currentUserData, profile_picture: response.data.profile_picture_url };
-      setCurrentUserData(updatedUserData);
-      console.log(updatedUserData);
-      setIsEditMode(false);
+        console.log(response);
+        const updatedUserData = { ...currentUserData, profile_picture: response.data.profile_picture_url };
+        setCurrentUserData(updatedUserData);
+        console.log(updatedUserData);
+        setIsEditMode(false);
       }
     } catch (error) {
       console.error('Error uploading profile picture:', error);
@@ -54,23 +54,23 @@ const Profile = () => {
 
   const handleSaveClick = () => {
     const updatedUserData = {};
-    
+
     if (username !== currentUserData.username) {
       updatedUserData.username = username;
     }
-  
+
     if (email !== currentUserData.email) {
       updatedUserData.email = email;
     }
-  
+
     if (password) {
       updatedUserData.password = password;
     }
-  
+
     const newUserData = {
       user: updatedUserData
     };
-  
+
     editUserProfile(newUserData);
     setIsEditMode(false);
   };
@@ -94,7 +94,7 @@ const Profile = () => {
 
   let link = ""
   function src() {
-    if (currentUserData.profile_picture){
+    if (currentUserData.profile_picture) {
       link = currentUserData.profile_picture
     } else {
       link = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png"
@@ -111,22 +111,22 @@ const Profile = () => {
           {/* Username */}
           {isEditMode ? (
             <>
-            <p>Update your Avatar, Email or Username below</p>
-             <CloudinaryContext cloudName="dkcfnb31k">
-             <div>
-               <input type="file" onChange={handleImageChange} />
-               <button onClick={handleImageUpload} className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
-                 Upload Image
-               </button>
-             </div>
-           </CloudinaryContext>
-            <input
-              type="text"
-              value={username}
-              placeholder={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="block w-full px-4 py-2 text-xl font-semibold text-center mt-4 border border-gray-300 rounded focus:outline-none focus:ring-primary-600 focus:border-primary-600"
-            />
+              <p>Update your Avatar, Email or Username below</p>
+              <CloudinaryContext cloudName="dkcfnb31k">
+                <div>
+                  <input type="file" onChange={handleImageChange} />
+                  <button onClick={handleImageUpload} className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
+                    Upload Image
+                  </button>
+                </div>
+              </CloudinaryContext>
+              <input
+                type="text"
+                value={username}
+                placeholder={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="block w-full px-4 py-2 text-xl font-semibold text-center mt-4 border border-gray-300 rounded focus:outline-none focus:ring-primary-600 focus:border-primary-600"
+              />
             </>
           ) : (
             <h1 className="text-3xl font-semibold text-center mt-4">{currentUserData.username}</h1>

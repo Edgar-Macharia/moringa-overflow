@@ -10,6 +10,8 @@ export default function AuthProvider({ children, isUserLoggedIn }) {
   const [username, setUsername] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [onChange, setonChange] = useState(true);
+  const [users, setUsers] = useState([]);
+  const [moderator, setModerator] = useState([]);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -115,6 +117,8 @@ export default function AuthProvider({ children, isUserLoggedIn }) {
       });
   };
 
+  
+
   // Fetch user by ID
 
   const fetchUserById = (userId) => {
@@ -134,6 +138,90 @@ export default function AuthProvider({ children, isUserLoggedIn }) {
       .catch((error) => {
         console.error("Error fetching user by ID:", error);
       });
+  };
+
+  ///update moderator
+  const updateModerator = (userId) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      Swal.fire("Error", "Not authorized to update moderator status", "error");
+      return;
+    }
+  
+    fetch(`/users/${userId}/update_moderator_status`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        if (data.errors) {
+          Swal.fire("Error", data.errors, "error");
+        } else {
+          setModerator(data)
+          // You might want to update the user's moderator status in the context
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating moderator status:", error);
+        Swal.fire("Error", "Failed to update moderator status", "error");
+      });
+  };
+
+  // Delete user
+  const deleteUser = (userId) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      Swal.fire("Error", "Not authorized to delete user", "error");
+      return;
+    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete user!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        fetch(`/users/${userId}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.message) {
+              Swal.fire(
+                'Deleted!',
+                'Your user has been deleted.',
+                'success'
+              )
+              setUsers((prevUsers) =>
+              prevUsers.filter((user) => user.id !== userId)
+            );
+              // nav("/admin");
+            } else {
+              Swal.fire("Error", "Failed to delete user", "error");
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting user:", error);
+            Swal.fire("Error", "Failed to delete user", "error");
+          });
+      }
+    }) 
   };
 
   // Edit user post
@@ -162,6 +250,7 @@ export default function AuthProvider({ children, isUserLoggedIn }) {
       });
   };
 
+// Profile update
   const editUserProfile = (newProfileData) => {
     const userId = sessionStorage.getItem("userId");
     const token = sessionStorage.getItem("token");
@@ -190,7 +279,7 @@ export default function AuthProvider({ children, isUserLoggedIn }) {
       });
   };
 
-
+// Password reset
   const resetPassword = (userId, formData) => {
     const token = sessionStorage.getItem("token");
     if (!token) {
@@ -228,13 +317,18 @@ export default function AuthProvider({ children, isUserLoggedIn }) {
     logout,
     currentUserData,
     username,
+    users,
+    setUsers,
+    moderator,
     isLoggedIn,
     editUserPost,
     editUserProfile,
     resetPassword,
     fetchCurrentUser,
+    // fetchUsers,
     setCurrentUserData,
-    handleLogin,
+    updateModerator,
+    deleteUser
   };
 
   return <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>;

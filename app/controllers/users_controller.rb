@@ -1,7 +1,17 @@
 class UsersController < ApplicationController
 skip_before_action :authorize_request, only: [:create]
+# before_action :authorize_admin, only: [:index, :destroy]
 rescue_from ActiveRecord::RecordInvalid, with: :handle_record_invalid
 rescue_from ActiveRecord::RecordNotFound, with: :user_not_found
+
+def index
+  if authorize_admin?
+    users = User.all
+    render json: users
+  else
+    render json: { error: 'Unauthorized access' }, status: :unauthorized
+  end
+end
 
   def create
     begin
@@ -106,6 +116,32 @@ rescue_from ActiveRecord::RecordNotFound, with: :user_not_found
       render json: { error: "Error updating profile picture: #{e.message}" }, status: :unprocessable_entity
     end
   end
+
+  # update moderator
+  def update_moderator_status
+    user = User.find(params[:id])
+    
+    # Toggle the moderator status
+    user.is_moderator = !user.is_moderator
+    
+    if user.save(validate: false) # Skip validations for this update
+      render json: { message: "Moderator status updated successfully" }, status: :ok
+    else
+      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  ## delete user
+  def destroy
+    if authorize_admin?
+      user = User.find(params[:id])
+      user.destroy
+      render json: { message: "User successfully deleted"}
+    else
+      render json: { error: 'Unauthorized access' }, status: :unauthorized
+    end
+  end
+  
   
   def ban
     question = Question.find(params[:id])
@@ -137,5 +173,9 @@ rescue_from ActiveRecord::RecordNotFound, with: :user_not_found
   
   def user_not_found
     render json: { error: 'User not found' }, status: :not_found
+  end
+
+  def authorize_admin?
+     current_user && current_user.is_admin?
   end
 end

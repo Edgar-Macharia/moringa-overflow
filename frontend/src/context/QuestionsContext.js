@@ -70,7 +70,7 @@ const fetchQuestions = () => {
       });
   };
 
-// Create a new question
+// Create a new answer
 const createAnswer = (newAnswerData) => {
   const token = sessionStorage.getItem("token");
   if (!token) {
@@ -178,10 +178,7 @@ const toggleFavorite = (id) => {
             Swal.fire("Error", "Failed to delete question", "error");
           });
       }
-    })
-
-
-    
+    }) 
   };
 
   // Search questions

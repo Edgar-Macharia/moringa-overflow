@@ -32,7 +32,21 @@ Rails.application.routes.draw do
       post 'favorite', to: 'questions#favorite'
     end
   end
+  
+  resources :users do
+    member do
+      get 'favorite_questions', to: 'users#favorite_questions'
+      put :reset_password
+      
+      post 'update_profile_picture'
+    end
+  end
 
+  put 'users/:id/update_moderator_status', to: 'users#update_moderator_status'
+
+
+  post '/login', to: 'sessions#create'
+  post '/logout', to: 'sessions#create'
   get "/questions/search", to: "questions#search"
   delete '/questions', to: 'questions#destroy'
 
