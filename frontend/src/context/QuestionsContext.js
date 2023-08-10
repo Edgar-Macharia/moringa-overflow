@@ -29,7 +29,6 @@ const fetchQuestions = () => {
   fetch("/questions")
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       const sortedQuestions = data.sort((a, b) => b.id - a.id);
       setQuestions(sortedQuestions);
     })

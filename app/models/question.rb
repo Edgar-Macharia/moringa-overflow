@@ -7,6 +7,7 @@ class Question < ApplicationRecord
     has_many :favorited_by_users, through: :favorites, source: :user
     has_many :upvotes, dependent: :destroy
     has_many :downvotes, dependent: :destroy
+    has_many :reported_contents, dependent: :destroy
 
     after_save :update_tag_frequency
     validates :title, presence: true, uniqueness: true

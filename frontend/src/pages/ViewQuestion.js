@@ -145,15 +145,15 @@ const ViewQuestion = () => {
             <div className="flex items-center justify-between mb-2">
               <div>
                 <Link to={`/ReportContent/${id}`}>
-                  <button className="report-button">Report</button>
+                <button type="button" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Report Post </button>
                 </Link>
               </div>
 
               <div>
                 <Link to={`/Answers/${question.id}`}>
-                  <button className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#6C3428] hover:bg-[#DFA878]">
-                    Answer Question
-                  </button>
+                <button className="space-x-2 hover:space-x-4 px-3 py-2 rounded-[4px] bg-[#F7BDB0] hover:bg-[#FACDAE]">
+                  Answer Question
+                </button>
                 </Link>
 
                 {/* Buttons for Delete and Update */}
