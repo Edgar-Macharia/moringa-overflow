@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
-export default function AuthProvider({ children }) {
+export default function AuthProvider({ children, isUserLoggedIn }) {
   const nav = useNavigate();
   const [currentUserData, setCurrentUserData] = useState([]);
   const [username, setUsername] = useState("");
@@ -17,6 +17,12 @@ export default function AuthProvider({ children }) {
     if (token && userId) {
       setIsLoggedIn(true);
       fetchUserById(userId);
+      isUserLoggedIn(true);
+      fetchCurrentUser()
+    }else{
+      setIsLoggedIn(false);
+      isUserLoggedIn(false);
+
     }
   }, []);
 
@@ -72,6 +78,8 @@ export default function AuthProvider({ children }) {
     setUsername(data.username);
     sessionStorage.setItem("token", data.token);
     sessionStorage.setItem("userId", data.user_id);
+    isUserLoggedIn(true);
+
   };
 
   // Logout
@@ -81,6 +89,7 @@ export default function AuthProvider({ children }) {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userId");
     nav("/");
+    isUserLoggedIn(false);
   };
 
   // Fetch current user

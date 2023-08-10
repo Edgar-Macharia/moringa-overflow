@@ -69,12 +69,12 @@ class AnswersController < ApplicationController
     end
   
     @answer.upvotes.create!(user: @user)
-    @answer.update(upvotes_count: @answer.upvotes.count)
+    @answer.increment!(:upvotes_count)
   
     if @answer.downvotes.exists?(user_id: @user.id)
       downvote = @answer.downvotes.find_by(user_id: @user.id)
       downvote.destroy
-      @answer.update(downvotes_count: @answer.downvotes.count)
+      @answer.decrement!(:downvotes_count)
     end
   
     render json: {
@@ -94,12 +94,12 @@ class AnswersController < ApplicationController
     end
   
     @answer.downvotes.create!(user: @user)
-    @answer.update(downvotes_count: @answer.downvotes.count)
+    @answer.increment!(:downvotes_count)
   
     if @answer.upvotes.exists?(user_id: @user.id)
       upvote = @answer.upvotes.find_by(user_id: @user.id)
       upvote.destroy
-      @answer.update(upvotes_count: @answer.upvotes.count)
+      @answer.decrement!(:upvotes_count)
     end
   
     render json: {

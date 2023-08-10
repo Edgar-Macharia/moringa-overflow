@@ -1,10 +1,16 @@
-import React, { useState, useContext} from 'react';
+import React, { useState, useContext, useEffect} from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { CloudinaryContext } from 'cloudinary-react';
 
 const Profile = () => {
+
+  const {fetchCurrentUser} = useContext(AuthContext)
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
+
   const { currentUserData, editUserProfile, resetPassword, setCurrentUserData } = useContext(AuthContext);
   const [isEditMode, setIsEditMode] = useState(false);
   const [username, setUsername] = useState(currentUserData.username);
