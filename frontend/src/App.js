@@ -59,7 +59,7 @@ function App() {
               <Route path="/Reset" element={<Reset />} />
               {/* <Route path="/PasswordResetPage" element={<PasswordResetPage />} /> */}
               <Route
-                path="/PasswordResetPage/:id"
+                path="/PasswordResetPage/:token"
                 element={<PasswordResetPage />}
               />
               <Route

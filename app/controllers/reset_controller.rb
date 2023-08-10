@@ -15,11 +15,11 @@ class ResetController < ApplicationController
   def reset_password
     
     user = User.find_by(id: params[:reset_token])
-    # expiration = @user.password_reset_token_expiration
+    expiration = @user.password_reset_token_expiration
     # puts params[:reset_token]
-    puts user.id
-    puts user.email
-    puts Time.now
+    # puts user.id
+    # puts user.email
+    # puts Time.now
     if user 
       # && user.password_reset_token_expiration && user.password_reset_token_expiration > Time.now)
       
@@ -29,14 +29,14 @@ class ResetController < ApplicationController
         render json: { error: 'Failed to reset password. Please try again later.' }, status: :unprocessable_entity
       end
     else
-      render json: { error: user }, status: :unprocessable_entity
-      # render json: { error: 'Password reset link is invalid or has expired.' }, status: :unprocessable_entity
+      # render json: { error: user }, status: :unprocessable_entity
+      render json: { error: 'Password reset link is invalid or has expired.' }, status: :unprocessable_entity
     end
   end
   private
   def generate_reset_token(user)
     token = SecureRandom.urlsafe_base64
-    user.update_columns(password_reset_token: token, password_reset_token_expiration: 27.hour.from_now)
+    user.update_columns(password_reset_token: token, password_reset_token_expiration: 1.hour.from_now)
     user
   end
 end

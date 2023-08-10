@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
 const PasswordResetPage = () => {
-  const { id } = useParams();
-  console.log(id)
+  const { token } = useParams();
+  console.log(token)
   const [passwords, setPasswords] = useState({
     password: '',
     password_confirmation: ''
@@ -32,7 +32,7 @@ const PasswordResetPage = () => {
     const { password, password_confirmation } = passwords;
 
     // Make a POST request to the backend API to reset the password
-    fetch(`/PasswordResetPage/${id}`, {
+    fetch(`/PasswordResetPage/${token}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -40,14 +40,6 @@ const PasswordResetPage = () => {
       body: JSON.stringify({ password, password_confirmation })
     })
       .then((response) => response.json())
-      // .then((response) => {
-        
-      //   // if (response.ok) {
-      //   //   return response.json();
-      //   // } else {
-      //   //   throw new Error('Failed to reset password. Please try again later.');
-      //   // }
-      // })
       .then((data) => {
         console.log(data)
         setSuccessMessage(data.message);
