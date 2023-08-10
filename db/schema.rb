@@ -61,13 +61,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_10_122843) do
 
   create_table "notifications", force: :cascade do |t|
     t.string "message"
-    t.integer "user_id", null: false
+    t.integer "user_id"
     t.boolean "read_status", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "question_id"
     t.index ["question_id"], name: "index_notifications_on_question_id"
-    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "question_tags", force: :cascade do |t|
@@ -152,7 +151,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_10_122843) do
   add_foreign_key "favorites", "questions"
   add_foreign_key "favorites", "users"
   add_foreign_key "notifications", "questions"
-  add_foreign_key "notifications", "users"
   add_foreign_key "question_tags", "questions"
   add_foreign_key "question_tags", "tags"
   add_foreign_key "questions", "users"

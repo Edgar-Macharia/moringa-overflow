@@ -17,8 +17,8 @@ const Home = () => {
   return (
     <div className='homepage'>
       <div className='relative py-16 px-8 bg-brand dark:bg-inherit text-white dark:text-gray-200 min-h-[90vh] overflow-hidden'>
-        <div class="flex justify-center items-center">
-          <img class="h-auto max-w-lg" src={questionsImage} alt="Questions" />
+        <div className="flex justify-center items-center">
+          <img className="h-auto max-w-lg" src={questionsImage} alt="Questions" />
         </div>
         <h1 className='my-4 text-center text-2xl sm:text-4xl font-semibold'>Solve all your questions at one place</h1>
 
@@ -33,7 +33,7 @@ const Home = () => {
             <li>Downvote for unfavourable questions and answers</li>
           </ul>
 
-          <img class="h-auto max-w-lg" src={homepageImage} alt="Homepage" />
+          <img className="h-auto max-w-lg" src={homepageImage} alt="Homepage" />
           <div className='text-lg sm:text-xl'>
 
             <>
