@@ -234,6 +234,7 @@ export default function AuthProvider({ children, isUserLoggedIn }) {
     resetPassword,
     fetchCurrentUser,
     setCurrentUserData,
+    handleLogin,
   };
 
   return <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>;

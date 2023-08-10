@@ -9,6 +9,8 @@ Rails.application.routes.draw do
       put 'ban', to: 'users#ban'
     end
   end
+  get '/auth/google', to: 'sessions#omniauth_authorize', as: :google_login
+  get '/auth/google/callback', to: 'sessions#create'
   post '/login', to: 'sessions#create'
   post '/logout', to: 'sessions#create'
   post '/api/password-reset', to: 'reset#request_reset'
