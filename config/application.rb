@@ -18,6 +18,8 @@ module RubyRailsPostgres
     end
  
     config.action_controller.allow_forgery_protection = false
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_cookie_name', expire_after: 14.days, httponly: true
 
     # Configuration for the application, engines, and railties goes here.
     #
