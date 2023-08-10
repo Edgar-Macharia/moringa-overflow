@@ -168,7 +168,7 @@ const Profile = () => {
           )}
           {/* Joined At */}
           <div className="flex justify-center mt-4">
-            <p className="text-gray-500">Joined: {new Date(currentUserData.created_at).toLocaleDateString()}</p>
+            <p className="text-gray-500">Joined On: {new Date(currentUserData.created_at).toLocaleDateString()}</p>
           </div>
           {/* Change Password */}
           {resetMode ? (
