@@ -15,7 +15,7 @@ class ResetController < ApplicationController
   def reset_password
     
     user = User.find_by(id: params[:reset_token])
-    expiration = @user.password_reset_token_expiration
+    # expiration = @user.password_reset_token_expiration
     # puts params[:reset_token]
     # puts user.id
     # puts user.email
