@@ -31,6 +31,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "env": {
+    "process.env.CI": "false"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -50,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "ts-loader": "^9.4.4",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"

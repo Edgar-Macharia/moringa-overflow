@@ -96,7 +96,7 @@ const FavoriteQuestions = () => {
                   <p className="text-sm text-blue-500 font-medium mb-2">
                     {question &&
                       question.tag_names &&
-                      JSON.parse(question.tag_names).join(', ')}
+                      question.tag_names.join(', ')}
                   </p>
                   <p className="text-sm text-brown-500 font-medium mb-2">
                     {question.author_username}

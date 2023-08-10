@@ -124,7 +124,7 @@ const Questions = () => {
                       </p>
                       <p className="text-sm text-blue-500 font-medium mb-2">
                         {question && question.tag_names && (
-                          JSON.parse(question.tag_names).map((tagName, index) => {
+                          question.tag_names.map((tagName, index) => {
                             const foundTag = tags.find((tag) => tag.name === tagName);
 
                             return foundTag ? (
