@@ -60,6 +60,7 @@ const fetchQuestions = () => {
           Swal.fire("Error", data.errors[0], "error");
         } else {
           Swal.fire("Success", "Question created successfully", "success");
+          setQuestions((prevQuestions) => [data, ...prevQuestions]);
           nav(`/questions`);
           fetchNotifications();
         }
