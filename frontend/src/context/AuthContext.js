@@ -108,7 +108,6 @@ export default function AuthProvider({ children, isUserLoggedIn }) {
       .then((data) => {
         if (data.email) {
           setCurrentUserData(data);
-          console.log(currentUserData)
         }
       })
       .catch((error) => {

@@ -1,10 +1,14 @@
 class ReportedContentsController < ApplicationController
-  before_action :set_reported_content, only: %i[ show edit update destroy ]
+  
+  def index
+    reported_contents = ReportedContent.where(resolved: false)
+    render json: reported_contents
+  end
 
   def create
     reported_content = ReportedContent.new(reported_content_params)
     reported_content.user = current_user
-    reported_content.is_handled = false
+    reported_content.resolved = false
 
     if reported_content.save
       render json: { message: 'Content reported successfully.' }, status: :created
@@ -15,10 +19,9 @@ class ReportedContentsController < ApplicationController
 
   def update
     reported_content = ReportedContent.find(params[:id])
-
-    # Ensure the current user is authorized to handle reported content (e.g., moderator/admin)
+  
     if current_user_can_handle_reported_content?
-      if reported_content.update(report_handling_params)
+      if reported_content.update(report_handling_params.merge(moderator_id: current_user.id, action_taken: 'Do Nothing', action_description: 'No action taken', handled_at: Time.now, resolved: true))
         render json: { message: 'Reported content updated successfully.' }, status: :ok
       else
         render json: { errors: reported_content.errors.full_messages }, status: :unprocessable_entity
@@ -27,6 +30,7 @@ class ReportedContentsController < ApplicationController
       render json: { error: 'Unauthorized to handle reported content.' }, status: :unauthorized
     end
   end
+  
 
   private
 
@@ -39,7 +43,6 @@ class ReportedContentsController < ApplicationController
   end
 
   def current_user_can_handle_reported_content?
-    # Implement your logic to check if the current user is authorized to handle reported content
-
+    current_user.is_moderator? || current_user.is_admin?
   end
 end
