@@ -168,7 +168,7 @@ const ViewQuestion = () => {
                           icon={faTrash}
                           className="w-5 h-5 mr-2"
                         />
-                        Delete
+                        
                       </button>
                       <button
                         className="text-white bg-yellow-700 hover:bg-yellow-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
@@ -180,7 +180,7 @@ const ViewQuestion = () => {
                           icon={faEdit}
                           className="w-5 h-5 mr-2"
                         />
-                        Update
+                        
                       </button>
                     </div>
                   )}
@@ -277,7 +277,7 @@ const ViewQuestion = () => {
                 </p>
                 <p className="text-sm text-blue-500 font-medium mb-2">
                   {question && question.tag_names && (
-                    JSON.parse(question.tag_names).map((tagName, index) => {
+                    question.tag_names.map((tagName, index) => {
                       const foundTag = tags.find((tag) => tag.name === tagName);
 
                       return foundTag ? (

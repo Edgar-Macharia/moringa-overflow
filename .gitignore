@@ -23,7 +23,7 @@
 /tmp/storage/*
 !/tmp/storage/
 !/tmp/storage/.keep
-
+frontend/node_modules
 /public/assets
 
 # Ignore master key for decrypting credentials and more.
@@ -31,6 +31,4 @@
 Gemfile.lock
 Gemfile
 .ruby-version
-frontend/node_modules
-
 sendgrid.env
