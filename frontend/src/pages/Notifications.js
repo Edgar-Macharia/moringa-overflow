@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import React, { useContext } from 'react';
 import { QuestionsContext } from '../context/QuestionsContext';
 const Notifications = () => {
 const {notifications,markNotificationAsRead } = useContext(QuestionsContext)

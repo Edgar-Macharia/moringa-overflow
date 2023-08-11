@@ -27,8 +27,8 @@ frontend/node_modules
 /public/assets
 
 # Ignore master key for decrypting credentials and more.
-/config/master.key
-Gemfile.lock
-Gemfile
-.ruby-version
+# /config/master.key
+# Gemfile.lock
+# Gemfile
+# .ruby-version
 sendgrid.env

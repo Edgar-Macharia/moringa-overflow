@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 const Admin = () => {
-  const { currentUserData, updateModerator, deleteUser } = useContext(AuthContext);
+  const { updateModerator, deleteUser } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
 
   // console.log(currentUserData)

@@ -155,7 +155,6 @@ end
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Question not found.' }, status: :not_found
   end
-
   
   private
 

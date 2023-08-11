@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchCurrentUser();
-  }, []);
+  }, [fetchCurrentUser ]);
 
   return (
     <div className='homepage'>

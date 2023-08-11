@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext'
 
 const Login = () => {
-  const { login, handleLogin } = useContext(AuthContext)
+  const { login} = useContext(AuthContext)
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -32,30 +32,30 @@ const Login = () => {
     login(user)
   }
 
-  const handleSignInWithGoogle = () => {
-    const googleLoginWindow = window.open('/auth/google', '_blank', 'width=800,height=600');
+  // const handleSignInWithGoogle = () => {
+  //   const googleLoginWindow = window.open('/auth/google', '_blank', 'width=800,height=600');
   
-    window.addEventListener('message', async (event) => {
-      if (event.origin === window.location.origin) {
-        const { success, token, user_id, email } = event.data;
-        if (success) {
-          // Store the token in a secure manner (e.g., local storage, cookies)
-          localStorage.setItem('authToken', token);
+  //   window.addEventListener('message', async (event) => {
+  //     if (event.origin === window.location.origin) {
+  //       const { success, token, email } = event.data;
+  //       if (success) {
+  //         // Store the token in a secure manner (e.g., local storage, cookies)
+  //         localStorage.setItem('authToken', token);
   
-          // Optionally, update UI or perform additional actions
-          console.log('Logged in with Google:', email);
+  //         // Optionally, update UI or perform additional actions
+  //         console.log('Logged in with Google:', email);
   
-          // Redirect the user to the home page.
-          window.location.href = '/';
-        } else {
-          // Handle login failure
-          console.error('Google login failed');
-        }
-        // Close the Google login window
-        googleLoginWindow.close();
-      }
-    });
-  };
+  //         // Redirect the user to the home page.
+  //         window.location.href = '/';
+  //       } else {
+  //         // Handle login failure
+  //         console.error('Google login failed');
+  //       }
+  //       // Close the Google login window
+  //       googleLoginWindow.close();
+  //     }
+  //   });
+  // };
 
   return (
 
@@ -123,10 +123,10 @@ const Login = () => {
             </form>
             <div>
               <div className="flex mt-4">
-                <button
+                {/* <button
                   type="button"
                   className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
-                  onClick={handleSignInWithGoogle} // Add onClick as a prop
+                  onClick={handleSignInWithGoogle}
                 >
                   <svg
                     className="w-4 h-4 mr-2"
@@ -142,7 +142,7 @@ const Login = () => {
                     />
                   </svg>
                   Sign in with Google
-                </button>
+                </button> */}
 
               </div>
             </div>
