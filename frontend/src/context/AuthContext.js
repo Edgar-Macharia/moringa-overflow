@@ -26,7 +26,7 @@ export default function AuthProvider({ children, isUserLoggedIn }) {
       isUserLoggedIn(false);
 
     }
-  }, []);
+  }, [isUserLoggedIn]);
 
   // Sign up
   const registerUser = (user) => {

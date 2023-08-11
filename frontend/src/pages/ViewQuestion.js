@@ -34,10 +34,6 @@ const ViewQuestion = () => {
   const [body, setBody] = useState(question?.body);
   const [editTitle, setEditTitle] = useState(false);
   const [editBody, setEditBody] = useState(false);
-  const [userVote, setUserVote] = useState({
-    question: false,
-    answers: {},
-  });
 
 
     // Update a question
@@ -316,10 +312,10 @@ const ViewQuestion = () => {
                     <p>{answer.body}</p>{" "}
                     {/* Use answer.body to render the answer body */}
                     <div className="answer-meta mt-2">
-                      <span>By {answer.author}</span>
+                      <span> {answer.author}</span>
                       <div className="vote-buttons mt-2">
                         <button
-                          className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${userVote.answers[answer.id]
+                          className={`text-gray-600 hover:text-blue-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none 
                               ? "pointer-events-none opacity-50"
                               : ""
                             }`}
@@ -327,23 +323,21 @@ const ViewQuestion = () => {
                         >
                           <FontAwesomeIcon
                             icon={faThumbsUp}
-                            className={`w-5 h-5 ${userVote.answers[answer.id] ? "text-blue-600" : ""
+                            className={`w-5 h-5 "text-blue-600" : ""
                               }`}
                           />
                           <span className="ml-2"> {answer.upvotes_count}</span>{" "}
                           {/* Use answer.upvotes */}
                         </button>
                         <button
-                          className={`text-gray-600 hover:text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none ${userVote.answers[answer.id]
+                          className={`text-gray-600 hover:text-red-600 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 focus:outline-none 
                               ? "pointer-events-none opacity-50"
-                              : ""
                             }`}
                           onClick={() => handleAnswerDownvote(answer.id)}
                         >
                           <FontAwesomeIcon
                             icon={faThumbsDown}
-                            className={`w-5 h-5 ${userVote.answers[answer.id] ? "text-red-600" : ""
-                              }`}
+                            className={`w-5 h-5 "text-red-600"}`}
                           />
                           <span className="ml-2">
                             {" "}

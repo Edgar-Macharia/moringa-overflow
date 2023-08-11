@@ -23,7 +23,7 @@
 #   end
   def send_password_reset(email, reset_token)
     @reset_token = reset_token
-    @reset_url = password_reset_page_url(reset_token: reset_token, host: 'localhost:3000', protocol: 'http') # Replace 'localhost' with your actual host URL
+    @reset_url = password_reset_page_url(reset_token: reset_token, host: 'https://rails-production-9dbb.up.railway.app/', protocol: 'https') # Replace 'localhost' with your actual host URL
     mail(from: 'kelvin.kiprono@student.moringaschool.com', to: email, subject: 'Password Reset Request', template_path: 'sendgrid_mailer', template_name: 'send_password_reset')
   end
 end

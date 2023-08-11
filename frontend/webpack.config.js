@@ -36,7 +36,10 @@ module.exports = {
     },
     devServer: {
       static: './dist',
-      allowedHosts: ['https://elastic-gate-production.up.railway.app/', 'http://localhost:3000/']
+      allowedHosts: 'all',
+      disableHostCheck: true,
+      host: '0.0.0.0',
+      
     }
   };
   

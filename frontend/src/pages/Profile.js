@@ -9,7 +9,7 @@ const Profile = () => {
   const {fetchCurrentUser} = useContext(AuthContext)
   useEffect(() => {
     fetchCurrentUser();
-  }, []);
+  }, [fetchCurrentUser]);
 
   const { currentUserData, editUserProfile, resetPassword, setCurrentUserData } = useContext(AuthContext);
   const [isEditMode, setIsEditMode] = useState(false);
