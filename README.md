@@ -11,6 +11,8 @@ The Moringa Overflow is a web application developed using RoR (Ruby on Rails) an
 3. SQLite3: Used for the development environment to store and update tables containing created items and categories.
 
 4. PostgreSQL: Used as the production database environment.
+    Database tables: https://drawsql.app/teams/phase-5/diagrams/moringa-overflow
+
 5. Active Record: Object-relational manager for the database, facilitating easy database interactions and queries.
 
 
