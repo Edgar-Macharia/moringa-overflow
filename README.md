@@ -1,10 +1,10 @@
 # Moringa Overflow
 
-The Moringa Overflow is a web application developed using RoR (Ruby on Rails) and React JS. It aims to provide programmers  with a seamless and comprehensive platform where they can effortlessly ask questions-and get answer from other programmers. 
+The Moringa Overflow is a web application developed using RoR (Ruby on Rails) and React JS. It aims to provide programmers  with a seamless and comprehensive platform where they can effortlessly ask questions and get answers from other programmers. 
 
 
 # Technologies Used
-1. ReactJS: Used to develop the frontend of the project, providing a smooth user experience.
+1. ReactJS: Used to develop the front end of the project, providing a smooth user experience.
 
 2. Ruby on Rails (RoR): Used for backend development, providing a robust and scalable server-side framework.
 
@@ -14,13 +14,24 @@ The Moringa Overflow is a web application developed using RoR (Ruby on Rails) an
 5. Active Record: Object-relational manager for the database, facilitating easy database interactions and queries.
 
 
-## Geting Started /Setup
-1. The project's frontend has already been deployed on railway.  You can use this endpoint to access it 
+## Getting Started /Setup
+1. The project is already deployed on Railway.  You can use this endpoint to access it 
 
 ```sh
 https://elastic-gate-production.up.railway.app/
 
 ```
+
+Use the following login details to test the features of the project for other users 
+
+- Admin user
+  email: "admin@example.com",
+  password: "password",
+
+ - Moderator User
+  email: "moderator@example.com",
+  password: "password"
+
 
  ### Alternatively
 
